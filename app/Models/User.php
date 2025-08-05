@@ -7,13 +7,14 @@ namespace App\Models;
 use App\Enums\MasteryLevel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasUuids;
+    use HasFactory, HasUuids, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -51,5 +52,13 @@ class User extends Authenticatable
             'password' => 'hashed',
             'mastery_level' => MasteryLevel::class,
         ];
+    }
+
+    /**
+     * Get the recipes posted by this user.
+     */
+    public function recipes(): HasMany
+    {
+        return $this->hasMany(Recipe::class, 'posted_by');
     }
 }

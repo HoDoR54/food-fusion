@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Casts\RecipeStepsCast;
 use App\Enums\DifficultyLevel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Recipe extends Model
@@ -18,8 +20,10 @@ class Recipe extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'posted_by',
         'name',
         'description',
+        'steps',
         'difficulty',
         'image_urls',
     ];
@@ -34,7 +38,16 @@ class Recipe extends Model
         return [
             'difficulty' => DifficultyLevel::class,
             'image_urls' => 'array',
+            'steps' => RecipeStepsCast::class,
         ];
+    }
+
+    /**
+     * Get the user who posted this recipe.
+     */
+    public function postedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'posted_by');
     }
 
     /**
@@ -43,5 +56,13 @@ class Recipe extends Model
     public function ingredients(): BelongsToMany
     {
         return $this->belongsToMany(Ingredient::class, 'recipes_ingredients_joint');
+    }
+
+    /**
+     * The tags that belong to the recipe.
+     */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'recipes_tags_joint');
     }
 }
