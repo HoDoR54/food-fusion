@@ -19,11 +19,11 @@ return new class extends Migration
         });
 
         Schema::create('recipes_ingredients_joint', function (Blueprint $table) {
-            $table->uuid('id')->primary();
             $table->uuid('recipe_id');
             $table->uuid('ingredient_id');
             $table->timestamps();
 
+            $table->primary(['recipe_id', 'ingredient_id']);
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
             $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('cascade');
         });

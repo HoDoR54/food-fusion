@@ -15,16 +15,16 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name')->unique();
-            $table->enum('type', TagType::labels())->default(TagType::Origin->value);
+            $table->enum('type', TagType::values())->default(TagType::Origin->value);
             $table->timestamps();
         });
 
         Schema::create('recipes_tags_joint', function (Blueprint $table) {
-            $table->uuid('id')->primary();
             $table->uuid('recipe_id');
             $table->uuid('tag_id');
             $table->timestamps();
 
+            $table->primary(['recipe_id', 'tag_id']);
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
         });

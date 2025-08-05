@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('phone')->nullable();
-            $table->enum('mastery_level', MasteryLevel::labels())->default(MasteryLevel::BEGINNER->label());
+            $table->enum('mastery_level', MasteryLevel::values())->default(MasteryLevel::BEGINNER->value);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

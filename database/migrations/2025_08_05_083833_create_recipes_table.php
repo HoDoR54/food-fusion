@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->json('steps');
-            $table->enum('difficulty', DifficultyLevel::labels());
+            $table->enum('difficulty', DifficultyLevel::values());
             $table->json('image_urls')->nullable();
             $table->timestamps();
 
