@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>@yield('title', 'Food Fusion')</title>
-</head>
-<body class="flex flex-col min-h-screen m-0 p-0 box-border">
-    @include('partials.header')
+@extends('layout.index')
 
-    <main class="flex-grow container mx-auto px-4 py-6">
-        @yield('content')
-    </main>
+@section('title', $title)
 
+@section('content')
+    <h1>Welcome to Food Fusion</h1>
+    <p>Your one-stop destination for delicious recipes.</p>
 
-    @include('partials.footer')
-</body>
-</html>
+    <a href="{{ route('recipes.index', ['page' => 3, 'size' => 2]) }}" class="text-blue-400 hover:text-blue-600 hover:underline">Recipes Page</a>
+@endsection

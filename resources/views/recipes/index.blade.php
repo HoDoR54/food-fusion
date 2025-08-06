@@ -1,4 +1,4 @@
-@extends('index')
+@extends('layout.index')
 
 @section('title', $title)
 

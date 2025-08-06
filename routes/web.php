@@ -4,8 +4,8 @@ use App\Http\Controllers\RecipesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('index');
-});
+    return view('index', ['title' => 'Food Fusion']);
+})->name('home');
 
 Route::get('/recipes', [RecipesController::class, 'index'])->name('recipes.index');
 
