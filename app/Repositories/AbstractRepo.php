@@ -20,12 +20,12 @@ abstract class AbstractRepo
         return $this->model->select($columns)->get();
     }
 
-    public function find(int $id, array $columns = ['*']): ?Model
+    public function find(string $id, array $columns = ['*']): ?Model
     {
         return $this->model->select($columns)->find($id);
     }
 
-    public function findOrFail(int $id, array $columns = ['*']): Model
+    public function findOrFail(string $id, array $columns = ['*']): Model
     {
         return $this->model->select($columns)->findOrFail($id);
     }
@@ -35,19 +35,19 @@ abstract class AbstractRepo
         return $this->model->create($data);
     }
 
-    public function update(int $id, array $data): bool
+    public function update(string $id, array $data): bool
     {
         return $this->model->where('id', $id)->update($data);
     }
 
-    public function delete(int $id): bool
+    public function delete(string $id): bool
     {
         return $this->model->destroy($id) > 0;
     }
 
-    public function paginate(int $perPage = 15, array $columns = ['*']): LengthAwarePaginator
+    public function paginate(int $page = 1, array $columns = ['*'], int $size = 10): LengthAwarePaginator
     {
-        return $this->model->select($columns)->paginate($perPage);
+        return $this->model->paginate($size, $columns, 'page', $page);
     }
 
     public function where(array $conditions, array $columns = ['*']): Collection

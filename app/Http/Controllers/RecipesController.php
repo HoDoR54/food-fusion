@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Services\RecipeService;
+use Illuminate\Http\Request;
+use App\DTO\Requests\PaginationQuery;
+use App\DTO\Responses\PaginatedResponse;
 
 class RecipesController extends Controller
 {
@@ -12,8 +15,24 @@ class RecipesController extends Controller
         $this->_recipeService = $recipeService;
     }
 
-    public function getAll() {
-            $recipes = $this->_recipeService->getRecipes();
-            return response()->json(['data' => $recipes], 200);
+    public function index(Request $request) {
+        $paginationQuery = new PaginationQuery($request);
+        $paginatedRes = $this->_recipeService->getRecipes($paginationQuery);
+
+        return view('recipes.index', [
+            'title' => 'Recipes',
+            'paginatedRecipes' => new PaginatedResponse(
+                $paginatedRes->items,
+                $paginatedRes->total,
+                $paginatedRes->page,
+                $paginatedRes->size
+            )
+        ]);
+    }
+
+
+    public function show($id) {
+        $recipe = $this->_recipeService->getRecipeById($id);
+        return view('recipes.show', compact('recipe'));
     }
 }
