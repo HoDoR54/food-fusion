@@ -12,7 +12,10 @@
 <body class="flex flex-col min-h-[1000px] m-0 p-0 box-border bg-background text-text">
     @include('components.header')
 
-    <main class="flex-grow container mx-auto px-4 py-6">
+    <main class="flex-grow container mx-auto px-5 py-3">
+        @if (isset($breadcrumbItems))
+            <x-breadcrumb :items="$breadcrumbItems" />
+        @endif
         @yield('content')
     </main>
 

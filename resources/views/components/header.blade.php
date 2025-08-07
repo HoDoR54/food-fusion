@@ -25,7 +25,7 @@
     @endforeach
   </nav>
 
-  <div class="flex items-center justify-center cursor-pointer flex-1" onclick="window.location.href='{{ url('home') }}'">
+  <div class="flex items-center justify-center cursor-pointer flex-1" onclick="window.location.href='{{ url('/') }}'">
     <img src="{{ asset('logo/logo-light.png') }}" alt="Food Fusion Logo" class="h-8 w-auto">
     <span class="text-lg text-primary ml-2">Food Fusion</span>
   </div>
@@ -36,5 +36,6 @@
             {{ $name }}
         </a>
     @endforeach
+    <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :text="'Share Your Recipe'" onclick="window.location.href='{{ url('cookbook/new-post') }}'"></x-button>
   </div>
 </header>

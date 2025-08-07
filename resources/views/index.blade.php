@@ -1,10 +1,10 @@
 @extends('layout.index')
 
-@section('title', $title)
+@section('title', 'Food Fusion')
 
 @section('content')
-    <h1>Welcome to Food Fusion</h1>
-    <p>Your one-stop destination for delicious recipes.</p>
-
-    <a href="{{ route('recipes.index', ['page' => 3, 'size' => 2]) }}" class="text-blue-400 hover:text-blue-600 hover:underline">Recipes Page</a>
+    <div class="container text-center w-full flex items-center justify-center flex-col">
+        <h1 class="text-[2rem] font-bold mb-4">Welcome to Food Fusion</h1>
+        <p class="text-lg text-gray-700">Your one-stop destination for delicious recipes.</p>
+    </div>
 @endsection
