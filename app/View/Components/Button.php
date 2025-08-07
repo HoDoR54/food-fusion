@@ -11,14 +11,16 @@ use Illuminate\View\Component;
 class Button extends Component
 {
     public ButtonVariant $variant;
-    public string $text;
+    public string|null $text;
     public ButtonSize $size;
+    public string|null $icon;
 
-    public function __construct(ButtonVariant $variant = ButtonVariant::Primary, string $text = 'Click me!', ButtonSize $size = ButtonSize::Medium)
+    public function __construct(string|null $icon = null, ButtonVariant $variant = ButtonVariant::Primary, string|null $text = null, ButtonSize $size = ButtonSize::Medium)
     {
         $this->variant = $variant;
         $this->text = $text;
         $this->size = $size;
+        $this->icon = $icon;
     }
 
     public function render(): View|Closure|string

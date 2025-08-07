@@ -36,6 +36,6 @@
             {{ $name }}
         </a>
     @endforeach
-    <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :text="'Share Your Recipe'" onclick="window.location.href='{{ url('cookbook/new-post') }}'"></x-button>
+    <x-button :variant="ButtonVariant::Primary" :size="ButtonSize::Small" :icon="'fa-solid fa-cloud-arrow-up'" :text="'Share Your Recipe'" onclick="window.location.href='{{ url('cookbook/new-post') }}'"></x-button>
   </div>
 </header>

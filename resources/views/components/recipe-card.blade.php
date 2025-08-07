@@ -1,6 +1,69 @@
-<div>
-    <div class="p-4">
-        <h2 class="text-xl font-bold">{{ $recipe->name }}</h2>
-        <p class="text-gray-600">{{ $recipe->description }}</p>
+@php
+    use App\Enums\ButtonVariant;
+    use App\Enums\ButtonSize;
+@endphp
+
+@props(['recipe'])
+
+<div 
+    class="cursor-pointer bg-background shadow rounded-lg border-2 border-gray-900 border-dotted flex flex-col overflow-hidden relative" 
+    data-recipe-id="{{ $recipe->id }}"
+>
+    <div class="absolute text-text top-0 right-0 p-2 flex items-center justify-center z-10 bg-transparent hover:bg-background/50 rounded-full cursor-pointer transition-colors">
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+    </div>
+
+    <img src="{{ asset('images/example-recipe.jpg') }}" alt="{{ $recipe->name }}" class="w-full h-48 object-cover rounded-t-lg">
+    <div class="p-3 flex flex-col gap-3">
+        {{-- name and timestamp --}}
+        <div class="flex items-center justify-between">
+            <h3 class="text-md font-bold text-text line-clamp-1">
+                {{ $recipe->name }}
+            </h3>
+            <p class="text-xs text-gray-500">
+                {{ $recipe->created_at->diffForHumans() }}
+            </p>
+        </div>
+
+
+        {{-- tags --}}
+        <ul class="flex gap-2 w-full">
+            @foreach ($recipe->tags->take(3) as $tag)
+                <li class="bg-secondary/70 hover:bg-secondary text-text border border-gray-900 border-dotted px-3 py-1 rounded-full text-xs">
+                    {{ $tag->name }}
+                </li>
+            @endforeach
+
+            @if ($recipe->tags->count() > 3)
+                <li class="bg-secondary/50 hover:bg-secondary text-text border border-gray-900 border-dotted px-3 py-1 rounded-full text-xs">
+                    {{ $recipe->tags->count() - 3 }}+ more
+                </li>
+            @endif
+        </ul>
+
+        {{-- description --}}
+        <p class="text-sm text-gray-700 line-clamp-1">
+            {{ $recipe->description }}
+        </p>
+     
+        <div class="w-full flex justify-between items-end">
+            {{-- upvote and downvote buttons --}}
+            <div class="flex gap-2 justify-end items-center">
+                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :icon="'bi bi-caret-up'" :text="'10.3K'" class="hover:bg-green-400/50 text-xs"></x-button>
+                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :icon="'bi bi-caret-down'" :text="'10.3K'" class="hover:bg-red-400/50 text-xs"></x-button>
+            </div>
+
+            {{-- to details --}}
+            <div class="flex items-center justify-center">
+                <x-button 
+                    :variant="ButtonVariant::Primary" 
+                    :size="ButtonSize::Small" 
+                    :icon="'fa-solid fa-eye'" 
+                    :text="'View Recipe'"
+                    onclick="window.location.href='{{ route('recipes.show', $recipe->id) }}'"
+                />
+            </div>
+        </div>
+        
     </div>
 </div>

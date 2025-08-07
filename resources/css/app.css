@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "bootstrap-icons/font/bootstrap-icons.css";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -14,5 +15,5 @@
     --color-background: #edeae1;
     --color-text: #121212;
     --color-primary: #2e1c57;
-    --color-secondary: #fffb98;
+    --color-secondary: #cba135;
 }
