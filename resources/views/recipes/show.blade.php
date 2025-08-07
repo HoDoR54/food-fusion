@@ -1,8 +1,18 @@
+@php
+    $breadcrumbItems = [
+        ['label' => 'Home', 'url' => '/'],
+        ['label' => 'Recipes', 'url' => '/recipes'],
+        ['label' => $recipe->name, 'url' => '/recipes/' . $recipe->id],
+    ]
+@endphp
+
 @extends('layout.index')
 
 @section('title', $recipe->name)
 
 @section('content')
-    <h1>{{ $recipe->name }}</h1>
-    <p>{{ $recipe->description }}</p>
+    <div>
+        <h1>{{ $recipe->name }}</h1>
+        <p>{{ $recipe->description }}</p>
+    </div>
 @endsection

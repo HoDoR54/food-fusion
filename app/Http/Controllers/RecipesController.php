@@ -20,16 +20,18 @@ class RecipesController extends Controller
         $paginatedRes = $this->_recipeService->getRecipes($paginationQuery);
 
         return view('recipes.index', [
+            'recipes' => $paginatedRes->data,
+            'pagination' => [
+                'current_page' => $paginatedRes->currentPage,
+                'total_pages' => $paginatedRes->totalPages,
+                'total_items' => $paginatedRes->totalItems,
+                'items_per_page' => $paginatedRes->itemsPerPage,
+                'has_next_page' => $paginatedRes->hasNextPage,
+                'has_previous_page' => $paginatedRes->hasPreviousPage,
+            ],
             'title' => 'Recipes',
-            'paginatedRecipes' => new PaginatedResponse(
-                $paginatedRes->items,
-                $paginatedRes->total,
-                $paginatedRes->page,
-                $paginatedRes->size
-            )
         ]);
     }
-
 
     public function show($id) {
         $recipe = $this->_recipeService->getRecipeById($id);

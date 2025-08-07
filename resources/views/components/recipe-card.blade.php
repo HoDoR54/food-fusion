@@ -1,6 +1,8 @@
 @php
     use App\Enums\ButtonVariant;
     use App\Enums\ButtonSize;
+
+    $recipeId = $recipe->id;
 @endphp
 
 @props(['recipe'])
@@ -21,22 +23,22 @@
                 {{ $recipe->name }}
             </h3>
             <p class="text-xs text-gray-500">
-                {{ $recipe->created_at->diffForHumans() }}
+                {{ $getFormattedCreatedAt() }}
             </p>
         </div>
 
 
         {{-- tags --}}
         <ul class="flex gap-2 w-full">
-            @foreach ($recipe->tags->take(3) as $tag)
+            @foreach ($getVisibleTags() as $tagName)
                 <li class="bg-secondary/70 hover:bg-secondary text-text border border-gray-900 border-dotted px-3 py-1 rounded-full text-xs">
-                    {{ $tag->name }}
+                    {{ $tagName }}
                 </li>
             @endforeach
 
-            @if ($recipe->tags->count() > 3)
+            @if ($getRemainingTagsCount() > 0)
                 <li class="bg-secondary/50 hover:bg-secondary text-text border border-gray-900 border-dotted px-3 py-1 rounded-full text-xs">
-                    {{ $recipe->tags->count() - 3 }}+ more
+                    {{ $getRemainingTagsCount() }}+ more
                 </li>
             @endif
         </ul>
@@ -49,8 +51,9 @@
         <div class="w-full flex justify-between items-end">
             {{-- upvote and downvote buttons --}}
             <div class="flex gap-2 justify-end items-center">
-                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :icon="'bi bi-caret-up'" :text="'10.3K'" class="hover:bg-green-400/50 text-xs"></x-button>
-                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :icon="'bi bi-caret-down'" :text="'10.3K'" class="hover:bg-red-400/50 text-xs"></x-button>
+                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :icon="'bi bi-caret-up'" :text="$getVoteCount()" class="hover:bg-green-400/50 text-xs"></x-button>
+                <span class="text-xs">{{ $getVoteCount() }} Votes</span>
+                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :icon="'bi bi-caret-down'" :text="$getVoteCount()" class="hover:bg-red-400/50 text-xs"></x-button>
             </div>
 
             {{-- to details --}}
@@ -60,7 +63,7 @@
                     :size="ButtonSize::Small" 
                     :icon="'fa-solid fa-eye'" 
                     :text="'View Recipe'"
-                    onclick="window.location.href='{{ route('recipes.show', $recipe->id) }}'"
+                    onclick="window.location.href='{{ route('recipes.show', $recipeId) }}'"
                 />
             </div>
         </div>

@@ -90,7 +90,7 @@ abstract class AbstractRepo
         return $this->model->select($columns)->orderBy($column, $direction)->get();
     }
 
-    public function latest(string $column = 'created_at', int $limit = null, array $columns = ['*']): Collection
+    public function latest(string $column = 'created_at', int $limit = 10, array $columns = ['*']): Collection
     {
         $query = $this->model->select($columns)->latest($column);
         
@@ -100,4 +100,15 @@ abstract class AbstractRepo
         
         return $query->get();
     }
+
+    public function paginateWithRelations(int $page = 1, array $columns = ['*'], int $size = 10, array $relations = []): LengthAwarePaginator
+    {
+        return $this->model->with($relations)->paginate($size, $columns, 'page', $page);
+    }
+
+    public function findWithRelations(string $id, array $relations = [], array $columns = ['*']): ?Model
+    {
+        return $this->model->with($relations)->select($columns)->find($id);
+    }
+
 }

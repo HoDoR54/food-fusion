@@ -2,14 +2,16 @@
 
 namespace App\View\Components;
 
+use App\DTO\Responses\RecipeSimpleResponse;
 use App\Models\Recipe;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class RecipeCard extends Component
 {
-    public Recipe $recipe;
+    public RecipeSimpleResponse $recipe;
     public bool $showVoting;
     public bool $showStats;
     public string $size;
@@ -17,13 +19,13 @@ class RecipeCard extends Component
     /**
      * Create a new component instance.
      *
-     * @param Recipe $recipe The recipe model instance
+     * @param RecipeSimpleResponse $recipe The recipe DTO instance
      * @param bool $showVoting Whether to show voting buttons
      * @param bool $showStats Whether to show ingredient/steps stats
      * @param string $size Card size variant (small, medium, large)
      */
     public function __construct(
-        Recipe $recipe,
+        RecipeSimpleResponse $recipe,
         bool $showVoting = true,
         bool $showStats = true,
         string $size = 'medium'
@@ -36,12 +38,10 @@ class RecipeCard extends Component
 
     /**
      * Get the vote count for display
-     * TODO: Replace with actual vote count from database
      */
     public function getVoteCount(): int
     {
-        // Temporary random vote count - replace with actual implementation
-        return $this->recipe->vote_count ?? rand(10, 500);
+        return $this->recipe->vote;
     }
 
     /**
@@ -62,10 +62,7 @@ class RecipeCard extends Component
      */
     public function getPrimaryImageUrl(): ?string
     {
-        if ($this->recipe->image_urls && is_array($this->recipe->image_urls) && count($this->recipe->image_urls) > 0) {
-            return $this->recipe->image_urls[0];
-        }
-        return null;
+        return $this->recipe->firstImageUrl ?: null;
     }
 
     /**
@@ -73,26 +70,24 @@ class RecipeCard extends Component
      */
     public function getAuthorName(): string
     {
-        return $this->recipe->postedBy->name ?? 'Anonymous';
+        return $this->recipe->authorName;
     }
 
     /**
-     * Get the steps count
+     * Get the steps count - not available in simple response
      */
     public function getStepsCount(): int
     {
-        if (is_array($this->recipe->steps)) {
-            return count($this->recipe->steps);
-        }
+        // Steps are not available in RecipeSimpleResponse
         return 0;
     }
 
     /**
      * Get visible tags (limited to 3)
      */
-    public function getVisibleTags()
+    public function getVisibleTags(): array
     {
-        return $this->recipe->tags->take(3);
+        return array_slice($this->recipe->tags, 0, 3);
     }
 
     /**
@@ -100,7 +95,7 @@ class RecipeCard extends Component
      */
     public function getRemainingTagsCount(): int
     {
-        $totalTags = $this->recipe->tags->count();
+        $totalTags = count($this->recipe->tags);
         return max(0, $totalTags - 3);
     }
 
@@ -134,6 +129,18 @@ class RecipeCard extends Component
             'large' => 'text-lg',
             default => 'text-base'
         };
+    }
+
+    /**
+     * Get formatted creation date
+     */
+    public function getFormattedCreatedAt(): string
+    {
+        try {
+            return Carbon::parse($this->recipe->createdAt)->diffForHumans();
+        } catch (\Exception $e) {
+            return 'Recently';
+        }
     }
 
     /**
