@@ -13,14 +13,14 @@ class RecipeCard extends Component
 {
     protected RecipeService $_recipeService;
 
-    public string $recipeId;
-    public string $name;
-    public string $description;
-    public ?string $imageUrl;
-    public array $tags;
-    public string $difficulty;
-    public string $authorName;
-    public string $createdAt;
+    private string $recipeId;
+    private string $name;
+    private string $description;
+    private ?string $imageUrl;
+    private array $tags;
+    private string $difficulty;
+    private string $createdAt;
+    private ?string $authorName;
 
     public function __construct()
     {
@@ -34,8 +34,8 @@ class RecipeCard extends Component
         ?string $imageUrl,
         array $tags,
         string $difficulty,
-        string $authorName,
         string $createdAt,
+        ?string $authorName = null,
     ): void {
         $this->recipeId = $recipeId;
         $this->name = $name;
@@ -43,8 +43,18 @@ class RecipeCard extends Component
         $this->imageUrl = $imageUrl;
         $this->tags = $tags;
         $this->difficulty = $difficulty;
-        $this->authorName = $authorName;
         $this->createdAt = $createdAt;
+        $this->authorName = $authorName;
+    }
+
+    public function getId(): string
+    {
+        return $this->recipeId;
+    }
+
+    public function getAuthorName(): ?string
+    {
+        return $this->authorName;
     }
 
     public function getVoteCount(): int
@@ -72,19 +82,25 @@ class RecipeCard extends Component
         };
     }
 
+    public function getName (): string 
+    {
+        return $this->name;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
     public function getPrimaryImageUrl(): ?string
     {
         return $this->imageUrl;
     }
 
-    public function getAuthorName(): string
-    {
-        return $this->authorName;
-    }
-
     public function getVisibleTags(): array
     {
-        return array_slice($this->tags, 0, 3);
+        $visibleTags = array_slice($this->tags, 0, 3);
+        return array_map(fn($tag) => $tag['name'], $visibleTags);
     }
 
     public function getRemainingTagsCount(): int

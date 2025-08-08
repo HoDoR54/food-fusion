@@ -2,25 +2,59 @@
 
 namespace App\DTO\Responses;
 
+use App\Models\User;
+
 class UserSimpleResponse
 {
-    public string $id;
-    public string $name;
-    public string $email;
-    public string $createdAt;
-    public string $updatedAt;
+    private string $id;
+    private string $name;
+    private string $email;
+    private string $createdAt;
+    private string $updatedAt;
 
     public function __construct(
-        string $id,
-        string $name,
-        string $email,
-        string $createdAt,
-        string $updatedAt
+        User $user
     ) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->email = $email;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
+        $this->id = $user->id;
+        $this->name = $user->name;
+        $this->email = $user->email;
+        $this->createdAt = $user->created_at;
+        $this->updatedAt = $user->updated_at;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): string
+    {
+        return $this->updatedAt;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt,
+        ];
     }
 }

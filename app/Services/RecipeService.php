@@ -7,7 +7,6 @@ use App\DTO\Requests\PaginationQuery;
 use App\DTO\Responses\PaginatedResponse;
 use App\DTO\Responses\RecipeDetailedResponse;
 use App\DTO\Responses\RecipeSimpleResponse;
-use App\Enums\VoteType;
 use App\Models\Recipe;
 
 class RecipeService
@@ -27,19 +26,7 @@ class RecipeService
         );
         
         $transformedData = $paginator->getCollection()->map(function (Recipe $recipe) {
-            return new RecipeSimpleResponse(
-                id: $recipe->id,
-                name: $recipe->name,
-                firstImageUrl: $recipe->image_urls ? $recipe->image_urls[0] ?? '' : '',
-                description: $recipe->description,
-                tags: $recipe->tags->map(fn($tag) => $tag->name)->toArray(),
-                difficulty: $recipe->difficulty,
-                authorId: $recipe->posted_by,
-                authorName: $recipe->postedBy->name ?? 'Unknown',
-                createdAt: $recipe->created_at->toISOString(),
-                updatedAt: $recipe->updated_at->toISOString(),
-                vote: 0
-            );
+            return new RecipeSimpleResponse($recipe, $this->_recipeRepo->countVotes($recipe->id));
         })->toArray();
 
         return PaginatedResponse::fromPaginator($paginator, $transformedData);
@@ -54,23 +41,7 @@ class RecipeService
 
         $voteCount = $this->_recipeRepo->countVotes($recipe->id);
 
-        return new RecipeDetailedResponse(
-            id: $recipe->id,
-            name: $recipe->name,
-            firstImageUrl: $recipe->image_urls ? $recipe->image_urls[0] ?? '' : '',
-            description: $recipe->description,
-            tags: $recipe->tags->map(fn($tag) => $tag->name)->toArray(),
-            difficulty: $recipe->difficulty,
-            authorId: $recipe->posted_by,
-            authorName: $recipe->postedBy->name ?? 'Unknown',
-            createdAt: $recipe->created_at->toISOString(),
-            updatedAt: $recipe->updated_at->toISOString(),
-            vote: $voteCount,
-            steps: $recipe->steps,
-            ingredients: $recipe->ingredients->map(fn($ingredient) => $ingredient->name)->toArray(),
-            totalEstimatedTime: collect($recipe->steps)->sum('estimated_time_taken'),
-            imageUrls: $recipe->image_urls ?? []
-        );
+        return new RecipeDetailedResponse($recipe, $voteCount);
     }
 
     public function upvoteRecipe(string $id): int

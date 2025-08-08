@@ -20,13 +20,9 @@ Route::get('/auth/forgot-password', function () {
     return view('auth.ဘာတွေမျှော်လင့်');
 })->name('auth.ဘာတွေမျှော်လင့်');
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 
 // Recipes
 Route::get('/recipes', [RecipesController::class, 'index'])->name('recipes.index');

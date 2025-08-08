@@ -6,13 +6,13 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PaginatedResponse
 {
-    public array $data;
-    public int $currentPage;
-    public int $totalPages;
-    public int $totalItems;
-    public int $itemsPerPage;
-    public bool $hasNextPage;
-    public bool $hasPreviousPage;
+    private array $data;
+    private int $currentPage;
+    private int $totalPages;
+    private int $totalItems;
+    private int $itemsPerPage;
+    private bool $hasNextPage;
+    private bool $hasPreviousPage;
 
     public function __construct(
         array $data,
@@ -41,10 +41,18 @@ class PaginatedResponse
         );
     }
 
+    public function getData(): array { return $this->data; }
+    public function getCurrentPage(): int { return $this->currentPage; }
+    public function getTotalPages(): int { return $this->totalPages; }
+    public function getTotalItems(): int { return $this->totalItems; }
+    public function getItemsPerPage(): int { return $this->itemsPerPage; }
+    public function getHasNextPage(): bool { return $this->hasNextPage; }
+    public function getHasPreviousPage(): bool { return $this->hasPreviousPage; }
+
     public function toArray(): array
     {
         return [
-            'data' => $this->data,
+            'data' => array_map(fn($item) => method_exists($item, 'toArray') ? $item->toArray() : $item, $this->data),
             'pagination' => [
                 'current_page' => $this->currentPage,
                 'total_pages' => $this->totalPages,

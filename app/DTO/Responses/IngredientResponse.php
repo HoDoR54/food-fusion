@@ -2,25 +2,59 @@
 
 namespace App\DTO\Responses;
 
+use App\Models\Ingredient;
+
 class IngredientResponse
 {
-    public string $id;
-    public string $name;
-    public string $description;
-    public string $createdAt;
-    public string $updatedAt;
+    private string $id;
+    private string $name;
+    private string $description;
+    private string $createdAt;
+    private string $updatedAt;
 
     public function __construct(
-        string $id,
-        string $name,
-        string $description,
-        string $createdAt,
-        string $updatedAt
+        Ingredient $ingredient
     ) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
+        $this->id = $ingredient->id;
+        $this->name = $ingredient->name;
+        $this->description = $ingredient->description;
+        $this->createdAt = $ingredient->created_at;
+        $this->updatedAt = $ingredient->updated_at;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): string
+    {
+        return $this->updatedAt;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt,
+        ];
     }
 }

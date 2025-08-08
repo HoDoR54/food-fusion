@@ -9,12 +9,6 @@ use InvalidArgumentException;
 
 class RecipeStepsCast implements CastsAttributes
 {
-    /**
-     * Cast the given value.
-     *
-     * @param  array<string, mixed>  $attributes
-     * @return array<RecipeStep>|null
-     */
     public function get(Model $model, string $key, mixed $value, array $attributes): ?array
     {
         if ($value === null) {
@@ -33,12 +27,6 @@ class RecipeStepsCast implements CastsAttributes
         );
     }
 
-    /**
-     * Prepare the given value for storage.
-     *
-     * @param  array<RecipeStep>|array<array<string, mixed>>|null  $value
-     * @return string|null
-     */
     public function set(Model $model, string $key, mixed $value, array $attributes): ?string
     {
         if ($value === null) {

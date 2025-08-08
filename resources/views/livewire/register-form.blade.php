@@ -28,12 +28,12 @@
     <div class="flex flex-col gap-3 w-full">
         <div class="flex flex-col md:flex-row gap-3">
             <div class="flex flex-col gap-2 w-full">
-                <label for="first_name" class="text-gray-600 text-sm">First Name</label>
-                <input type="text" id="first_name" name="first_name" required placeholder="John" class="bg-secondary/15 border border-gray-300 px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full" />
+                <label for="firstName" class="text-gray-600 text-sm">First Name</label>
+                <input type="text" id="firstName" name="firstName" required placeholder="John" class="bg-secondary/15 border border-gray-300 px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full" />
             </div>
             <div class="flex flex-col gap-2 w-full">
-                <label for="last_name" class="text-gray-600 text-sm">Last Name</label>
-                <input type="text" id="last_name" name="last_name" required placeholder="Doe" class="bg-secondary/15 border border-gray-300 px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full" />
+                <label for="lastName" class="text-gray-600 text-sm">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required placeholder="Doe" class="bg-secondary/15 border border-gray-300 px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full" />
             </div>
         </div>
         <div class="flex flex-col gap-2">
@@ -41,8 +41,8 @@
             <input type="email" id="email" name="email" required placeholder="john.doe@example.com" class="bg-secondary/15 border border-gray-300 px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full" />
         </div>
         <div class="flex flex-col gap-2">
-            <label for="phone" class="text-gray-600 text-sm">Phone</label>
-            <input type="tel" id="phone" name="phone" required placeholder="+95 9 123456789" class="bg-secondary/15 border border-gray-300 px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full" />
+            <label for="phoneNumber" class="text-gray-600 text-sm">Phone</label>
+            <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="+95 9 123456789" class="bg-secondary/15 border border-gray-300 px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full" />
         </div>
         <div class="flex flex-col gap-2">
             <label for="mastery_level" class="text-gray-600 text-sm">Cooking Level</label>
