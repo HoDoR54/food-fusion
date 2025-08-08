@@ -1,11 +1,24 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RecipesController;
 use Illuminate\Support\Facades\Route;
 
+// Landing Page
 Route::get('/', function () {
     return view('index');
-});
+})->name('home');
+
+// Auth
+Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
+
+Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
+
+Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+Route::get('/auth/forgot-password', function () {
+    return view('auth.ဘာတွေမျှော်လင့်');
+})->name('auth.ဘာတွေမျှော်လင့်');
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -15,18 +28,12 @@ Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
+// Recipes
 Route::get('/recipes', [RecipesController::class, 'index'])->name('recipes.index');
 
-Route::get('/recipes/search', function () {
-    return view('recipes.search');
-})->name('recipes.search');
-
-Route::get('/livewire-demo', function () {
-    $sampleRecipe = \App\Models\Recipe::with(['postedBy', 'tags', 'ingredients'])->first();
-    return view('demo.livewire', compact('sampleRecipe'));
-})->name('livewire.demo');
-
 Route::get('/recipes/{id}', [RecipesController::class, 'show'])->name('recipes.show');
+
+// Static Pages
 
 Route::get('/about', function () {
     return view('static.about');
@@ -47,3 +54,4 @@ Route::get('/cookbook', function () {
 Route::get('/cookbook/new-post', function () {
     return view('cookbook-blogs.create');
 });
+

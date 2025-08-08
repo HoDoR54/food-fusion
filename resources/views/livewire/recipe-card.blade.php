@@ -3,7 +3,7 @@
     use App\Enums\ButtonSize;
 @endphp
 
-<div class="cursor-pointer bg-background shadow rounded-lg border-2 border-gray-900 border-dotted flex flex-col overflow-hidden relative">
+<div class="bg-background shadow rounded-lg border-2 border-gray-900 border-dotted flex flex-col overflow-hidden relative">
     <div class="absolute text-text top-0 right-0 p-2 flex items-center justify-center z-10 bg-transparent hover:bg-background/50 rounded-full cursor-pointer transition-colors">
         <i class="fa-solid fa-ellipsis-vertical"></i>
     </div>
@@ -24,13 +24,13 @@
         {{-- tags --}}
         <ul class="flex gap-2 w-full">
             @foreach ($this->getVisibleTags() as $tagName)
-                <li class="bg-secondary/70 hover:bg-secondary text-text border border-gray-900 border-dotted px-3 py-1 rounded-full text-xs">
+                <li class="cursor-pointer bg-secondary/70 hover:bg-secondary text-text border border-gray-900 border-dotted px-3 py-1 rounded-full text-xs">
                     {{ $tagName }}
                 </li>
             @endforeach
 
             @if ($this->getRemainingTagsCount() > 0)
-                <li class="bg-secondary/50 hover:bg-secondary text-text border border-gray-900 border-dotted px-3 py-1 rounded-full text-xs">
+                <li class="cursor-pointer bg-secondary/50 hover:bg-secondary text-text border border-gray-900 border-dotted px-3 py-1 rounded-full text-xs">
                     {{ $this->getRemainingTagsCount() }}+ more
                 </li>
             @endif
