@@ -20,9 +20,19 @@
         <ul class="grid grid-cols-1 lg:grid-cols-3 p-3 gap-4 md:col-span-2 lg:col-span-3">
             @foreach ($recipes as $recipe)
                 <li>
-                    <x-recipe-card :recipe="$recipe" />
+                    <livewire:recipe-card 
+                        :recipeId="$recipe->id"
+                        :name="$recipe->name"
+                        :description="$recipe->description"
+                        :imageUrl="$recipe->firstImageUrl ?? null"
+                        :tags="$recipe->tags"
+                        :difficulty="$recipe->difficulty->value"
+                        :authorName="$recipe->authorName"
+                        :createdAt="$recipe->createdAt"
+                    />
                 </li>
             @endforeach
         </ul>
+
     </section>
 @endsection

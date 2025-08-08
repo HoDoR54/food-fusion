@@ -61,4 +61,44 @@ class User extends Authenticatable
     {
         return $this->hasMany(Recipe::class, 'posted_by');
     }
+
+    /**
+     * Get the votes cast by this user.
+     */
+    public function votes(): HasMany
+    {
+        return $this->hasMany(RecipeVote::class);
+    }
+
+    /**
+     * Get the upvotes cast by this user.
+     */
+    public function upvotes(): HasMany
+    {
+        return $this->hasMany(RecipeVote::class)->upvotes();
+    }
+
+    /**
+     * Get the downvotes cast by this user.
+     */
+    public function downvotes(): HasMany
+    {
+        return $this->hasMany(RecipeVote::class)->downvotes();
+    }
+
+    /**
+     * Check if user has voted on a recipe.
+     */
+    public function hasVotedOn(Recipe $recipe): bool
+    {
+        return $this->votes()->where('recipe_id', $recipe->id)->exists();
+    }
+
+    /**
+     * Get user's vote on a specific recipe.
+     */
+    public function getVoteOn(Recipe $recipe): ?RecipeVote
+    {
+        return $this->votes()->where('recipe_id', $recipe->id)->first();
+    }
 }

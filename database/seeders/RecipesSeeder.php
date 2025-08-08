@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Ingredient;
 use App\Models\Tag;
 use App\Enums\DifficultyLevel;
-use App\DTO\RecipeStep;
+use App\DTO\Requests\RecipeStep;
 use Illuminate\Database\Seeder;
 
 class RecipesSeeder extends Seeder

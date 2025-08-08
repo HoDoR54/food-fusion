@@ -7,6 +7,7 @@ use App\DTO\Requests\PaginationQuery;
 use App\DTO\Responses\PaginatedResponse;
 use App\DTO\Responses\RecipeDetailedResponse;
 use App\DTO\Responses\RecipeSimpleResponse;
+use App\Enums\VoteType;
 use App\Models\Recipe;
 
 class RecipeService
@@ -51,6 +52,8 @@ class RecipeService
             return null;
         }
 
+        $voteCount = $this->_recipeRepo->countVotes($recipe->id);
+
         return new RecipeDetailedResponse(
             id: $recipe->id,
             name: $recipe->name,
@@ -62,11 +65,37 @@ class RecipeService
             authorName: $recipe->postedBy->name ?? 'Unknown',
             createdAt: $recipe->created_at->toISOString(),
             updatedAt: $recipe->updated_at->toISOString(),
-            vote: 0, // TODO: Implement voting feature
+            vote: $voteCount,
             steps: $recipe->steps,
             ingredients: $recipe->ingredients->map(fn($ingredient) => $ingredient->name)->toArray(),
             totalEstimatedTime: collect($recipe->steps)->sum('estimated_time_taken'),
             imageUrls: $recipe->image_urls ?? []
         );
+    }
+
+    public function upvoteRecipe(string $id): int
+    {
+        return $this->_recipeRepo->upvoteRecipe($id);
+    }
+
+    public function downvoteRecipe(string $id): int
+    {
+        return $this->_recipeRepo->downvoteRecipe($id);
+    }
+
+    public function getVoteCount(string $id): int
+    {
+        return $this->_recipeRepo->countVotes($id);
+    }
+
+    public function hasUserUpvoted(string $recipeId): bool
+    {
+        // TO-DO: get userId from auth
+        return $this->_recipeRepo->hasUserUpvoted($recipeId, 'abc');
+    }
+
+    public function hasUserDownvoted(string $recipeId): bool
+    {
+        return $this->_recipeRepo->hasUserDownvoted($recipeId, 'abc');
     }
 }

@@ -17,6 +17,15 @@ Route::get('/register', function () {
 
 Route::get('/recipes', [RecipesController::class, 'index'])->name('recipes.index');
 
+Route::get('/recipes/search', function () {
+    return view('recipes.search');
+})->name('recipes.search');
+
+Route::get('/livewire-demo', function () {
+    $sampleRecipe = \App\Models\Recipe::with(['postedBy', 'tags', 'ingredients'])->first();
+    return view('demo.livewire', compact('sampleRecipe'));
+})->name('livewire.demo');
+
 Route::get('/recipes/{id}', [RecipesController::class, 'show'])->name('recipes.show');
 
 Route::get('/about', function () {

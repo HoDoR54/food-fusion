@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Recipe extends Model
 {
@@ -64,5 +65,37 @@ class Recipe extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'recipes_tags_joint');
+    }
+
+    /**
+     * Get the votes for this recipe.
+     */
+    public function votes(): HasMany
+    {
+        return $this->hasMany(RecipeVote::class);
+    }
+
+    /**
+     * Get the upvotes for this recipe.
+     */
+    public function upvotes(): HasMany
+    {
+        return $this->hasMany(RecipeVote::class)->upvotes();
+    }
+
+    /**
+     * Get the downvotes for this recipe.
+     */
+    public function downvotes(): HasMany
+    {
+        return $this->hasMany(RecipeVote::class)->downvotes();
+    }
+
+    /**
+     * Get the vote score (upvotes - downvotes).
+     */
+    public function getVoteScoreAttribute(): int
+    {
+        return $this->upvotes()->count() - $this->downvotes()->count();
     }
 }
