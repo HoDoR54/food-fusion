@@ -15,10 +15,10 @@
 <body class="flex min-h-screen m-0 p-0 box-border bg-background text-text">
     <main class="flex-grow min-h-full container mx-auto px-5 py-3 w-full grid grid-cols-1 md:grid-cols-2">
         <section class="flex items-center justify-center p-10">
-            @yield('form')
+            @yield('left')
         </section>
         <section class="flex items-center justify-center p-10">
-            @yield('ui')
+            @yield('right')
         </section>
         @yield('content')
     </main>

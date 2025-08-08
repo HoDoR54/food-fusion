@@ -27,7 +27,7 @@
 
   <div class="flex items-center justify-center cursor-pointer flex-1" onclick="window.location.href='{{ url('/') }}'">
     <img src="{{ asset('logo/logo-light.png') }}" alt="Food Fusion Logo" class="h-8 w-auto">
-    <span class="text-lg text-primary ml-2">Food Fusion</span>
+    <span class="text-lg font-medium text-primary ml-2">FoodFusion</span>
   </div>
 
   <div class="flex-1 flex items-center justify-end gap-3">

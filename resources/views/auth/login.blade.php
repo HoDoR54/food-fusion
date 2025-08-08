@@ -1,12 +1,12 @@
 @extends('layout.auth')
 @section('title', 'Log In To Your Account')
-@section('form')
+@section('left')
     <livewire:login-form />     
 @endsection
 
-@section('ui')
+@section('right')
     <div class="bg-primary/10 rounded-3xl w-full h-full flex flex-col items-center justify-center px-10 py-8 space-y-6">
-        <div class="flex items-center justify-center gap-6">
+        <div class="flex items-center justify-center gap-3">
             <div class="rounded-full bg-secondary p-4 text-white flex items-center justify-center">
                 <i data-lucide="utensils" class="stroke-2 w-[2.5rem] h-[2.5rem]"></i>
             </div>
