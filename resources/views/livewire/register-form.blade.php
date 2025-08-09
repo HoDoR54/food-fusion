@@ -85,7 +85,7 @@
             :size="ButtonSize::Large"
         />
         <span class="text-sm text-gray-600">Already have an account? 
-            <a href="{{ route('login') }}" class="text-primary hover:text-secondary underline text-sm">Log in here</a>
+            <a href="{{ route('login.index') }}" class="text-primary hover:text-secondary underline text-sm">Log in here</a>
         </span>
     </div>
 </form>

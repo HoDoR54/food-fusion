@@ -1,6 +1,7 @@
 @php
     use App\Enums\ButtonSize;
     use App\Enums\ButtonVariant;
+    use Illuminate\Support\Facades\Auth;
 
     $pages = [
         'About Us' => '/about',
@@ -14,6 +15,8 @@
         'Login' => '/login',
         'Register' => '/register',
     ];
+
+    $user = Auth::user();
 @endphp
 
 <header class="bg-secondary/20 px-6 py-4 grid grid-cols-5 w-full border-b border-dotted border-gray-900">
@@ -37,7 +40,7 @@
         </a>
     @endforeach
     <div class="h-full flex items-center justify-center border-r pr-5 text-primary hover:text-secondary text-sm border-primary">
-      <span class="cursor-pointer">@hpone_tauk_nyi</span>
+      <a href="{{ route('me') }}" class="cursor-pointer">{{ $user->name ?? 'Guest' }}</a>
     </div>
     <x-button :variant="ButtonVariant::Primary" :size="ButtonSize::Small" :icon="'fa-solid fa-cloud-arrow-up'" :text="'Share Your Recipe'" onclick="window.location.href='{{ url('cookbook/new-post') }}'"></x-button>
   </div>

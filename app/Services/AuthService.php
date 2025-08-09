@@ -7,6 +7,9 @@ use App\DTO\Requests\LoginRequest;
 use App\DTO\Requests\RegisterRequest;
 use App\Models\User;
 use App\Repositories\UserRepo;
+use Illuminate\Support\Facades\Auth;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class AuthService
 {
@@ -21,7 +24,7 @@ class AuthService
         $email = $request->getEmail();
         $password = $request->getPassword();
 
-        $user = $this->_userRepo->where(['email' => $email])->first();
+        $user = $this->_userRepo->findUserByEmail($email);
 
         if (!$user) {
             return [new BaseResponse(false, 'User not found', 404), null];
@@ -41,7 +44,7 @@ class AuthService
     public function register(RegisterRequest $request): array {
         // TO-DO: Validate Credentials
 
-        $newUser = $this->_userRepo->create([
+        $newUser = $this->_userRepo->createUser([
             'first_name' => $request->getFirstName(),
             'last_name' => $request->getLastName(),
             'email' => $request->getEmail(),
@@ -72,34 +75,28 @@ class AuthService
 
     public function createAccessToken(User $user): string
     {
-        $header = base64_encode(json_encode(['alg' => 'HS256', 'typ' => 'JWT']));
-        $payload = base64_encode(json_encode([
+        $secret = env('JWT_SECRET', 'default_secret_key');
+        $payload = [
             'sub' => $user->id,
             'email' => $user->email,
             'iat' => time(),
             'exp' => time() + (60 * 60)
-        ]));
+        ];
 
-        $secret = env('JWT_SECRET', 'default_secret_key');
-        $signature = base64_encode(hash_hmac('sha256', "$header.$payload", $secret, true));
-
-        return "$header.$payload.$signature";
+        return JWT::encode($payload, $secret, env('JWT_ALGORITHM'));
     }
 
     public function createRefreshToken(User $user): string
     {
-        $header = base64_encode(json_encode(['alg' => 'HS256', 'typ' => 'JWT']));
-        $payload = base64_encode(json_encode([
+        $secret = env('JWT_SECRET', 'default_secret_key');
+        $payload = [
             'sub' => $user->id,
             'email' => $user->email,
             'iat' => time(),
             'exp' => time() + (60 * 60 * 24 * 7)
-        ]));
+        ];
 
-        $secret = env('JWT_SECRET', 'default_secret_key');
-        $signature = base64_encode(hash_hmac('sha256', "$header.$payload", $secret, true));
-
-        return "$header.$payload.$signature";
+        return JWT::encode($payload, $secret, env('JWT_ALGORITHM'));
     }
 
     // TO-DO: fill up the placeholders

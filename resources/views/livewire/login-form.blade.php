@@ -33,7 +33,7 @@
             <input type="password" id="password" name="password" required placeholder="veryVerySecure123!@#" required class="bg-secondary/15 border border-gray-300 px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full" />
         </div>
         <div class="w-full">
-            <a href="{{ route('auth.ဘာတွေမျှော်လင့်') }}" class="text-primary hover:text-secondary underline text-sm">Forgot Password?</a>
+            <a class="text-primary hover:text-secondary underline text-sm">Forgot Password?</a>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
             :variant="ButtonVariant::Primary"
             :size="ButtonSize::Large"
         />
-        <span class="text-sm text-gray-600">Don't have an account? <a href="{{ route('register') }}" class="text-primary hover:text-secondary underline text-sm">Sign up here</a></span>
+        <span class="text-sm text-gray-600">Don't have an account? <a href="{{ route('register.index') }}" class="text-primary hover:text-secondary underline text-sm">Sign up here</a></span>
     </div>
     
 </form>

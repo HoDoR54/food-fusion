@@ -8,6 +8,7 @@ use App\DTO\Requests\RegisterRequest;
 use App\Enums\MasteryLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -36,16 +37,23 @@ class AuthController extends Controller
         [$response, $tokens] = $this->_authService->login($loginRequest);
 
         if (!$response->toArray()['success']) {
-            return response()->json($response->toArray(), $response->toArray()['status_code']);
+            return back()->withErrors(['email' => $response->toArray()['message']]);
         }
 
-        return response()->json($response->toArray(), 200)
+        // TO-DO: change refresh token 'secure' argument back to true
+        return redirect('/')
             ->cookie('access_token', $tokens['access_token'], 15, '/', null, false, false)
-            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, true, true);
+            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, true);
     }
 
     public function register(Request $request)
     {
+        Log::info('Register method called', [
+            'request_data' => $request->all(),
+            'csrf_token' => $request->input('_token'),
+            'session_token' => session()->token()
+        ]);
+
         $data = $request->only('firstName', 'lastName', 'email', 'phoneNumber', 'password');
 
         $registerRequest = new RegisterRequest(
@@ -60,12 +68,12 @@ class AuthController extends Controller
         [$response, $tokens] = $this->_authService->register($registerRequest);
 
         if (!$response->toArray()['success']) {
-            return response()->json($response->toArray(), $response->toArray()['status_code']);
+            return back()->withErrors(['email' => $response->toArray()['message']]);
         }
 
-        return response()->json($response->toArray(), 201)
+        return redirect('/')
             ->cookie('access_token', $tokens['access_token'], 15, '/', null, false, false)
-            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, true, true);
+            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, true);
     }
 
     public function logout(Request $request)

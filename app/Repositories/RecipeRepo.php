@@ -17,39 +17,50 @@ class RecipeRepo extends AbstractRepo
         return RecipeVote::where('recipe_id', $recipeId)->count();
     }
 
-    public function upvoteRecipe (string $recipeId): int {
-        // TO-DO: get user_id from auth
-        // TO-DO: check if user has already voted to this recipe
+    public function upvoteRecipe (string $recipeId, string $userId): int {
         RecipeVote::updateOrCreate(
-            ['recipe_id' => $recipeId, 'user_id' => '0198885d-2fb7-712a-8c09-3bb1c2e781af'],
+            ['recipe_id' => $recipeId, 'user_id' => $userId],
             ['vote_type' => VoteType::UPVOTE]
         );
 
         return $this->countVotes($recipeId);
     }
 
-    public function downvoteRecipe (string $recipeId): int {
+    public function downvoteRecipe (string $recipeId, string $userId): int {
         RecipeVote::updateOrCreate(
-            ['recipe_id' => $recipeId, 'user_id' => '0198885d-2fb7-712a-8c09-3bb1c2e781af'],
+            ['recipe_id' => $recipeId, 'user_id' => $userId],
             ['vote_type' => VoteType::DOWNVOTE]
         );
 
         return $this->countVotes($recipeId);
     }
 
-    public function hasUserUpvoted (string $recipeId, string $userId): bool
+    public function hasUserUpvoted(string $recipeId, string $userId): bool
     {
-        return RecipeVote::where('recipe_id', $recipeId)
+        $lastVote = RecipeVote::where('recipe_id', $recipeId)
             ->where('user_id', $userId)
-            ->where('vote_type', VoteType::UPVOTE)
-            ->exists();
+            ->orderByDesc('created_at')
+            ->first();
+
+        if (!$lastVote) {
+            return false;
+        }
+
+        return $lastVote->vote_type === VoteType::UPVOTE;
     }
+
 
     public function hasUserDownvoted (string $recipeId, string $userId): bool
     {
-        return RecipeVote::where('recipe_id', $recipeId)
+        $lastVote = RecipeVote::where('recipe_id', $recipeId)
             ->where('user_id', $userId)
-            ->where('vote_type', VoteType::DOWNVOTE)
-            ->exists();
+            ->orderByDesc('created_at') // or 'id' if votes increment
+            ->first();
+
+        if (!$lastVote) {
+            return false; // no votes at all
+        }
+
+        return $lastVote->vote_type === VoteType::DOWNVOTE;
     }
 }
