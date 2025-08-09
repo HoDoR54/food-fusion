@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\DTO\Responses\UserSimpleResponse;
 use App\DTO\Responses\BaseResponse;
 use App\DTO\Requests\LoginRequest;
 use App\DTO\Requests\RegisterRequest;
@@ -33,9 +32,8 @@ class AuthService
         }
 
         $tokens = $this->generateTokens($user);
-        $resData = new UserSimpleResponse($user);
 
-        $res = new BaseResponse(true, 'Login successful', 200, $resData);
+        $res = new BaseResponse(true, 'Login successful', 200, $user);
 
         return [$res, $tokens];
     }
@@ -57,9 +55,8 @@ class AuthService
         }
 
         $tokens = $this->generateTokens($newUser);
-        $resData = new UserSimpleResponse($newUser);
 
-        return [new BaseResponse(true, 'Registration successful', 201, $resData), $tokens];
+        return [new BaseResponse(true, 'Registration successful', 201, $newUser), $tokens];
     }
 
     public function generateTokens(User $user): array

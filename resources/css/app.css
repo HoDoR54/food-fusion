@@ -6,11 +6,20 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+/* Lobster Font - Local */
+@font-face {
+    font-family: "Lobster";
+    src: url("/fonts/Lobster/Lobster-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 @theme {
     --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
 
+    --font-lobster: "Lobster", "Brush Script MT", "Lucida Handwriting", cursive;
     /* Custom Color Palette */
     --color-background: #edeae1;
     --color-text: #121212;

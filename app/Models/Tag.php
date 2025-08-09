@@ -22,6 +22,10 @@ class Tag extends Model
         'type',
     ];
 
+    protected $appends = [
+        'type_value',
+    ];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -40,5 +44,10 @@ class Tag extends Model
     public function recipes(): BelongsToMany
     {
         return $this->belongsToMany(Recipe::class, 'recipes_tags_joint');
+    }
+
+    public function getTypeValueAttribute(): string
+    {
+        return $this->type->value;
     }
 }

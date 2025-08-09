@@ -13,68 +13,46 @@ class RecipeCard extends Component
 {
     protected RecipeService $_recipeService;
 
-    private string $recipeId;
-    private string $name;
-    private string $description;
-    private ?string $imageUrl;
-    private array $tags;
-    private string $difficulty;
-    private string $createdAt;
-    private ?string $authorName;
+    public Recipe $recipe;
+    public int $voteCount;
 
     public function __construct()
     {
         $this->_recipeService = app(RecipeService::class);
     }
 
-    public function mount(
-        string $recipeId,
-        string $name,
-        string $description,
-        ?string $imageUrl,
-        array $tags,
-        string $difficulty,
-        string $createdAt,
-        ?string $authorName = null,
-    ): void {
-        $this->recipeId = $recipeId;
-        $this->name = $name;
-        $this->description = $description;
-        $this->imageUrl = $imageUrl;
-        $this->tags = $tags;
-        $this->difficulty = $difficulty;
-        $this->createdAt = $createdAt;
-        $this->authorName = $authorName;
+    public function mount(Recipe $recipe, int $voteCount): void {
+        $this->recipe = $recipe;
+        $this->voteCount = $voteCount;
     }
 
     public function getId(): string
     {
-        return $this->recipeId;
+        return $this->recipe->id;
     }
 
     public function getAuthorName(): ?string
     {
-        return $this->authorName;
+        return $this->recipe->author_name;
     }
 
     public function getVoteCount(): int
     {
-        return $this->_recipeService->getVoteCount($this->recipeId);
+        return $this->recipe->vote_count ?? $this->_recipeService->getVoteCount($this->recipe->id);
     }
 
     public function getDifficultyColor(): string
     {
-        return match($this->difficulty) {
-            'easy' => 'bg-green-100 text-green-800',
-            'medium' => 'bg-yellow-100 text-yellow-800',
-            'hard' => 'bg-red-100 text-red-800',
-            default => 'bg-gray-100 text-gray-800',
+        return match($this->recipe->difficulty->value) {
+            'easy' => 'bg-green-500',
+            'medium' => 'bg-yellow-500',
+            'hard' => 'bg-red-500',
         };
     }
 
     public function getDifficultyIcon(): string
     {
-        return match($this->difficulty) {
+        return match($this->recipe->difficulty->value) {
             'easy' => 'fa-solid fa-leaf',
             'medium' => 'fa-solid fa-fire',
             'hard' => 'fa-solid fa-bolt',
@@ -82,30 +60,36 @@ class RecipeCard extends Component
         };
     }
 
+    public function getDifficulty(): string
+    {
+        return $this->recipe->difficulty->value;
+    }
+
     public function getName (): string 
     {
-        return $this->name;
+        return $this->recipe->name;
     }
 
     public function getDescription(): string
     {
-        return $this->description;
+        return $this->recipe->description;
     }
 
     public function getPrimaryImageUrl(): ?string
     {
-        return $this->imageUrl;
+        return $this->recipe->first_image_url;
     }
 
     public function getVisibleTags(): array
     {
-        $visibleTags = array_slice($this->tags, 0, 3);
+        $tags = $this->recipe->tags->toArray();
+        $visibleTags = array_slice($tags, 0, 3);
         return array_map(fn($tag) => $tag['name'], $visibleTags);
     }
 
     public function getRemainingTagsCount(): int
     {
-        return max(0, count($this->tags) - 3);
+        return max(0, $this->recipe->tags->count() - 3);
     }
 
     public function upvoteRecipe(string $id): void
@@ -121,7 +105,7 @@ class RecipeCard extends Component
     public function getFormattedCreatedAt(): string
     {
         try {
-            return Carbon::parse($this->createdAt)->diffForHumans();
+            return $this->recipe->created_at->diffForHumans();
         } catch (\Exception $e) {
             return 'Recently';
         }
@@ -129,12 +113,12 @@ class RecipeCard extends Component
 
     public function hasUserUpvoted(): bool
     {
-        return $this->_recipeService->hasUserUpvoted($this->recipeId);
+        return $this->_recipeService->hasUserUpvoted($this->recipe->id);
     }
 
     public function hasUserDownvoted(): bool
     {
-        return $this->_recipeService->hasUserDownvoted($this->recipeId);
+        return $this->_recipeService->hasUserDownvoted($this->recipe->id);
     }
 
     public function render()

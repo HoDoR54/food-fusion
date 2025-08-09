@@ -24,6 +24,12 @@ class Recipe extends Model
         'image_urls',
     ];
 
+    protected $appends = [
+        'vote_score',
+        'first_image_url',
+        'author_name',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -66,5 +72,42 @@ class Recipe extends Model
     public function getVoteScoreAttribute(): int
     {
         return $this->upvotes()->count() - $this->downvotes()->count();
+    }
+
+    public function getFirstImageUrlAttribute(): ?string
+    {
+        return is_array($this->image_urls) && count($this->image_urls) > 0 
+            ? $this->image_urls[0] 
+            : null;
+    }
+
+    public function getAuthorNameAttribute(): string
+    {
+        return $this->postedBy ? $this->postedBy->name : 'Unknown';
+    }
+
+    public function getDifficultyValueAttribute(): string
+    {
+        return $this->difficulty->value;
+    }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        
+        // Ensure relationships are properly loaded when converting to array
+        if ($this->relationLoaded('tags')) {
+            $array['tags'] = $this->tags->toArray();
+        }
+        
+        if ($this->relationLoaded('postedBy')) {
+            $array['posted_by_user'] = $this->postedBy->toArray();
+        }
+        
+        if ($this->relationLoaded('ingredients')) {
+            $array['ingredients'] = $this->ingredients->toArray();
+        }
+        
+        return $array;
     }
 }

@@ -49,10 +49,27 @@ class PaginatedResponse
     public function getHasNextPage(): bool { return $this->hasNextPage; }
     public function getHasPreviousPage(): bool { return $this->hasPreviousPage; }
 
+    public function getPagination(): array
+    {
+        return [
+            'current_page' => $this->currentPage,
+            'total_pages' => $this->totalPages,
+            'total_items' => $this->totalItems,
+            'items_per_page' => $this->itemsPerPage,
+            'has_next_page' => $this->hasNextPage,
+            'has_previous_page' => $this->hasPreviousPage,
+        ];
+    }
+
     public function toArray(): array
     {
         return [
-            'data' => array_map(fn($item) => method_exists($item, 'toArray') ? $item->toArray() : $item, $this->data),
+            'data' => array_map(function($item) {
+                if (is_object($item) && method_exists($item, 'toArray')) {
+                    return $item->toArray();
+                }
+                return $item;
+            }, $this->data),
             'pagination' => [
                 'current_page' => $this->currentPage,
                 'total_pages' => $this->totalPages,

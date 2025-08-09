@@ -5,9 +5,8 @@ namespace App\Services;
 use App\Repositories\RecipeRepo;
 use App\DTO\Requests\PaginationQuery;
 use App\DTO\Responses\PaginatedResponse;
-use App\DTO\Responses\RecipeDetailedResponse;
-use App\DTO\Responses\RecipeSimpleResponse;
 use App\Models\Recipe;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class RecipeService
 {
@@ -25,23 +24,25 @@ class RecipeService
             ['postedBy', 'tags']
         );
         
-        $transformedData = $paginator->getCollection()->map(function (Recipe $recipe) {
-            return new RecipeSimpleResponse($recipe, $this->_recipeRepo->countVotes($recipe->id));
+        $resData = $paginator->getCollection()->map(function (Recipe $recipe) {
+            $voteCount = $this->_recipeRepo->countVotes($recipe->id);
+            return ['recipe' => $recipe, 'vote_count' => $voteCount];
         })->toArray();
 
-        return PaginatedResponse::fromPaginator($paginator, $transformedData);
+        return PaginatedResponse::fromPaginator($paginator, $resData);
     }
 
-    public function getRecipeById(string $id): ?RecipeDetailedResponse {
+    public function getRecipeById(string $id): ?Recipe {
         $recipe = $this->_recipeRepo->findWithRelations($id, ['postedBy', 'tags', 'ingredients']);
         
         if (!$recipe) {
             return null;
         }
 
-        $voteCount = $this->_recipeRepo->countVotes($recipe->id);
+        // Add vote count as a dynamic attribute
+        $recipe->vote_count = $this->_recipeRepo->countVotes($recipe->id);
 
-        return new RecipeDetailedResponse($recipe, $voteCount);
+        return $recipe;
     }
 
     public function upvoteRecipe(string $id): int

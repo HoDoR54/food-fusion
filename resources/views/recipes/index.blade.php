@@ -2,7 +2,9 @@
     $breadcrumbItems = [
         ['label' => 'Home', 'url' => '/'],
         ['label' => 'Recipes', 'url' => '/recipes'],
-    ]
+    ];
+
+    $itmes = $res->getData();
 @endphp
 
 @extends('layout.index')
@@ -18,17 +20,11 @@
             Imaginary Filter Options
         </div>
         <ul class="grid grid-cols-1 lg:grid-cols-3 p-3 gap-4 md:col-span-2 lg:col-span-3">
-            @foreach ($recipes as $recipe)
+            @foreach ($itmes as $item)
                 <li>
                     <livewire:recipe-card 
-                        :recipeId="$recipe->id"
-                        :name="$recipe->name"
-                        :description="$recipe->description"
-                        :imageUrl="$recipe->firstImageUrl ?? null"
-                        :tags="$recipe->tags"
-                        :difficulty="$recipe->difficulty"
-                        :authorName="$recipe->authorName"
-                        :createdAt="$recipe->createdAt"
+                        :recipe="$item['recipe']"
+                        :vote-count="$item['vote_count']"
                     />
                 </li>
             @endforeach

@@ -25,8 +25,8 @@
         </p>
 
         <div class="flex flex-col gap-4 w-full max-w-md">
-            <div class="flex items-center gap-4 p-4 bg-primary/20 rounded-lg">
-                <div class="rounded-full bg-primary/30 p-3 text-primary flex items-center justify-center">
+            <div class="flex items-center gap-4 p-4 bg-secondary/20 rounded-lg">
+                <div class="rounded-full bg-yellow-500/30 p-3 text-primary flex items-center justify-center">
                     <i data-lucide="book-open" class="stroke-2 w-[1.5rem] h-[1.5rem]"></i>
                 </div>
                 <div class="flex flex-col">
@@ -35,8 +35,8 @@
                 </div>
             </div>
             
-            <div class="flex items-center gap-4 p-4 bg-secondary/20 rounded-lg">
-                <div class="rounded-full bg-secondary/30 p-3 text-primary flex items-center justify-center">
+            <div class="flex items-center gap-4 p-4 bg-primary/20 rounded-lg">
+                <div class="rounded-full bg-primary/30 p-3 text-primary flex items-center justify-center">
                     <i data-lucide="users" class="stroke-2 w-[1.5rem] h-[1.5rem]"></i>
                 </div>
                 <div class="flex flex-col">
@@ -45,7 +45,7 @@
                 </div>
             </div>
             
-            <div class="flex items-center gap-4 p-4 bg-yellow-500/20 rounded-lg">
+            <div class="flex items-center gap-4 p-4 bg-secondary/20 rounded-lg">
                 <div class="rounded-full bg-yellow-500/30 p-3 text-primary flex items-center justify-center">
                     <i data-lucide="chef-hat" class="stroke-2 w-[1.5rem] h-[1.5rem]"></i>
                 </div>

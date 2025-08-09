@@ -3,18 +3,28 @@
     use App\Enums\ButtonSize;
 @endphp
 
-<div class="bg-secondary/10 shadow rounded-lg border-2 border-gray-900 border-dotted flex flex-col overflow-hidden relative">
+<div class="bg-secondary/10 shadow rounded-lg border-2 border-gray-900 border-dotted flex flex-col relative">
+    {{-- difficulty badge --}}
+    <div class="{{ $this->getDifficultyColor() }} group gap-2 cursor-pointer text-white absolute top-1 left-1 z-10 rounded flex items-center justify-center text-center px-2 py-1">
+        <span>
+            <i class="{{ $this->getDifficultyIcon() }} stroke-2 text-white"></i>
+        </span>
+        <span class="group-hover:block hidden transition duration-300 ease-in-out">
+            {{ $this->getDifficulty() }}
+        </span>
+    </div>
+
     <div class="absolute text-text top-0 right-0 p-2 flex items-center justify-center z-10 bg-transparent hover:bg-background/50 rounded-full cursor-pointer transition-colors">
         <i class="fa-solid fa-ellipsis-vertical"></i>
     </div>
 
-    <img src="{{ asset('images/example-recipe.jpg') }}" alt="{{ $this->name }}" class="w-full h-48 object-cover rounded-t-lg">
+    <img src="{{ asset('images/example-recipe.jpg') }}" alt="{{ $this->getName() }}" class="w-full h-48 object-cover rounded-t-lg">
 
     <div class="p-3 flex flex-col gap-3">
         {{-- name and timestamp --}}
         <div class="flex items-center justify-between">
             <h3 class="text-md font-bold text-text line-clamp-1">
-                {{ $this->name }}
+                {{ $this->getName() }}
             </h3>
             <p class="text-xs text-gray-500">
                 {{ $this->getFormattedCreatedAt() }}

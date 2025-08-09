@@ -17,9 +17,7 @@
 
     {{-- Labels --}}
     <div class="flex flex-col items-center justify-center">
-        <div class="rounded-full flex items-center justify-center p-3 bg-secondary text-white">
-            <i data-lucide="users-round" class="stroke-2 w-[2rem] h-[2rem]"></i>
-        </div>
+        <img src="{{ asset('logo/logo-light.png') }}" alt="Food Fusion Logo" class="w-16 h-16">
         <h2 class="text-primary font-bold text-2xl">Join FoodFusion</h2>
         <p class="text-gray-600 text-sm my-3">Create your account and start your culinary journey with us!</p>
     </div>
