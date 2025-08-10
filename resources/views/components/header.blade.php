@@ -29,8 +29,8 @@
   </nav>
 
   <div class="flex items-center justify-center cursor-pointer flex-1" onclick="window.location.href='{{ url('/') }}'">
-    <img src="{{ asset('logo/logo-light.png') }}" alt="Food Fusion Logo" class="h-12 w-auto">
-    <span class="text-[2rem] text-primary ml-2 font-[lobster]">FoodFusion</span>
+    <img src="{{ asset('logo/logo-light.png') }}" alt="Food Fusion Logo" class="h-8 w-auto">
+    <span class="text-[1.2rem] text-primary ml-2 font-[lobster]">FoodFusion</span>
   </div>
 
   <div class="flex items-center justify-end gap-5 col-span-2">
@@ -50,6 +50,6 @@
         @endforeach
       @endif
     </div>
-    <x-button :variant="ButtonVariant::Primary" :size="ButtonSize::Small" :icon="'fa-solid fa-cloud-arrow-up'" :text="'Share Your Recipe'" onclick="window.location.href='{{ url('cookbook/new-post') }}'"></x-button>
+    <x-button :variant="ButtonVariant::Primary" :size="ButtonSize::Small" :icon="'<i class=\'fa-solid fa-cloud-arrow-up\'></i>'" :text="'Share Your Recipe'" onclick="window.location.href='{{ url('cookbook/new-post') }}'"></x-button>
   </div>
 </header>

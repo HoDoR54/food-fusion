@@ -57,7 +57,7 @@
                 <x-button 
                     :variant="ButtonVariant::Primary" 
                     :size="ButtonSize::Small" 
-                    :icon="'fa-solid fa-eye'" 
+                    :icon="'<i class=\'fa-solid fa-eye\'></i>'" 
                     :text="'View Recipe'"
                     onclick="window.location.href='{{ route('recipes.show', $this->getId()) }}'"
                 />

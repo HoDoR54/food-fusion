@@ -22,7 +22,7 @@
 
 <button {{ $attributes->merge(['class' => "$styleClass $sizeClass px-3 py-2 flex items-center justify-center gap-3 hover:brightness-90 rounded transition duration-300 ease-in-out box-border cursor-pointer"]) }}>
     @if ($icon)
-        <i class="{{ $icon }}"></i>
+        {!! $icon !!}
     @endif
     @if ($text)
         <span>{{ $text }}</span>
