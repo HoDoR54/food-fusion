@@ -86,18 +86,4 @@ class AuthController extends Controller
             ->cookie('access_token', '', -1)
             ->cookie('refresh_token', '', -1);
     }
-
-    public function refresh(Request $request)
-    {
-        $refreshToken = $request->cookie('refresh_token');
-
-        $result = $this->_authService->refresh($refreshToken);
-
-        if (!$result['success']) {
-            return response()->json(['message' => $result['message']], 401);
-        }
-
-        return response()->json(['message' => 'Token refreshed'])
-            ->cookie('access_token', $result['access_token'], 15, '/', null, false, false);
-    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\RefreshToken;
 use App\Models\User;
 
 class UserRepo extends AbstractRepo
@@ -25,4 +26,18 @@ class UserRepo extends AbstractRepo
     {
         return $this->create($data);
     }
+
+    public function storeRefreshToken(string $userId, string $token): bool
+    {
+        RefreshToken::create([
+            'user_id' => $userId,
+            'token' => $token,
+            'expires_at' => now()->addDays(7),
+        ]);
+
+        return RefreshToken::where('user_id', $userId)
+            ->where('token', $token)
+            ->exists();
+    }
+
 }

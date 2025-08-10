@@ -7,9 +7,9 @@ use App\DTO\Requests\LoginRequest;
 use App\DTO\Requests\RegisterRequest;
 use App\Models\User;
 use App\Repositories\UserRepo;
-use Illuminate\Support\Facades\Auth;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Illuminate\Support\Facades\Log;
 
 class AuthService
 {
@@ -54,6 +54,7 @@ class AuthService
         ]);
 
         if (!$newUser) {
+            Log::error('Registration failed', ['email' => $request->getEmail()]);
             return [new BaseResponse(false, 'Registration failed', 500), null];
         }
 
@@ -80,7 +81,7 @@ class AuthService
             'sub' => $user->id,
             'email' => $user->email,
             'iat' => time(),
-            'exp' => time() + (60 * 60)
+            'exp' => time() + (60 * 15)
         ];
 
         return JWT::encode($payload, $secret, env('JWT_ALGORITHM'));
@@ -96,16 +97,56 @@ class AuthService
             'exp' => time() + (60 * 60 * 24 * 7)
         ];
 
-        return JWT::encode($payload, $secret, env('JWT_ALGORITHM'));
+        $token = JWT::encode($payload, $secret, env('JWT_ALGORITHM'));
+
+        $this->_userRepo->storeRefreshToken($user->id, $token);
+
+        return $token;
+    }
+
+    public function refresh(string $refreshToken): BaseResponse {
+        if ($this->isTokenExpired($refreshToken)) {
+            return new BaseResponse(false, 'Refresh token expired', 401);
+        }
+
+        $user = $this->getUserFromToken($refreshToken);
+        if (!$user) {
+            return new BaseResponse(false, 'User not found', 404);
+        }
+
+        $newTokens = $this->generateTokens($user);
+
+        return new BaseResponse(true, 'Token refreshed successfully', 200, $newTokens);
     }
 
     // TO-DO: fill up the placeholders
-
-    public function refresh(): bool {
+    public function logout(): bool {
         return true;
     }
 
-    public function logout(): bool {
-        return true;
+    public function getUserFromToken(string $token): ?User
+    {
+        try {
+            $secret = env('JWT_SECRET');
+            $alg = env('JWT_ALGORITHM');
+            $payload = JWT::decode($token, new Key($secret, $alg));
+            return $this->_userRepo->findUserById($payload->sub);
+        } catch (\Exception $e) {
+            Log::error('Failed to get user from token', ['error' => $e->getMessage()]);
+            return null;
+        }
+    }
+
+    public function isTokenExpired(string $token): bool
+    {
+        try {
+            $secret = env('JWT_SECRET');
+            $alg = env('JWT_ALGORITHM');
+            $payload = JWT::decode($token, new Key($secret, $alg));
+            return $payload->exp < time();
+        } catch (\Exception $e) {
+            Log::error('Failed to decode token for expiry check', ['error' => $e->getMessage()]);
+            return true;
+        }
     }
 }
