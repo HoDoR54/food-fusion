@@ -43,4 +43,14 @@ class BaseResponse
         
         return $data;
     }
+
+    public function getData(): mixed
+    {
+        return $this->data;
+    }
+
+    public function isSuccess(): bool
+    {
+        return $this->success;
+    }
 }

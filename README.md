@@ -32,7 +32,6 @@ A simple community platform where users can
 
 ### 🚀 Planned
 
--   Upvote and downvote
 -   Search with filter
 -   User favorites
 -   Comments

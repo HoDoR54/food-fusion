@@ -23,7 +23,7 @@ Route::middleware(Authenticate::class)->group(function () {
     // Landing Page
     Route::get('/', function () {
         return view('index');
-    })->name('home')->middleware(Authenticate::class);
+    })->name('home');
 
     Route::prefix('recipes')->group(function () {
         Route::get('/', [RecipesController::class, 'index'])->name('recipes.index');

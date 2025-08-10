@@ -54,26 +54,6 @@ class Recipe extends Model
         return $this->belongsToMany(Tag::class, 'recipes_tags_joint');
     }
 
-    public function votes(): HasMany
-    {
-        return $this->hasMany(RecipeVote::class);
-    }
-
-    public function upvotes(): HasMany
-    {
-        return $this->hasMany(RecipeVote::class)->upvotes();
-    }
-
-    public function downvotes(): HasMany
-    {
-        return $this->hasMany(RecipeVote::class)->downvotes();
-    }
-
-    public function getVoteScoreAttribute(): int
-    {
-        return $this->upvotes()->count() - $this->downvotes()->count();
-    }
-
     public function getFirstImageUrlAttribute(): ?string
     {
         return is_array($this->image_urls) && count($this->image_urls) > 0 
@@ -89,25 +69,5 @@ class Recipe extends Model
     public function getDifficultyValueAttribute(): string
     {
         return $this->difficulty->value;
-    }
-
-    public function toArray()
-    {
-        $array = parent::toArray();
-        
-        // Ensure relationships are properly loaded when converting to array
-        if ($this->relationLoaded('tags')) {
-            $array['tags'] = $this->tags->toArray();
-        }
-        
-        if ($this->relationLoaded('postedBy')) {
-            $array['posted_by_user'] = $this->postedBy->toArray();
-        }
-        
-        if ($this->relationLoaded('ingredients')) {
-            $array['ingredients'] = $this->ingredients->toArray();
-        }
-        
-        return $array;
     }
 }

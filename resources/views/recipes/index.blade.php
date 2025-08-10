@@ -23,8 +23,8 @@
             @foreach ($items as $item)
                 <li>
                     <livewire:recipe-card 
-                        :recipe="$item['recipe']"
-                        :vote-count="$item['vote_count']"
+                        :recipe-id="$item['recipe']->id"
+                        wire:key="recipe-card-{{ $item['recipe']->id }}"
                     />
                 </li>
             @endforeach

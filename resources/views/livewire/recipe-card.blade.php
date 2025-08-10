@@ -51,26 +51,7 @@
             {{ $this->getDescription() }}
         </p>
 
-        <div class="w-full flex justify-between items-end">
-            {{-- upvote and downvote buttons --}}
-            <div class="flex gap-2 justify-end items-center">
-                <x-button 
-                    :variant="ButtonVariant::Secondary" 
-                    :size="ButtonSize::Small" 
-                    :icon="'bi bi-caret-up'" 
-                    class="hover:bg-green-400/50 text-xs bg-primary/20"
-                    wire:click="upvoteRecipe('{{ $this->getId() }}')"
-                />
-                <span class="text-xs">{{ $this->getVoteCount() }} Vote{{ $this->getVoteCount() !== 1 ? 's' : '' }}</span>
-                <x-button 
-                    :variant="ButtonVariant::Secondary" 
-                    :size="ButtonSize::Small" 
-                    :icon="'bi bi-caret-down'" 
-                    class="hover:bg-red-400/50 text-xs bg-primary/20" 
-                    wire:click="downvoteRecipe('{{ $this->getId() }}')"
-                />
-            </div>
-
+        <div class="w-full flex justify-end items-end">
             {{-- to details --}}
             <div class="flex items-center justify-center">
                 <x-button 

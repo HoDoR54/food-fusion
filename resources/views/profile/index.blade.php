@@ -10,7 +10,7 @@
 @endphp
 
 @extends('layout.index')
-@section('title', 'Profile')
+@section('title', 'Food Fusion - ' . ($user->name ?? 'Profile'))
 
 @section('content')
     <div class="container mx-auto py-8">

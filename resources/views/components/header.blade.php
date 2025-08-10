@@ -34,13 +34,21 @@
   </div>
 
   <div class="flex items-center justify-end gap-5 col-span-2">
-    @foreach ($authPages as $name => $url)
-        <a href="{{ url($url) }}" class="text-sm text-center text-primary hover:text-secondary transition duration-300 ease-in-out hover:underline">
-            {{ $name }}
+    <div class="flex items-center justify-center border-r pr-5 border-primary gap-3 h-full">
+      @if ($user)
+        <a href="{{ route('me') }}" class="flex items-center justify-center gap-3 group">
+          <span class="cursor-pointer font-medium text-sm group-hover:text-secondary text-primary transition duration-300 ease-in-out group-hover:underline">
+            {{ $user->name ?? 'Guest' }}
+          </span>
+          <img src="{{ $user->profilePicUrl ?? asset('images/default-profile.webp') }}" alt="Profile Picture" class="h-8 w-8 rounded-full cursor-pointer border-2 border-primary/50 border-dotted">
         </a>
-    @endforeach
-    <div class="h-full flex items-center justify-center border-r pr-5 text-primary hover:text-secondary text-sm border-primary">
-      <a href="{{ route('me') }}" class="cursor-pointer">{{ $user->name ?? 'Guest' }}</a>
+      @else
+        @foreach ($authPages as $name => $url)
+          <a href="{{ url($url) }}" class="text-sm text-center text-primary hover:text-secondary transition duration-300 ease-in-out hover:underline">
+            {{ $name }}
+          </a>
+        @endforeach
+      @endif
     </div>
     <x-button :variant="ButtonVariant::Primary" :size="ButtonSize::Small" :icon="'fa-solid fa-cloud-arrow-up'" :text="'Share Your Recipe'" onclick="window.location.href='{{ url('cookbook/new-post') }}'"></x-button>
   </div>
