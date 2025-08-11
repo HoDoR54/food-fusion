@@ -3,12 +3,14 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RecipesController;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CheckLoginAttempts;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Auth
 Route::prefix('auth')->group(function () {
-    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+    // TO-DO: switch to Laravel Throttle after turning in
+    Route::post('/login', [AuthController::class, 'login'])->middleware(CheckLoginAttempts::class)->name('auth.login');
 
     Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 

@@ -33,11 +33,12 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
         $loginRequest = new LoginRequest($credentials['email'], $credentials['password']);
+        $metadata = ['ip_address' => $request->ip(), 'decay_minutes' => 3];
 
-        [$response, $tokens] = $this->_authService->login($loginRequest);
+        [$response, $tokens] = $this->_authService->login($loginRequest, $metadata);
 
         if (!$response->toArray()['success']) {
-            return back()->withErrors(['email' => $response->toArray()['message']]);
+            return back()->withErrors(['message' => $response->toArray()['message']]);
         }
 
         // TO-DO: change refresh token 'secure' argument back to true
@@ -48,12 +49,6 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        Log::info('Register method called', [
-            'request_data' => $request->all(),
-            'csrf_token' => $request->input('_token'),
-            'session_token' => session()->token()
-        ]);
-
         $data = $request->only('firstName', 'lastName', 'email', 'phoneNumber', 'password');
 
         $registerRequest = new RegisterRequest(
@@ -68,7 +63,7 @@ class AuthController extends Controller
         [$response, $tokens] = $this->_authService->register($registerRequest);
 
         if (!$response->toArray()['success']) {
-            return back()->withErrors(['email' => $response->toArray()['message']]);
+            return back()->withErrors(['message' => $response->toArray()['message']]);
         }
 
         return redirect('/')

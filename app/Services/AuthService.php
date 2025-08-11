@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\Responses\BaseResponse;
 use App\DTO\Requests\LoginRequest;
 use App\DTO\Requests\RegisterRequest;
+use App\Models\LoginAttempt;
 use App\Models\User;
 use App\Repositories\UserRepo;
 use Firebase\JWT\JWT;
@@ -19,7 +20,17 @@ class AuthService
         $this->_userRepo = $userRepo;
     }
 
-    public function login(LoginRequest $request): array
+    public function addFailedLoginAttempt(string $ipAddress, int $decayMinutes): void
+    {
+        $this->_userRepo->addFailedLoginAttempt($ipAddress, $decayMinutes);
+    }
+
+    public function findRecentLoginAttempt(string $ipAddress, int $decayMinutes): ?LoginAttempt
+    {
+        return $this->_userRepo->findRecentLoginAttempt($ipAddress, $decayMinutes);
+    }
+
+    public function login(LoginRequest $request, array $metadata): array
     {
         $email = $request->getEmail();
         $password = $request->getPassword();
@@ -27,10 +38,14 @@ class AuthService
         $user = $this->_userRepo->findUserByEmail($email);
 
         if (!$user) {
+            $this->addFailedLoginAttempt($metadata['ip_address'], $metadata['decay_minutes']);
+            Log::warning("Login attempt failed for email: $email");
             return [new BaseResponse(false, 'User not found', 404), null];
         }
 
         if (!password_verify($password, $user->password)) {
+            $this->addFailedLoginAttempt($metadata['ip_address'], $metadata['decay_minutes']);
+            Log::warning("Login attempt failed with an incorrect password.");
             return [new BaseResponse(false, 'Incorrect Password', 401), null];
         }
 
@@ -54,7 +69,6 @@ class AuthService
         ]);
 
         if (!$newUser) {
-            Log::error('Registration failed', ['email' => $request->getEmail()]);
             return [new BaseResponse(false, 'Registration failed', 500), null];
         }
 
