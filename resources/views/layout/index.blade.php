@@ -21,6 +21,19 @@
 
     @include('components.header')
 
+    {{-- overlay --}}
+    @if(trim($__env->yieldContent('pop-up')))
+        <div class="fixed top-0 left-0 right-0 bottom-0 bg-black/50 z-40" onclick="closePopup()"></div>
+    @endif
+
+    {{-- pop-up --}}
+    <div class="fixed top-0 left-0 right-0 bottom-0 z-40 flex items-center justify-center pointer-events-none">
+        <div class="pointer-events-auto">
+            @yield('pop-up')
+        </div>
+    </div>
+
+
     <main class="flex-grow container mx-auto px-5 py-3">
         @if (isset($breadcrumbItems))
             <x-breadcrumb :items="$breadcrumbItems" />
@@ -55,5 +68,18 @@
 
 <script>
     lucide.createIcons();
+    
+    function closePopup() {
+        // Hide the popup elements
+        const overlay = document.querySelector('.fixed.bg-black\\/50');
+        const popup = overlay ? overlay.nextElementSibling : null;
+        
+        if (overlay) {
+            overlay.style.display = 'none';
+        }
+        if (popup) {
+            popup.style.display = 'none';
+        }
+    }
 </script>
 </html>

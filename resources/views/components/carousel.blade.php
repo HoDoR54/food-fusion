@@ -29,7 +29,7 @@
             </div>
 
             <div class="carousel-indicators flex space-x-3">
-                @for($i = 1; $i <= (8 - 5); $i++)
+                @for($i = 1; $i <= (8 - 4); $i++)
                     <button class="carousel-indicator w-3 h-3 rounded-full bg-secondary/50 border-2 border-primary cursor-pointer transition-all duration-200 hover:bg-secondary hover:scale-110 {{ $i === 1 ? 'active bg-primary scale-125 shadow-md' : '' }}" 
                             aria-label="Go to slide {{ $i }}"></button>
                 @endfor
