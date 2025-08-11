@@ -2,7 +2,15 @@
     use Illuminate\Support\Facades\Auth;
 
     $user = Auth::user();
-    $isPopUpConsent = session('isPopUpConsent', true);
+    $sessionValue = session('isPopUpConsent', true);
+    
+    if ($sessionValue === 'false' || $sessionValue === false || $sessionValue === 0) {
+        $isPopUpConsent = false;
+    } elseif ($sessionValue === 'true' || $sessionValue === true || $sessionValue === 1) {
+        $isPopUpConsent = true;
+    } else {
+        $isPopUpConsent = (bool) $sessionValue;
+    }
 @endphp
 
 @extends('layout.index')

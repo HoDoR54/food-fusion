@@ -47,9 +47,40 @@ class AuthController extends Controller
         session()->flash('toastMessage', 'Login successful!');
         session()->flash('toastType', 'success');
 
+        Log::info('User logged in successfully', [
+            'ip_address' => $request->ip(),
+            'tokens' => $tokens
+        ]);
+
+
+        // TO-DO: change refresh_token options
         return redirect('/')
             ->cookie('access_token', $tokens['access_token'], 15, '/', null, false, false)
-            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, true, true);
+            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, false);
+    }
+
+   public function setSession(Request $request)
+    {
+        Log::info("Raw request data: " . $request->getContent());
+        Log::info("Request all(): " . json_encode($request->all()));
+        Log::info("Request input(): " . json_encode($request->input()));
+        
+        foreach ($request->all() as $key => $value) {
+            Log::info("Setting session key: $key with value: $value");
+            
+            // Convert string 'false' to boolean false for isPopUpConsent
+            if ($key === 'isPopUpConsent' && $value === 'false') {
+                session([$key => false]);
+                Log::info("Converted string 'false' to boolean false for $key");
+            } else {
+                session([$key => $value]);
+            }
+        }
+
+        return Response::json([
+            'success' => true,
+            'message' => 'Session updated successfully.',
+        ]);
     }
 
     public function register(Request $request)
@@ -79,7 +110,7 @@ class AuthController extends Controller
 
         return redirect('/')
             ->cookie('access_token', $tokens['access_token'], 15, '/', null, false, false)
-            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, true, true);
+            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, false);
     }
 
     public function logout(Request $request)

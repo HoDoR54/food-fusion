@@ -21,9 +21,14 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login.index');
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register.index');
 
+Route::post('/set-session', [AuthController::class, 'setSession'])->name('auth.set-session');
+
 Route::middleware(Authenticate::class)->group(function () {
-    // Landing Page
     Route::get('/', function () {
+        if (!session()->has('isPopUpConsent')) {
+            session(['isPopUpConsent' => true]);
+        }
+        
         return view('index');
     })->name('home');
 

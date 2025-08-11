@@ -35,12 +35,14 @@ class Authenticate
 
                         $response = $next($request);
                         $response->cookie('access_token', $accessToken, 15, '/', null, false, false)
-                                 ->cookie('refresh_token', $refreshToken, 10080, '/', null, false, true);
+                                 ->cookie('refresh_token', $refreshToken, 10080, '/', null, false, false);
 
                         Auth::guard()->setUser($this->_authService->getUserFromToken($accessToken));
 
                         return $response;
                     }
+                } else {
+                    Log::info('no refresh token found');
                 }
 
                 return $next($request);
