@@ -19,7 +19,7 @@
     $user = Auth::user();
 @endphp
 
-<header class="bg-primary/15 px-6 py-4 grid grid-cols-5 w-full border-b-2 border-dotted border-gray-900">
+<header class="bg-secondary/15 px-6 py-4 grid grid-cols-5 w-full border-b-2 border-dotted border-gray-900">
   <nav class="flex gap-5 justify-start w-full items-center col-span-2">
     @foreach ($pages as $name => $url)
         <a href="{{ url($url) }}" class="text-sm text-center text-primary hover:text-secondary transition duration-300 ease-in-out hover:underline">
