@@ -28,6 +28,13 @@ class RecipesController extends Controller
 
     public function show($id) {
         $recipe = $this->_recipeService->getRecipeById($id);
+        
+        if (!$recipe) {
+            session()->flash('toastMessage', 'Recipe not found.');
+            session()->flash('toastType', 'error');
+            return redirect()->route('recipes.index');
+        }
+        
         return view('recipes.show', compact('recipe'));
     }
 }

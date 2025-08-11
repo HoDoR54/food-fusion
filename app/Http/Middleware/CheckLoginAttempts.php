@@ -27,14 +27,15 @@ class CheckLoginAttempts
         Log::info("Login attempt: ", ['attempt' => $attempt]);
 
         if ($attempt && $attempt->getLoginAttemptsCount() >= $this->maxAttempts) {
-        $maxSeconds = $this->decayMinutes * 60;
-        $secondsPassed = $attempt->getLastAttemptedAt()->diffInSeconds(now());
-        $secondsLeft = max(0, $maxSeconds - $secondsPassed);
-        return response()->json([
-            'message' => 'Too many login attempts. Please try again later.',
-            'retry_after_seconds' => $secondsLeft
-        ], 429);
-    }
+            $maxSeconds = $this->decayMinutes * 60;
+            $secondsPassed = $attempt->getLastAttemptedAt()->diffInSeconds(now());
+            $secondsLeft = max(0, $maxSeconds - $secondsPassed);
+
+            return back()->with([
+                'toastMessage' => 'Too many login attempts. Please try again later after ' . floor($secondsLeft) . ' seconds.',
+                'toastType' => 'warning'
+            ]);
+        }
 
         return $next($request);
     }

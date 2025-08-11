@@ -38,13 +38,18 @@ class AuthController extends Controller
         [$response, $tokens] = $this->_authService->login($loginRequest, $metadata);
 
         if (!$response->toArray()['success']) {
-            return back()->withErrors(['message' => $response->toArray()['message']]);
+            return back()->with([
+                'toastMessage' => $response->toArray()['message'],
+                'toastType' => 'error'
+            ]);
         }
 
-        // TO-DO: change refresh token 'secure' argument back to true
+        session()->flash('toastMessage', 'Login successful!');
+        session()->flash('toastType', 'success');
+
         return redirect('/')
             ->cookie('access_token', $tokens['access_token'], 15, '/', null, false, false)
-            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, true);
+            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, true, true);
     }
 
     public function register(Request $request)
@@ -63,12 +68,18 @@ class AuthController extends Controller
         [$response, $tokens] = $this->_authService->register($registerRequest);
 
         if (!$response->toArray()['success']) {
-            return back()->withErrors(['message' => $response->toArray()['message']]);
+            return back()->with([
+                'toastMessage' => $response->toArray()['message'],
+                'toastType' => 'error'
+            ]);
         }
+
+        session()->flash('toastMessage', 'Registration successful! Welcome to Food Fusion!');
+        session()->flash('toastType', 'success');
 
         return redirect('/')
             ->cookie('access_token', $tokens['access_token'], 15, '/', null, false, false)
-            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, true);
+            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, true, true);
     }
 
     public function logout(Request $request)
@@ -77,7 +88,10 @@ class AuthController extends Controller
 
         $this->_authService->logout($refreshToken);
 
-        return response()->json(['message' => 'Logged out'])
+        session()->flash('toastMessage', 'Logged out successfully!');
+        session()->flash('toastType', 'success');
+
+        return redirect('/login')
             ->cookie('access_token', '', -1)
             ->cookie('refresh_token', '', -1);
     }

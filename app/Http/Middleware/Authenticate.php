@@ -43,7 +43,9 @@ class Authenticate
                     }
                 }
 
-                return $next($request);
+                session()->flash('toastMessage', 'Please log in to access this page.');
+                session()->flash('toastType', 'warning');
+                return redirect('/login');
             }
 
             Auth::guard()->setUser($this->_authService->getUserFromToken($accessToken));
@@ -54,8 +56,10 @@ class Authenticate
                 'url' => $request->url(),
                 'ip' => $request->ip(),
             ]);
+            
+            session()->flash('toastMessage', 'Authentication error. Please log in again.');
+            session()->flash('toastType', 'error');
+            return redirect('/login');
         }
-
-        return $next($request);
     }
 }

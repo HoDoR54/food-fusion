@@ -23,6 +23,26 @@
         @yield('content')
     </main>
     @livewireScripts
+    
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Laravel Toast Data -->
+    @if (session()->has('toastMessage') || (isset($toastMessage) && $toastMessage))
+        @php
+            $validTypes = ['success', 'info', 'warning', 'error'];
+            $message = isset($toastMessage) ? $toastMessage : session('toastMessage');
+            $type = isset($toastType) ? $toastType : session('type', 'info');
+            $toastType = in_array($type, $validTypes) ? $type : 'info';
+            $message = addslashes(htmlspecialchars($message, ENT_QUOTES, 'UTF-8'));
+        @endphp
+        <script>
+            window.laravelToastData = {
+                message: "{{ $message }}",
+                type: "{{ $toastType }}"
+            };
+        </script>
+    @endif
 </body>
 
 <script>

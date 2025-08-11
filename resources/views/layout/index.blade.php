@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Lobster&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="icon" href="{{ asset('logo/logo-dark.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
@@ -18,7 +17,8 @@
     @livewireStyles
     <title>@yield('title', 'Food Fusion')</title>
 </head>
-<body class="flex flex-col min-h-[1000px] m-0 p-0 box-border bg-background text-text">
+<body class="flex flex-col min-h-[1000px] m-0 p-0 box-border bg-background text-text relative">
+
     @include('components.header')
 
     <main class="flex-grow container mx-auto px-5 py-3">
@@ -31,6 +31,26 @@
 
     @include('components.footer')
     @livewireScripts
+    
+    {{-- toaster --}}
+    <div id="toast-container" class="fixed top-8 right-4 z-50 space-y-2"></div>
+
+    
+    @if (session()->has('toastMessage') || (isset($toastMessage) && $toastMessage))
+        @php
+            $validTypes = ['success', 'info', 'warning', 'error'];
+            $message = isset($toastMessage) ? $toastMessage : session('toastMessage');
+            $type = isset($toastType) ? $toastType : session('type', 'info');
+            $toastType = in_array($type, $validTypes) ? $type : 'info';
+            $message = addslashes(htmlspecialchars($message, ENT_QUOTES, 'UTF-8'));
+        @endphp
+        <script>
+            window.laravelToastData = {
+                message: "{{ $message }}",
+                type: "{{ $toastType }}"
+            };
+        </script>
+    @endif
 </body>
 
 <script>
