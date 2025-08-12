@@ -25,10 +25,6 @@ Route::post('/set-session', [AuthController::class, 'setSession'])->name('auth.s
 
 Route::middleware(Authenticate::class)->group(function () {
     Route::get('/', function () {
-        if (!session()->has('isPopUpConsent')) {
-            session(['isPopUpConsent' => true]);
-        }
-        
         return view('index');
     })->name('home');
 

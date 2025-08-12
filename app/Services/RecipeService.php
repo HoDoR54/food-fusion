@@ -9,10 +9,7 @@ use App\DTO\Requests\SortQuery;
 use App\DTO\Responses\BaseResponse;
 use App\DTO\Responses\PaginatedResponse;
 use App\Models\Recipe;
-use Faker\Provider\Base;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use App\Enums\TagType;
 
 class RecipeService
 {
@@ -42,5 +39,30 @@ class RecipeService
         }
 
         return new BaseResponse(true, 'Recipe retrieved successfully', 200, $recipe);
+    }
+
+    public function getDietaryPreferences(): array
+    {
+        return $this->_recipeRepo->getTagsByType(TagType::Dietary->value);
+    }
+
+    public function getCuisineTypes(): array
+    {
+        return $this->_recipeRepo->getTagsByType(TagType::Origin->value);
+    }
+
+    public function getCourses(): array
+    {
+        return $this->_recipeRepo->getTagsByType(TagType::Course->value);
+    }
+
+    public function getCookingMethods(): array
+    {
+        return $this->_recipeRepo->getTagsByType(TagType::CookingMethod->value);
+    }
+
+    public function getOccasions(): array
+    {
+        return $this->_recipeRepo->getTagsByType(TagType::Occasion->value);
     }
 }

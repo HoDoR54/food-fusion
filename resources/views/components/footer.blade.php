@@ -1,5 +1,5 @@
 <footer class="flex flex-col">
-    <div class="bg-primary/90 grid grid-cols-5 text-white px-3 py-5">
+    <div class="bg-primary/80 grid grid-cols-5 text-white px-6 py-4">
         <div class="col-span-2 flex items-start justify-center flex-col text-left">
             <ul>
                 <li class="flex flex-col text-sm">
@@ -26,7 +26,7 @@
             </ul>
         </div>
     </div>
-    <div class="flex justify-between items-center px-3 py-2 bg-secondary/15 text-sm text-primary">
+    <div class="flex justify-between items-center px-6 py-1 bg-secondary/15 text-sm text-primary">
         <p>&copy; no copy right claimed actually.</p>
         <p>Designed and developed by Hpone Tauk Nyi.</p>
     </div>

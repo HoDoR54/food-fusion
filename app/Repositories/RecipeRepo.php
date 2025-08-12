@@ -66,6 +66,46 @@ class RecipeRepo extends AbstractRepo
             if ($searchQ->getSearchDifficultyLevel()) {
                 $query->where('difficulty', $searchQ->getSearchDifficultyLevel());
             }
+
+            // dietary preference
+            if ($searchQ->getDietaryPreference()) {
+                $query->whereHas('tags', function ($q) use ($searchQ) {
+                    $q->where('type', 'dietary')
+                      ->where('name', 'like', '%' . $searchQ->getDietaryPreference() . '%');
+                });
+            }
+
+            // cuisine type (origin)
+            if ($searchQ->getCuisineType()) {
+                $query->whereHas('tags', function ($q) use ($searchQ) {
+                    $q->where('type', 'origin')
+                      ->where('name', 'like', '%' . $searchQ->getCuisineType() . '%');
+                });
+            }
+
+            // course
+            if ($searchQ->getCourse()) {
+                $query->whereHas('tags', function ($q) use ($searchQ) {
+                    $q->where('type', 'course')
+                      ->where('name', 'like', '%' . $searchQ->getCourse() . '%');
+                });
+            }
+
+            // cooking method
+            if ($searchQ->getCookingMethod()) {
+                $query->whereHas('tags', function ($q) use ($searchQ) {
+                    $q->where('type', 'method')
+                      ->where('name', 'like', '%' . $searchQ->getCookingMethod() . '%');
+                });
+            }
+
+            // occasion
+            if ($searchQ->getOccasion()) {
+                $query->whereHas('tags', function ($q) use ($searchQ) {
+                    $q->where('type', 'occasion')
+                      ->where('name', 'like', '%' . $searchQ->getOccasion() . '%');
+                });
+            }
         }
     }
 
@@ -75,5 +115,26 @@ class RecipeRepo extends AbstractRepo
         if ($sortQ->hasSort()) {
             $query->orderBy($sortQ->getSortBy(), $sortQ->getSortDirection());
         }
+    }
+
+    public function getDietaryPreferences(): LengthAwarePaginator
+    {
+        $query = $this->model->newQuery();
+        $query->whereHas('tags', function ($q) {
+            $q->where('type', 'dietary');
+        });
+        $query->with(['tags' => function ($q) {
+            $q->where('type', 'dietary');
+        }]);
+        
+        return $query->paginate(50);
+    }
+
+    public function getTagsByType(string $type): array
+    {
+        return \App\Models\Tag::where('type', $type)
+            ->distinct()
+            ->pluck('name')
+            ->toArray();
     }
 }

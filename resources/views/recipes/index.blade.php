@@ -12,8 +12,8 @@
 @section('title', $title)
 
 @section('content')
-    <section class="w-full mb-4 min-h-[4rem] bg-primary/50 rounded-2xl flex items-center justify-center text-text">
-        Imaginary Search Bar
+    <section class="w-full mb-4 rounded-2xl flex items-center justify-center text-text">
+        <x-recipe-search-bar />
     </section>
     <section class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <div  class="flex flex-col gap-3">
@@ -21,10 +21,8 @@
                 Something Cool Here
             </div>
         </div>
-        <div class="md:col-span-2 lg:col-span-3 flex flex-col px-3 gap-3">
-            <div class="w-full bg-secondary/30 rounded-2xl min-h-[3rem] text-text flex items-center justify-center">
-                Filters
-            </div>
+        <div class="md:col-span-2 lg:col-span-3 flex flex-col pl-3 gap-3">
+            <x-recipe-filters />
             <ul class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 @foreach ($items as $item)
                     <li>

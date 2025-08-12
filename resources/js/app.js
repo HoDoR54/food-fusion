@@ -1,5 +1,6 @@
 import "./bootstrap";
-import "./carousel";
-import "./toast";
-import "./laravel-toast";
-import "./consent";
+import "./utils/carousel";
+import "./utils/toast";
+import "./utils/laravel-toast";
+import "./utils/consent";
+import "./data/recipe-search";
