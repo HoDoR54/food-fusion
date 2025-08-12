@@ -115,15 +115,6 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $refreshToken = $request->cookie('refresh_token');
-
-        $this->_authService->logout($refreshToken);
-
-        session()->flash('toastMessage', 'Logged out successfully!');
-        session()->flash('toastType', 'success');
-
-        return redirect('/login')
-            ->cookie('access_token', '', -1)
-            ->cookie('refresh_token', '', -1);
+        // TO-DO
     }
 }

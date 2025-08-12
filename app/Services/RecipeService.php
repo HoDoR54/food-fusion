@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Repositories\RecipeRepo;
 use App\DTO\Requests\PaginationQuery;
+use App\DTO\Requests\RecipeSearchQuery;
+use App\DTO\Requests\SortQuery;
 use App\DTO\Responses\BaseResponse;
 use App\DTO\Responses\PaginatedResponse;
 use App\Models\Recipe;
@@ -20,14 +22,11 @@ class RecipeService
         $this->_recipeRepo = $recipeRepo;
     }
 
-    public function getRecipes(PaginationQuery $paginationQuery): PaginatedResponse {
-        $paginator = $this->_recipeRepo->paginateWithRelations(
-            $paginationQuery->getPage(), 
-            ['*'], 
-            $paginationQuery->getSize(),
-            ['postedBy', 'tags']
-        );
-        
+    public function getRecipes(PaginationQuery $paginationQuery, RecipeSearchQuery $recipeSearchQuery, SortQuery $sortQuery): PaginatedResponse {
+        // Get the paginated recipes with filtering, sorting, and relations
+        $paginator = $this->_recipeRepo->getRecipes($recipeSearchQuery, $sortQuery, $paginationQuery);
+
+        // Map the recipes to the response format
         $resData = $paginator->getCollection()->map(function (Recipe $recipe) {
             return ['recipe' => $recipe];
         })->toArray();
@@ -42,10 +41,6 @@ class RecipeService
             return new BaseResponse(false, 'Recipe not found', 404);
         }
 
-        $resData = [
-            'recipe' => $recipe,
-        ];
-
-        return new BaseResponse(true, 'Recipe retrieved successfully', 200, $resData);
+        return new BaseResponse(true, 'Recipe retrieved successfully', 200, $recipe);
     }
 }

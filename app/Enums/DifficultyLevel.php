@@ -28,5 +28,15 @@ enum DifficultyLevel: string
             self::cases()
         );
     }
+
+    public static function fromValue(string $value): self
+    {
+        return match ($value) {
+            'easy' => self::Easy,
+            'medium' => self::Medium,
+            'hard' => self::Hard,
+            default => throw new \InvalidArgumentException("Invalid difficulty level: $value"),
+        };
+    }
 }
 ?>

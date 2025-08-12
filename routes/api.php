@@ -7,4 +7,3 @@ Route::get('/auth/ping', function () {
     return response()->json(['message' => 'pong']);
 });
 
-

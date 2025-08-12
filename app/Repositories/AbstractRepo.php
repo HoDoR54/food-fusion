@@ -110,5 +110,4 @@ abstract class AbstractRepo
     {
         return $this->model->with($relations)->select($columns)->find($id);
     }
-
 }

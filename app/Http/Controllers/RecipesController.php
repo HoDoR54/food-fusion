@@ -6,6 +6,8 @@ use App\Services\RecipeService;
 use App\DTO\Responses\BaseResponse;
 use Illuminate\Http\Request;
 use App\DTO\Requests\PaginationQuery;
+use App\DTO\Requests\RecipeSearchQuery;
+use App\DTO\Requests\SortQuery;
 use App\DTO\Responses\PaginatedResponse;
 
 class RecipesController extends Controller
@@ -18,7 +20,9 @@ class RecipesController extends Controller
 
     public function index(Request $request) {
         $paginationQuery = new PaginationQuery($request);
-        $paginatedRes = $this->_recipeService->getRecipes($paginationQuery);
+        $recipeFilterQuery = new RecipeSearchQuery($request);
+        $sortQuery = new SortQuery($request);
+        $paginatedRes = $this->_recipeService->getRecipes($paginationQuery, $recipeFilterQuery, $sortQuery);
 
         return view('recipes.index', [
             'res' => $paginatedRes,
@@ -26,15 +30,17 @@ class RecipesController extends Controller
         ]);
     }
 
-    public function show($id) {
-        $recipe = $this->_recipeService->getRecipeById($id);
+    public function show(Request $request, $id) {
+        $res = $this->_recipeService->getRecipeById($id);
         
-        if (!$recipe) {
-            session()->flash('toastMessage', 'Recipe not found.');
+        if (!$res->isSuccess()) {
+            session()->flash('toastMessage', $res->getMessage());
             session()->flash('toastType', 'error');
             return redirect()->route('recipes.index');
         }
-        
-        return view('recipes.show', compact('recipe'));
+
+        return view('recipes.show', [
+            'res' => $res
+        ]);
     }
 }

@@ -53,4 +53,9 @@ class BaseResponse
     {
         return $this->success;
     }
+
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
 }

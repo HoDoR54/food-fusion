@@ -1,9 +1,11 @@
 @php
+    $recipe = $res->getData();
+
     $breadcrumbItems = [
         ['label' => 'Home', 'url' => '/'],
         ['label' => 'Recipes', 'url' => '/recipes'],
         ['label' => $recipe->name, 'url' => '/recipes/' . $recipe->id],
-    ]
+    ];
 @endphp
 
 @extends('layout.index')

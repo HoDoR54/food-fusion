@@ -11,7 +11,7 @@ class PaginationQuery
 
     public function __construct(Request $request) {
         $this->page = (int) $request->input('page', 1);
-        $this->size = (int) $request->input('size', 10);
+        $this->size = (int) $request->input('size', 12);
     }
 
     public function getPage(): int {

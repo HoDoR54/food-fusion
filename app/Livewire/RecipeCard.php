@@ -15,9 +15,8 @@ class RecipeCard extends Component
     protected RecipeService $_recipeService;
 
     public string $recipeId;
+    public Recipe|null $recipe = null;
     
-    protected ?Recipe $recipeCache = null;
-
     public function __construct()
     {
         $this->_recipeService = app(RecipeService::class);
@@ -25,32 +24,12 @@ class RecipeCard extends Component
 
     public function mount(string $recipeId): void {
         $this->recipeId = $recipeId;
-        // Don't preload the recipe - let it be loaded on demand
-        $this->recipeCache = null;
+        $this->recipe = $this->getRecipe();
     }
 
-    // Add method to handle component hydration
-    public function hydrate()
-    {
-        $this->_recipeService = app(RecipeService::class);
-        // Clear cache on hydrate to ensure fresh data
-        $this->recipeCache = null;
-        
-        // Debug logging to help identify issues
-        Log::info('RecipeCard component hydrated', [
-            'recipe_id' => $this->recipeId,
-            'vote_count' => $this->voteCount,
-            'component_id' => $this->getId()
-        ]);
-    }
-
-    // Helper method to get the recipe
     protected function getRecipe(): Recipe
     {
-        if (!$this->recipeCache) {
-            $this->recipeCache = $this->_recipeService->getRecipeById($this->recipeId)->getData()['recipe'];
-        }
-        return $this->recipeCache;
+        return $this->_recipeService->getRecipeById($this->recipeId)->getData();
     }
 
     public function getId(): string

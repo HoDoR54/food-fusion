@@ -34,7 +34,7 @@
     </div>
 
 
-    <main class="flex-grow container mx-auto px-5 py-3">
+    <main class="flex-grow container mx-auto px-5 py-3 mb-10">
         @if (isset($breadcrumbItems))
             <x-breadcrumb :items="$breadcrumbItems" />
         @endif

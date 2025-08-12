@@ -25,7 +25,6 @@ class Recipe extends Model
     ];
 
     protected $appends = [
-        'vote_score',
         'first_image_url',
         'author_name',
     ];
@@ -63,7 +62,7 @@ class Recipe extends Model
 
     public function getAuthorNameAttribute(): string
     {
-        return $this->postedBy ? $this->postedBy->name : 'Unknown';
+        return $this->postedBy?->name ?? 'Unknown';
     }
 
     public function getDifficultyValueAttribute(): string

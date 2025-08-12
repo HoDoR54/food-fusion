@@ -34,7 +34,6 @@ Route::middleware(Authenticate::class)->group(function () {
 
     Route::prefix('recipes')->group(function () {
         Route::get('/', [RecipesController::class, 'index'])->name('recipes.index');
-
         Route::get('/{id}', [RecipesController::class, 'show'])->name('recipes.show');
     });
 
