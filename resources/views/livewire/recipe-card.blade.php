@@ -32,15 +32,15 @@
         </div>
 
         {{-- tags --}}
-        <ul class="flex gap-2 w-full">
+        <ul class="flex gap-2 w-full flex-wrap min-h-[60px] items-center">
             @foreach ($this->getVisibleTags() as $tagName)
-                <li class="cursor-pointer bg-secondary hover:brightness-95 text-text border border-gray-900 border-dotted px-3 py-1 rounded-full text-xs">
+                <li class="cursor-pointer h-fit bg-secondary hover:brightness-95 text-text border border-gray-900 border-dotted px-3 py-1 rounded-full text-xs">
                     {{ $tagName }}
                 </li>
             @endforeach
 
             @if ($this->getRemainingTagsCount() > 0)
-                <li class="cursor-pointer bg-secondary/70 hover:brightness-95 text-text border border-gray-900 border-dotted px-3 py-1 rounded-full text-xs">
+                <li class="cursor-pointer h-fit bg-secondary/70 hover:brightness-95 text-text border border-gray-900 border-dotted px-3 py-1 rounded-full text-xs">
                     {{ $this->getRemainingTagsCount() }}+ more
                 </li>
             @endif

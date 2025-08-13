@@ -1,7 +1,12 @@
+@php
+    use App\Enums\ButtonSize;
+    use App\Enums\ButtonVariant;
+@endphp
+
 <div class="w-full flex flex-wrap items-center justify-between gap-3">
 
     {{-- Difficulty Level --}}
-    <div class="relative w-full sm:w-auto flex-1 min-w-[200px]">
+    <div class="relative w-full sm:w-auto flex-1">
         <select
             id="difficulty_level"
             name="difficulty_level"
@@ -22,7 +27,7 @@
     </div>
 
     {{-- Dietary Preference --}}
-    <div class="relative w-full sm:w-auto flex-1 min-w-[200px]">
+    <div class="relative w-full sm:w-auto flex-1">
         <select
             id="dietary_preference"
             name="dietary_preference"
@@ -43,7 +48,7 @@
     </div>
 
     {{-- Cuisine Type --}}
-    <div class="relative w-full sm:w-auto flex-1 min-w-[200px]">
+    <div class="relative w-full sm:w-auto flex-1">
         <select
             id="cuisine_type"
             name="cuisine_type"
@@ -64,7 +69,7 @@
     </div>
 
     {{-- Course --}}
-    <div class="relative w-full sm:w-auto flex-1 min-w-[200px]">
+    <div class="relative w-full sm:w-auto flex-1">
         <select
             id="course"
             name="course"
@@ -85,7 +90,7 @@
     </div>
 
     {{-- Order By --}}
-    <div class="relative w-full sm:w-auto flex-1 min-w-[200px]">
+    <div class="relative w-full sm:w-auto flex-1">
         <select
             id="order_by"
             name="order_by"
@@ -101,5 +106,13 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
         </div>
+    </div>
+
+    <div class="sm:w-auto">
+        <x-button :variant="ButtonVariant::Secondary" 
+            :size="ButtonSize::Small" 
+            :icon="'<i data-lucide=\'x\'></i>'"
+            id="clear-filters"
+        ></x-button>
     </div>
 </div>

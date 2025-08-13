@@ -28,7 +28,7 @@
     @endforeach
   </nav>
 
-  <div class="flex items-center justify-center cursor-pointer flex-1" onclick="window.location.href='{{ url('/') }}'">
+  <div class="flex items-center justify-center cursor-pointer flex-1" onclick="window.location.href='{{ route('home') }}'">
   <img src="{{ asset('logo/logo-dark.png') }}" alt="Food Fusion Logo" class="h-10 w-auto">
     <span class="text-[1.4rem] text-white ml-2 font-[lobster]">FoodFusion</span>
   </div>
@@ -44,12 +44,12 @@
         </a>
       @else
         @foreach ($authPages as $name => $url)
-          <a href="{{ url($url) }}" class="text-sm text-center text-primary hover:text-secondary transition duration-300 ease-in-out hover:underline">
+          <a href="{{ url($url) }}" class="text-sm text-center text-white hover:text-secondary transition duration-300 ease-in-out hover:underline">
             {{ $name }}
           </a>
         @endforeach
       @endif
     </div>
-    <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :icon="'<i class=\'fa-solid fa-cloud-arrow-up\'></i>'" :text="'Share Your Recipe'" onclick="window.location.href='{{ url('cookbook/new-post') }}'"></x-button>
+    <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :icon="'<i class=\'fa-solid fa-cloud-arrow-up\'></i>'" :text="'Share Your Recipe'" onclick="window.location.href='{{ route('cookbook-blogs.create') }}'"></x-button>
   </div>
 </header>

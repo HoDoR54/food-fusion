@@ -6,6 +6,7 @@ use App\DTO\Requests\PaginationQuery;
 use App\DTO\Requests\RecipeSearchQuery;
 use App\DTO\Requests\SortQuery;
 use App\Models\Recipe;
+use App\Models\Tag;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class RecipeRepo extends AbstractRepo
@@ -117,22 +118,9 @@ class RecipeRepo extends AbstractRepo
         }
     }
 
-    public function getDietaryPreferences(): LengthAwarePaginator
-    {
-        $query = $this->model->newQuery();
-        $query->whereHas('tags', function ($q) {
-            $q->where('type', 'dietary');
-        });
-        $query->with(['tags' => function ($q) {
-            $q->where('type', 'dietary');
-        }]);
-        
-        return $query->paginate(50);
-    }
-
     public function getTagsByType(string $type): array
     {
-        return \App\Models\Tag::where('type', $type)
+        return Tag::where('type', $type)
             ->distinct()
             ->pluck('name')
             ->toArray();

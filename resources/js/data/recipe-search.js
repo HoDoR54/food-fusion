@@ -15,7 +15,6 @@ function handleFilterChange(selectId, paramName) {
             params.delete(paramName);
         }
 
-        // Always reset to page 1 when filtering
         params.set("page", "1");
 
         window.location.href = `${
@@ -24,19 +23,16 @@ function handleFilterChange(selectId, paramName) {
     });
 }
 
-// Initialize filter handlers
 handleFilterChange("difficulty_level", "difficulty_level");
 handleFilterChange("dietary_preference", "dietary_preference");
 handleFilterChange("cuisine_type", "cuisine_type");
 handleFilterChange("course", "course");
 handleFilterChange("order_by", "order_by");
 
-// Clear all filters function
 function clearFilters() {
     const baseUrl = window.location.pathname;
     const params = new URLSearchParams(window.location.search);
 
-    // Keep only search_term if it exists
     const searchTerm = params.get("search_term");
 
     let newUrl = baseUrl;
@@ -47,7 +43,9 @@ function clearFilters() {
     window.location.href = newUrl;
 }
 
-// Set initial values from URL parameters
+const clearFiltersButton = document.getElementById("clear-filters");
+clearFiltersButton.addEventListener("click", clearFilters);
+
 document.addEventListener("DOMContentLoaded", function () {
     const params = new URLSearchParams(window.location.search);
 

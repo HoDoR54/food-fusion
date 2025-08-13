@@ -57,6 +57,6 @@ Route::middleware(Authenticate::class)->group(function () {
 
     Route::get('/cookbook/new-post', function () {
         return view('cookbook-blogs.create');
-    });
+    })->name('cookbook-blogs.create');
 });
 

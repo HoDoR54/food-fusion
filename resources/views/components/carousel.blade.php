@@ -25,7 +25,7 @@
                 <x-button :variant="ButtonVariant::Primary" 
                           :size="ButtonSize::Small" 
                           :icon="'<i data-lucide=\'chevron-left\'></i>'"
-                          class="rounded-3xl" />
+                />
             </div>
 
             <div class="carousel-indicators flex space-x-3">
@@ -39,7 +39,7 @@
                 <x-button :variant="ButtonVariant::Primary" 
                           :size="ButtonSize::Small" 
                           :icon="'<i data-lucide=\'chevron-right\'></i>'"
-                          class="rounded-3xl" />
+                />
             </div>
         </div>
     </div>

@@ -22,10 +22,16 @@ class RecipesController extends Controller
         $paginationQuery = new PaginationQuery($request);
         $recipeFilterQuery = new RecipeSearchQuery($request);
         $sortQuery = new SortQuery($request);
-        $paginatedRes = $this->_recipeService->getRecipes($paginationQuery, $recipeFilterQuery, $sortQuery);
+        $res = $this->_recipeService->getRecipes($paginationQuery, $recipeFilterQuery, $sortQuery);
+
+        if (!$res->isSuccess()) {
+            session()->flash('toastMessage', $res->getMessage());
+            session()->flash('toastType', 'error');
+            return redirect()->route('home');
+        }
 
         return view('recipes.index', [
-            'res' => $paginatedRes,
+            'res' => $res,
             'title' => 'Recipes',
         ]);
     }

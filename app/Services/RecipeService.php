@@ -19,7 +19,7 @@ class RecipeService
         $this->_recipeRepo = $recipeRepo;
     }
 
-    public function getRecipes(PaginationQuery $paginationQuery, RecipeSearchQuery $recipeSearchQuery, SortQuery $sortQuery): PaginatedResponse {
+    public function getRecipes(PaginationQuery $paginationQuery, RecipeSearchQuery $recipeSearchQuery, SortQuery $sortQuery): BaseResponse {
         // Get the paginated recipes with filtering, sorting, and relations
         $paginator = $this->_recipeRepo->getRecipes($recipeSearchQuery, $sortQuery, $paginationQuery);
 
@@ -28,7 +28,8 @@ class RecipeService
             return ['recipe' => $recipe];
         })->toArray();
 
-        return PaginatedResponse::fromPaginator($paginator, $resData);
+        $paginatedRes = PaginatedResponse::fromPaginator($paginator, $resData);
+        return new BaseResponse(true, 'Recipes retrieved successfully', 200, $paginatedRes);
     }
 
     public function getRecipeById(string $id): BaseResponse {
