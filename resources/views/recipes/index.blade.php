@@ -45,7 +45,11 @@
                         :total-pages="$pagination['total_pages']" 
                         :total-items="$pagination['total_items']" 
                         :has-prev="$pagination['has_previous_page']" 
-                        :has-next="$pagination['has_next_page']" />
+                        :has-next="$pagination['has_next_page']"
+                        :base-url="route('recipes.index')"
+                        :preserve-params="['search_term', 'difficulty_level', 'dietary_preference', 'cuisine_type', 'course', 'order_by']"
+                        :max-buttons="5"
+                    />
                 </div>
                 
             </div>

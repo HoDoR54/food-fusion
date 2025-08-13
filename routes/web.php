@@ -51,9 +51,17 @@ Route::middleware(Authenticate::class)->group(function () {
         return view('static.edu');
     });
 
+    Route::get('/events', function () {
+        return view('static.events.index');
+    })->name('events.index');
+
+    Route::get('/events/{id}', function ($id) {
+        return view('static.events.show', ['id' => $id]);
+    })->name('events.show');
+
     Route::get('/cookbook', function () {
         return view('cookbook-blogs.index');
-    });
+    })->name('cookbook-blogs.index');
 
     Route::get('/cookbook/new-post', function () {
         return view('cookbook-blogs.create');

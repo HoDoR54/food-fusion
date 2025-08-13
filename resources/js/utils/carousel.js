@@ -9,9 +9,12 @@ class Carousel {
 
         this.currentIndex = 0;
         this.slideWidth = 0;
-        this.slidesVisible = 5;
+        this.slidesVisible = parseInt(element.dataset.slidesVisible) || 5;
+        this.autoPlay = element.dataset.autoPlay === "true";
+        this.autoPlayDelay = parseInt(element.dataset.autoPlayInterval) || 2000;
         this.maxIndex = 0;
         this.isTransitioning = false;
+        this.autoPlayInterval = null;
 
         this.init();
     }
@@ -21,25 +24,30 @@ class Carousel {
         this.updateSlideWidth();
         this.updateCarousel();
 
-        // Auto-resize handler
         window.addEventListener("resize", () => {
             this.updateSlideWidth();
             this.updateCarousel();
         });
 
-        // Auto-play functionality (every 2 seconds)
-        this.startAutoPlay();
+        if (this.autoPlay) {
+            this.startAutoPlay();
+        }
 
-        // Pause auto-play on hover
         this.carousel.addEventListener("mouseenter", () => this.stopAutoPlay());
-        this.carousel.addEventListener("mouseleave", () =>
-            this.startAutoPlay()
-        );
+        this.carousel.addEventListener("mouseleave", () => {
+            if (this.autoPlay) {
+                this.startAutoPlay();
+            }
+        });
     }
 
     setupEventListeners() {
-        this.prevButton.addEventListener("click", () => this.prevSlide());
-        this.nextButton.addEventListener("click", () => this.nextSlide());
+        if (this.prevButton) {
+            this.prevButton.addEventListener("click", () => this.prevSlide());
+        }
+        if (this.nextButton) {
+            this.nextButton.addEventListener("click", () => this.nextSlide());
+        }
 
         this.indicators.forEach((indicator, index) => {
             indicator.addEventListener("click", () => this.goToSlide(index));
@@ -48,23 +56,21 @@ class Carousel {
 
     updateSlideWidth() {
         const containerWidth = this.carousel.offsetWidth;
-        const padding = 32; // Account for container padding
+        const padding = 32;
         const availableWidth = containerWidth - padding;
 
-        // Responsive slides visible
         if (window.innerWidth >= 1280) {
-            this.slidesVisible = Math.min(5, this.slides.length); // xl screens
+            this.slidesVisible = Math.min(5, this.slides.length);
         } else if (window.innerWidth >= 1024) {
-            this.slidesVisible = Math.min(4, this.slides.length); // lg screens
+            this.slidesVisible = Math.min(4, this.slides.length);
         } else if (window.innerWidth >= 768) {
-            this.slidesVisible = Math.min(3, this.slides.length); // md screens
+            this.slidesVisible = Math.min(3, this.slides.length);
         } else if (window.innerWidth >= 640) {
-            this.slidesVisible = Math.min(2, this.slides.length); // sm screens
+            this.slidesVisible = Math.min(2, this.slides.length);
         } else {
-            this.slidesVisible = 1; // mobile
+            this.slidesVisible = 1;
         }
 
-        // Calculate the maximum index we can scroll to
         this.maxIndex = Math.max(0, this.slides.length - this.slidesVisible);
 
         this.slideWidth = availableWidth / this.slidesVisible;
@@ -77,7 +83,6 @@ class Carousel {
 
     prevSlide() {
         if (this.isTransitioning) return;
-        // Only go back if not at the first slide
         if (this.currentIndex > 0) {
             this.currentIndex = this.currentIndex - 1;
             this.updateCarousel();
@@ -86,7 +91,6 @@ class Carousel {
 
     nextSlide() {
         if (this.isTransitioning) return;
-        // Only go forward if not at the maximum index
         if (this.currentIndex < this.maxIndex) {
             this.currentIndex = this.currentIndex + 1;
             this.updateCarousel();
@@ -105,7 +109,6 @@ class Carousel {
         const translateX = -this.currentIndex * this.slideWidth;
         this.track.style.transform = `translateX(${translateX}px)`;
 
-        // Update indicators
         this.indicators.forEach((indicator, index) => {
             if (index === this.currentIndex) {
                 indicator.classList.add(
@@ -126,7 +129,6 @@ class Carousel {
             }
         });
 
-        // Update button states
         this.updateButtonStates();
 
         setTimeout(() => {
@@ -135,10 +137,13 @@ class Carousel {
     }
 
     updateButtonStates() {
+        if (!this.prevButton || !this.nextButton) return;
+
         const prevBtn = this.prevButton.querySelector("button");
         const nextBtn = this.nextButton.querySelector("button");
 
-        // Disable/enable previous button
+        if (!prevBtn || !nextBtn) return;
+
         if (this.currentIndex <= 0) {
             prevBtn.disabled = true;
             prevBtn.classList.add("opacity-50", "cursor-not-allowed");
@@ -147,7 +152,6 @@ class Carousel {
             prevBtn.classList.remove("opacity-50", "cursor-not-allowed");
         }
 
-        // Disable/enable next button
         if (this.currentIndex >= this.maxIndex) {
             nextBtn.disabled = true;
             nextBtn.classList.add("opacity-50", "cursor-not-allowed");
@@ -159,13 +163,12 @@ class Carousel {
 
     startAutoPlay() {
         this.autoPlayInterval = setInterval(() => {
-            // If we're at the end, stop auto-play or go back to start
             if (this.currentIndex >= this.maxIndex) {
                 this.goToSlide(0);
             } else {
                 this.nextSlide();
             }
-        }, 2000); // Auto-scroll every 2 seconds
+        }, this.autoPlayDelay);
     }
 
     stopAutoPlay() {
@@ -176,13 +179,11 @@ class Carousel {
     }
 }
 
-// Initialize carousels when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
     const carousels = document.querySelectorAll(".carousel");
     carousels.forEach((carousel) => new Carousel(carousel));
 });
 
-// Export for use in other modules
 if (typeof module !== "undefined" && module.exports) {
     module.exports = Carousel;
 }
