@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CustomEncryptCookies;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Application;

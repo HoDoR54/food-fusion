@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\Log;
 
-class Authenticate
+class GetUserOrPass
 {
     private readonly AuthService $_authService;
 

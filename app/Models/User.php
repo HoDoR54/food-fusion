@@ -43,6 +43,10 @@ class User extends Authenticatable
         ];
     }
 
+    public function getId () {
+        return $this->getKey();
+    }
+
     public function refresh_tokens(): HasMany
     {
         return $this->hasMany(RefreshToken::class);

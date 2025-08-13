@@ -45,7 +45,7 @@
             :variant="ButtonVariant::Primary"
             :size="ButtonSize::Large"
         />
-        <span class="text-sm text-gray-600">Don't have an account? <a href="{{ route('register.index') }}" class="text-primary hover:text-secondary underline text-sm">Sign up here</a></span>
+        <span class="text-sm text-gray-600">Don't have an account? <a href="{{ route('auth.register.show') }}" class="text-primary hover:text-secondary underline text-sm">Sign up here</a></span>
     </div>
     
 </form>

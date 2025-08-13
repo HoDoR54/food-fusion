@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Modules;
 
 use App\Services\AuthService;
 use App\DTO\Requests\LoginRequest;
 use App\DTO\Requests\RegisterRequest;
 use App\Enums\MasteryLevel;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Log;

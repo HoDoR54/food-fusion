@@ -6,27 +6,6 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-/**
- * Reusable Paginator Component
- * 
- * Usage examples:
- * 
- * Basic usage:
- * <x-paginator :current-page="1" :total-pages="10" :total-items="100" :has-prev="false" :has-next="true" />
- * 
- * With custom URL and preserved parameters:
- * <x-paginator 
- *     :current-page="$page" 
- *     :total-pages="$totalPages" 
- *     :total-items="$totalItems" 
- *     :has-prev="$hasPrev" 
- *     :has-next="$hasNext"
- *     :base-url="route('custom.route')"
- *     :preserve-params="['search', 'filter', 'sort']"
- *     :max-buttons="7"
- *     page-name="p"
- * />
- */
 class Paginator extends Component
 {
     public int $currentPage;
