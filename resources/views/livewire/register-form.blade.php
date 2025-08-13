@@ -98,9 +98,9 @@
         />
         <span class="{{ $isPopUp ? 'text-xs' : 'text-sm' }} text-gray-600">Already have an account? 
             @if ($isPopUp)
-                <a href="{{ route('login.index') }}" class="text-primary hover:text-secondary underline {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Log in here</a>
+                <a href="{{ route('auth.login.show') }}" class="text-primary hover:text-secondary underline {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Log in here</a>
             @else
-                <a href="{{ route('login.index') }}" class="text-primary hover:text-secondary underline {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Log in here</a>
+                <a href="{{ route('auth.login.show') }}" class="text-primary hover:text-secondary underline {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Log in here</a>
             @endif
         </span>
     </div>

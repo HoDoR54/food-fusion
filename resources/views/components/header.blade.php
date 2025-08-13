@@ -36,7 +36,7 @@
   <div class="flex items-center justify-end gap-5 col-span-2">
     <div class="flex items-center justify-center border-r pr-5 border-primary gap-3 h-full">
       @if ($user)
-        <a href="{{ route('me') }}" class="flex items-center justify-center gap-3 group">
+        <a href="{{ route('users.show', ['id' => $user->getId()]) }}" class="flex items-center justify-center gap-3 group">
           <span class="cursor-pointer font-medium text-sm group-hover:text-secondary text-white transition duration-300 ease-in-out group-hover:underline">
             {{ $user->name ?? 'Guest' }}
           </span>
@@ -50,6 +50,6 @@
         @endforeach
       @endif
     </div>
-    <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :icon="'<i class=\'fa-solid fa-cloud-arrow-up\'></i>'" :text="'Share Your Recipe'" onclick="window.location.href='{{ route('cookbook-blogs.create') }}'"></x-button>
+    <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :icon="'<i class=\'fa-solid fa-cloud-arrow-up\'></i>'" :text="'Share Your Recipe'" onclick="window.location.href='{{ route('blogs.create') }}'"></x-button>
   </div>
 </header>

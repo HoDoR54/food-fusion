@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Modules;
 
 use App\Services\RecipeService;
 use App\DTO\Responses\BaseResponse;
@@ -9,6 +9,7 @@ use App\DTO\Requests\PaginationQuery;
 use App\DTO\Requests\RecipeSearchQuery;
 use App\DTO\Requests\SortQuery;
 use App\DTO\Responses\PaginatedResponse;
+use App\Http\Controllers\Controller;
 
 class RecipesController extends Controller
 {
