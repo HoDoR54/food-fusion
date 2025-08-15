@@ -14,6 +14,7 @@
 @section('title', $title)
 
 @section('content')
+<section class="w-full flex flex-col p-5 mb-16">
     <section class="w-full mb-4 rounded-2xl flex items-center justify-center text-text">
         <x-recipe-search-bar />
     </section>
@@ -37,7 +38,7 @@
                     @endforeach
                 </ul>
                 <div class="flex flex-col w-full gap-3">
-                    <p class="text-sm text-gray-500 w-full flex items-center justify-center text-center">
+                    <p class="text-sm text-text/60 w-full flex items-center justify-center text-center">
                         Showing {{ $pagination['current_page'] }} of {{ $pagination['total_pages'] }} pages
                     </p>
                     <x-paginator 
@@ -56,7 +57,7 @@
         @else
             <div class="md:cols-span-2 lg:col-span-3 flex flex-col items-center justify-center pl-3 gap-3">
                 <p class="text-red-500/70 text-2xl font-semibold">No match found.</p>
-                <a href="{{ route('recipes.index') }}" class="text-gray-700/70 hover:text-gray-700 hover:underline text-sm flex items-center gap-1">
+                <a href="{{ route('recipes.index') }}" class="text-text/60 hover:text-text hover:underline text-sm flex items-center gap-1">
                     <i data-lucide="arrow-left"></i>
                     See all recipes
                 </a>
@@ -64,4 +65,5 @@
         @endif
         
     </section>
+</section>
 @endsection

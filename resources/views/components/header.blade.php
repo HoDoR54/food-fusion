@@ -19,7 +19,7 @@
     $user = Auth::user();
 @endphp
 
-<header class="bg-primary/80 px-6 py-4 grid grid-cols-5 w-full border-b-2 border-dotted border-background">
+<header class="bg-primary/80 px-6 py-4 grid grid-cols-5 w-full border-b-2 border-dashed border-background">
   <nav class="flex gap-5 justify-start w-full items-center col-span-2">
     @foreach ($pages as $name => $url)
         <a href="{{ url($url) }}" class="text-sm text-center text-white hover:text-secondary transition duration-300 ease-in-out hover:underline">
@@ -40,7 +40,7 @@
           <span class="cursor-pointer font-medium text-sm group-hover:text-secondary text-white transition duration-300 ease-in-out group-hover:underline">
             {{ $user->name ?? 'Guest' }}
           </span>
-          <img src="{{ $user->profilePicUrl ?? asset('images/default-profile.webp') }}" alt="Profile Picture" class="h-8 w-8 rounded-full cursor-pointer border-2 border-background border-dotted">
+          <img src="{{ $user->profilePicUrl ?? asset('images/default-profile.webp') }}" alt="Profile Picture" class="h-8 w-8 rounded-full cursor-pointer border-2 border-background border-dashed">
         </a>
       @else
         @foreach ($authPages as $name => $url)

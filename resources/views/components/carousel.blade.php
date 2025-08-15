@@ -32,14 +32,14 @@
             <div class="carousel-track flex transition-transform duration-500 ease-in-out">
                 @forelse($items as $index => $item)
                     <div class="carousel-slide p-2 flex-shrink-0">
-                        <div class="slide-content relative group overflow-hidden rounded border-primary border-dotted border-2 transition-all duration-300 hover:scale-[102%] cursor-pointer aspect-[3/4]">
+                        <div class="slide-content relative group overflow-hidden rounded border-primary border-dashed border-2 transition-all duration-300 hover:scale-[102%] cursor-pointer aspect-[3/4]">
                             <div class="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-t group-hover:via-black from-black via-secondary/30 to-secondary/40 opacity-50 z-10"></div>
                             <img src="{{ asset('images/' . $item['image']) }}" 
                                  alt="{{ $item['alt'] ?? $item['title'] ?? 'Carousel item' }}" 
                                  class="w-full h-full contrast-[90%] saturate-[50%] brightness-125 object-cover transition-all duration-300 group-hover:scale-110 ease-in-out">
                             <div class="hidden group-hover:block absolute bottom-0 left-0 right-0 p-4 text-white z-20">
                                 <h3 class="text-lg font-semibold">{{ $item['title'] ?? 'Item Title' }}</h3>
-                                <p class="text-sm line-clamp-2 text-gray-300">
+                                <p class="text-sm line-clamp-2 text-primary/60">
                                     {{ $item['description'] ?? 'Item description' }}
                                 </p>
                             </div>
@@ -47,8 +47,8 @@
                     </div>
                 @empty
                     <div class="carousel-slide p-2 flex-shrink-0">
-                        <div class="slide-content relative overflow-hidden rounded border-primary border-dotted border-2 aspect-[3/4] flex items-center justify-center bg-gray-100">
-                            <p class="text-gray-500">No items to display</p>
+                        <div class="slide-content relative overflow-hidden rounded border-primary border-dashed border-2 aspect-[3/4] flex items-center justify-center bg-gray-100">
+                            <p class="text-text/60">No items to display</p>
                         </div>
                     </div>
                 @endforelse

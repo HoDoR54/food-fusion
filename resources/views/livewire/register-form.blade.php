@@ -3,11 +3,47 @@
     use App\Enums\ButtonSize;
 @endphp
 
-<form 
-    action="{{ route('auth.register') }}" 
-    method="POST"
-    class="flex flex-col md:min-w-[450px] {{ $isPopUp ? 'max-h-[90vh] overflow-y-auto gap-2 p-4' : 'gap-3 p-5' }} items-center justify-center bg-white rounded-xl border-2 border-gray-500 border-dotted"
->
+    class="flex flex-col md:min-w-[450px] {{ $isPopUp ? 'max-h-[90vh] overflow-y-auto gap-3 p-5' : 'gap-4 p-6' }} items-center justify-center bg-white rounded-xl border-2 border-primary border-dashed">
+    @csrf
+    {{-- back to home --}}
+    @if (!$isPopUp) 
+        <div class="w-full flex items-center justify-start mb-4" onclick="window.location.href='{{ route('home') }}'">
+            <span class="text-primary hover:text-secondary cursor-pointer flex gap-3">
+                <i data-lucide="arrow-left" class="stroke-2 w-[1.5rem] h-[1.5rem]"></i>
+                Back to Home
+            </span>
+        </div>
+    @else
+        <div class="w-full flex items-center justify-between mb-3">
+            <div class="flex items-center justify-center gap-2">
+                <input type="checkbox" id="doNotShowAgain">
+                <label for="doNotShowAgain" class="text-text/60 text-sm">Do not show again</label>
+            </div>
+            <i data-lucide="x" class="stroke-2 w-[1.5rem] h-[1.5rem] text-primary hover:text-secondary cursor-pointer" onclick="closePopup()"></i>
+        </div>
+    @endif
+
+    {{-- Labels --}}
+    <div class="flex flex-col items-center justify-center">
+        <img src="{{ asset('logo/logo-light.png') }}" alt="Food Fusion Logo" class="{{ $isPopUp ? 'w-12 h-12' : 'w-16 h-16' }}">
+        <h2 class="text-primary font-bold {{ $isPopUp ? 'text-xl' : 'text-2xl' }}">Join Us</h2>
+        <p class="text-text/60 {{ $isPopUp ? 'text-xs my-2' : 'text-sm my-3' }}">Create your account and start your culinary journey with us!</p>
+    </div>
+
+    {{-- Inputs --}}
+    <div class="flex flex-col {{ $isPopUp ? 'gap-3' : 'gap-4' }} w-full">
+        <div class="flex flex-col md:flex-row {{ $isPopUp ? 'gap-3' : 'gap-4' }}">
+            <div class="flex flex-col {{ $isPopUp ? 'gap-2' : 'gap-2' }} w-full">
+                <label for="firstName" class="text-text/60 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">First Name</label>
+                <input type="text" id="firstName" name="firstName" required placeholder="John" class="bg-secondary/15 border border-gray-300 {{ $isPopUp ? 'px-3 py-1.5 text-sm' : 'px-4 py-2' }} focus:outline-2 focus:outline-primary rounded w-full" />
+            </div>
+            <div class="flex flex-col {{ $isPopUp ? 'gap-2' : 'gap-2' }} w-full">
+                <label for="lastName" class="text-text/60 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required placeholder="Doe" class="bg-secondary/15 border border-gray-300 {{ $isPopUp ? 'px-3 py-1.5 text-sm' : 'px-4 py-2' }} focus:outline-2 focus:outline-primary rounded w-full" />
+            </div>
+        </div>
+        <div class="flex flex-col {{ $isPopUp ? 'gap-2' : 'gap-2' }}">
+            <label for="email" class="text-text/60 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Email</label>
     @csrf
     {{-- back to home --}}
     @if (!$isPopUp) 
@@ -50,12 +86,12 @@
             <label for="email" class="text-gray-600 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Email</label>
             <input type="email" id="email" name="email" required placeholder="john.doe@example.com" class="bg-secondary/15 border border-gray-300 {{ $isPopUp ? 'px-3 py-1.5 text-sm' : 'px-4 py-2' }} focus:outline-2 focus:outline-primary rounded w-full" />
         </div>
-        <div class="flex flex-col {{ $isPopUp ? 'gap-1' : 'gap-2' }}">
-            <label for="phoneNumber" class="text-gray-600 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Phone</label>
+        <div class="flex flex-col {{ $isPopUp ? 'gap-2' : 'gap-2' }}">
+            <label for="phoneNumber" class="text-text/60 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Phone</label>
             <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="+95 9 123456789" class="bg-secondary/15 border border-gray-300 {{ $isPopUp ? 'px-3 py-1.5 text-sm' : 'px-4 py-2' }} focus:outline-2 focus:outline-primary rounded w-full" />
         </div>
-        <div class="flex flex-col {{ $isPopUp ? 'gap-1' : 'gap-2' }}">
-            <label for="mastery_level" class="text-gray-600 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Cooking Level</label>
+        <div class="flex flex-col {{ $isPopUp ? 'gap-2' : 'gap-2' }}">
+            <label for="mastery_level" class="text-text/60 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Cooking Level</label>
             <div class="relative">
                 <select
                     id="mastery_level"
@@ -81,14 +117,14 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col {{ $isPopUp ? 'gap-1' : 'gap-2' }}">
-            <label for="password" class="text-gray-600 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Password</label>
+        <div class="flex flex-col {{ $isPopUp ? 'gap-2' : 'gap-2' }}">
+            <label for="password" class="text-text/60 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Password</label>
             <input type="password" id="password" name="password" required placeholder="veryVerySecure123!@#" class="bg-secondary/15 border border-gray-300 {{ $isPopUp ? 'px-3 py-1.5 text-sm' : 'px-4 py-2' }} focus:outline-2 focus:outline-primary rounded w-full" />
         </div>
     </div>
 
     {{-- Actions --}}
-    <div class="w-full flex flex-col items-center justify-center {{ $isPopUp ? 'gap-2 mt-2' : 'gap-3 mt-3' }}">
+    <div class="w-full flex flex-col items-center justify-center {{ $isPopUp ? 'gap-3 mt-3' : 'gap-4 mt-4' }}">
         <x-button
             type="submit"
             class="w-full"
@@ -96,7 +132,7 @@
             :variant="ButtonVariant::Primary"
             :size="ButtonSize::Large"
         />
-        <span class="{{ $isPopUp ? 'text-xs' : 'text-sm' }} text-gray-600">Already have an account? 
+        <span class="{{ $isPopUp ? 'text-xs' : 'text-sm' }} text-text/60">Already have an account? 
             @if ($isPopUp)
                 <a href="{{ route('auth.login.show') }}" class="text-primary hover:text-secondary underline {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Log in here</a>
             @else

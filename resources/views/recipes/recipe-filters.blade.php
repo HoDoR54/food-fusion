@@ -10,7 +10,7 @@
         <select
             id="difficulty_level"
             name="difficulty_level"
-            class="bg-secondary/15 border border-gray-300 px-4 pr-10 py-2 focus:outline-2 focus:outline-primary rounded-lg w-full appearance-none cursor-pointer text-gray-700"
+            class="bg-secondary/15 border border-gray-300 px-4 pr-10 py-2 focus:outline-2 focus:outline-primary rounded-lg w-full appearance-none cursor-pointer text-text/60"
         >
             <option value="" disabled selected>Difficulty Level</option>
             @foreach ($difficultyLevels as $value => $label)
@@ -20,7 +20,7 @@
             @endforeach
         </select>
         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-text/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
         </div>
@@ -31,7 +31,7 @@
         <select
             id="dietary_preference"
             name="dietary_preference"
-            class="bg-secondary/15 border border-gray-300 px-4 pr-10 py-2 focus:outline-2 focus:outline-primary rounded-lg w-full appearance-none cursor-pointer text-gray-700"
+            class="bg-secondary/15 border border-gray-300 px-4 pr-10 py-2 focus:outline-2 focus:outline-primary rounded-lg w-full appearance-none cursor-pointer text-text/60"
         >
             <option value="" disabled selected>Dietary Preference</option>
             @foreach ($dietaryPreferences as $value => $label)
@@ -41,7 +41,7 @@
             @endforeach
         </select>
         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-text/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
         </div>
@@ -52,7 +52,7 @@
         <select
             id="cuisine_type"
             name="cuisine_type"
-            class="bg-secondary/15 border border-gray-300 px-4 pr-10 py-2 focus:outline-2 focus:outline-primary rounded-lg w-full appearance-none cursor-pointer text-gray-700"
+            class="bg-secondary/15 border border-gray-300 px-4 pr-10 py-2 focus:outline-2 focus:outline-primary rounded-lg w-full appearance-none cursor-pointer text-text/60"
         >
             <option value="" disabled selected>Cuisine Type</option>
             @foreach ($cuisineTypes as $value => $label)
@@ -62,7 +62,7 @@
             @endforeach
         </select>
         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-text/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
         </div>
@@ -73,7 +73,7 @@
         <select
             id="course"
             name="course"
-            class="bg-secondary/15 border border-gray-300 px-4 pr-10 py-2 focus:outline-2 focus:outline-primary rounded-lg w-full appearance-none cursor-pointer text-gray-700"
+            class="bg-secondary/15 border border-gray-300 px-4 pr-10 py-2 focus:outline-2 focus:outline-primary rounded-lg w-full appearance-none cursor-pointer text-text/60"
         >
             <option value="" disabled selected>Course</option>
             @foreach ($courses as $value => $label)
@@ -83,7 +83,7 @@
             @endforeach
         </select>
         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-text/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
         </div>
@@ -94,7 +94,7 @@
         <select
             id="order_by"
             name="order_by"
-            class="bg-secondary/15 border border-gray-300 px-4 pr-10 py-2 focus:outline-2 focus:outline-primary rounded-lg w-full appearance-none cursor-pointer text-gray-700"
+            class="bg-secondary/15 border border-gray-300 px-4 pr-10 py-2 focus:outline-2 focus:outline-primary rounded-lg w-full appearance-none cursor-pointer text-text/60"
         >
             <option value="" disabled selected>Order by</option>
             <option value="vote_count" {{ request('order_by') == 'vote_count' ? 'selected' : '' }}>Highest Votes</option>
@@ -102,7 +102,7 @@
             <option value="oldest" {{ request('order_by') == 'oldest' ? 'selected' : '' }}>Oldest</option>
         </select>
         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-text/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
         </div>

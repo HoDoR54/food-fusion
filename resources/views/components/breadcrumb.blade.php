@@ -1,4 +1,4 @@
-<nav aria-label="breadcrumb" class="w-full flex py-3">
+<nav aria-label="breadcrumb" class="w-full flex p-5">
     <ol class="flex text-sm text-gray-600 items-center gap-3">
         @foreach ($items as $item)
             @if (!$loop->last)

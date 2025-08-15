@@ -1,17 +1,17 @@
 {{-- TO-DO: Add Real links --}}
-<footer class="flex flex-col border-t-2 border-dotted border-primary/30">
+<footer class="flex flex-col border-t-2 border-dashed border-primary/30">
     <div class="bg-primary/5 px-6 py-12">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
             {{-- About Section --}}
             <div class="space-y-4">
-                <h3 class="font-semibold text-primary text-lg border-b border-dotted border-primary/30 pb-2">
+                <h3 class="font-semibold text-primary text-lg border-b border-dashed border-primary/30 pb-2">
                     About FoodFusion
                 </h3>
                 <p class="text-sm text-primary/80 leading-relaxed">
                     A community-driven platform where food lovers share recipes, learn together, and celebrate diverse
                     culinary traditions.
                 </p>
-                <div class="bg-secondary/10 p-3 border border-dotted border-secondary/30">
+                <div class="bg-secondary/10 p-3 border border-dashed border-secondary/30">
                     <p class="text-xs text-primary/70">
                         <strong>3</strong> community members
                         <br />
@@ -24,7 +24,7 @@
 
             {{-- Explore Section --}}
             <div class="space-y-4">
-                <h3 class="font-semibold text-primary text-lg border-b border-dotted border-primary/30 pb-2">
+                <h3 class="font-semibold text-primary text-lg border-b border-dashed border-primary/30 pb-2">
                     Explore
                 </h3>
                 <ul class="space-y-2 text-sm">
@@ -53,7 +53,7 @@
 
             {{-- Community Section --}}
             <div class="space-y-4">
-                <h3 class="font-semibold text-primary text-lg border-b border-dotted border-primary/30 pb-2">
+                <h3 class="font-semibold text-primary text-lg border-b border-dashed border-primary/30 pb-2">
                     Community
                 </h3>
                 <ul class="space-y-2 text-sm">
@@ -80,7 +80,7 @@
                     </li>
                 </ul>
 
-                <div class="bg-secondary/10 p-3 border border-dotted border-primary/20">
+                <div class="bg-secondary/10 p-3 border border-dashed border-primary/20">
                     <p class="text-xs text-primary/70 mb-2">Connect with us:</p>
                     <div class="flex space-x-3">
                         <a href="https://www.facebook.com" target="_blank" class="text-primary/60 hover:text-secondary cursor-pointer">
@@ -98,7 +98,7 @@
 
             {{-- Contact --}}
             <div class="space-y-4">
-                <h3 class="font-semibold text-primary text-lg border-b border-dotted border-primary/30 pb-2">
+                <h3 class="font-semibold text-primary text-lg border-b border-dashed border-primary/30 pb-2">
                     Stay Connected
                 </h3>
 

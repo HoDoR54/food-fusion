@@ -27,7 +27,7 @@
             <div class="p-5">
                 <div class="flex flex-col gap-2">
                     <h2 class="text-3xl font-bold text-primary">{{ $recipe->name }}</h2>
-                    <p class="text-gray-600">{{ $recipe->description }}</p>
+                    <p class="text-text/60">{{ $recipe->description }}</p>
                 </div>
             </div>
             
