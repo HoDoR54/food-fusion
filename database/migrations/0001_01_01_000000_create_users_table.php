@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('first_name');
             $table->string('last_name');
+            $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->enum('mastery_level', MasteryLevel::values())->default(MasteryLevel::BEGINNER->value);

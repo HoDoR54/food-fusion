@@ -4,22 +4,27 @@ namespace App\DTO\Requests;
 
 class LoginRequest
 {
-    private string $email;
+    private string $identifier;
     private string $password;
 
-    public function __construct(string $email, string $password)
+    public function __construct(string $identifier, string $password)
     {
-        $this->email = $email;
+        $this->identifier = $identifier;
         $this->password = $password;
     }
 
-    public function getEmail(): string
+    public function getIdentifier(): string
     {
-        return $this->email;
+        return $this->identifier;
     }
 
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    public function isEmail(): bool
+    {
+        return filter_var($this->identifier, FILTER_VALIDATE_EMAIL) !== false;
     }
 }

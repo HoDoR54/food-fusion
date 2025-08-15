@@ -47,6 +47,20 @@
             </div>
         </div>
         <div class="flex flex-col {{ $isPopUp ? 'gap-1' : 'gap-2' }}">
+            <label for="username" class="text-gray-600 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Username</label>
+            <input 
+                type="text" 
+                id="username" 
+                name="username" 
+                required 
+                placeholder="johndoe123" 
+                pattern="[a-zA-Z0-9_]+"
+                minlength="3"
+                title="Username must be at least 3 characters and contain only letters, numbers, and underscores"
+                class="bg-secondary/15 border border-gray-300 {{ $isPopUp ? 'px-3 py-1.5 text-sm' : 'px-4 py-2' }} focus:outline-2 focus:outline-primary rounded w-full" 
+            />
+        </div>
+        <div class="flex flex-col {{ $isPopUp ? 'gap-1' : 'gap-2' }}">
             <label for="email" class="text-gray-600 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Email</label>
             <input type="email" id="email" name="email" required placeholder="john.doe@example.com" class="bg-secondary/15 border border-gray-300 {{ $isPopUp ? 'px-3 py-1.5 text-sm' : 'px-4 py-2' }} focus:outline-2 focus:outline-primary rounded w-full" />
         </div>
@@ -83,7 +97,16 @@
         </div>
         <div class="flex flex-col {{ $isPopUp ? 'gap-2' : 'gap-2' }}">
             <label for="password" class="text-text/60 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Password</label>
-            <input type="password" id="password" name="password" required placeholder="veryVerySecure123!@#" class="bg-secondary/15 border border-gray-300 {{ $isPopUp ? 'px-3 py-1.5 text-sm' : 'px-4 py-2' }} focus:outline-2 focus:outline-primary rounded w-full" />
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                required 
+                placeholder="veryVerySecure123!@#" 
+                minlength="6"
+                title="Password must be at least 6 characters long"
+                class="bg-secondary/15 border border-gray-300 {{ $isPopUp ? 'px-3 py-1.5 text-sm' : 'px-4 py-2' }} focus:outline-2 focus:outline-primary rounded w-full" 
+            />
         </div>
     </div>
 
