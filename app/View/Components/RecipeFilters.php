@@ -95,6 +95,6 @@ class RecipeFilters extends Component
 
     public function render(): View|Closure|string
     {
-        return view('components.recipe-filters');
+        return view('recipes.recipe-filters');
     }
 }

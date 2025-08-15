@@ -3,7 +3,7 @@
     use App\Enums\ButtonSize;
 
     $primaryStyle = 'bg-primary text-white border border-primary';
-    $secondaryStyle = 'text-text bg-background/95 border border-primary border-dotted';
+    $secondaryStyle = 'text-text bg-background/95 border border-primary border-dashed';
 
     $sizeSm = 'text-sm';
     $sizeMd = 'text-base';

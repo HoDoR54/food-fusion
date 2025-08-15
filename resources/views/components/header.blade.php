@@ -8,7 +8,7 @@
         'Contact' => '/contact',
         'Educational Resources' => '/educational-resources',
         'Recipes' => '/recipes',
-        'Cookbook' => '/cookbook',
+        'Community Cookbook' => '/blogs',
   ];
 
     $authPages = [
@@ -34,7 +34,7 @@
   </div>
 
   <div class="flex items-center justify-end gap-5 col-span-2">
-    <div class="flex items-center justify-center border-r pr-5 border-primary gap-3 h-full">
+    <div class="flex items-center justify-center border-r pr-5 border-white gap-3 h-full">
       @if ($user)
         <a href="{{ route('users.show', ['id' => $user->getId()]) }}" class="flex items-center justify-center gap-3 group">
           <span class="cursor-pointer font-medium text-sm group-hover:text-secondary text-white transition duration-300 ease-in-out group-hover:underline">

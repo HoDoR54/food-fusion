@@ -21,6 +21,6 @@ class RecipeSearchBar extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.recipe-search-bar');
+        return view('recipes.recipe-search-bar');
     }
 }
