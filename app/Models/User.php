@@ -18,6 +18,7 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
+        'username',
         'email',
         'phone',
         'mastery_level',
@@ -50,6 +51,11 @@ class User extends Authenticatable
     public function refresh_tokens(): HasMany
     {
         return $this->hasMany(RefreshToken::class);
+    }
+
+    public function getUsername(): string
+    {
+        return $this->username;
     }
 
     public function recipes(): HasMany

@@ -23,6 +23,22 @@ class UserRepo extends AbstractRepo
         return $this->whereFirst(['email' => $email]);
     }
 
+    public function findUserByUsername(string $username): ?User
+    {
+        return $this->whereFirst(['username' => $username]);
+    }
+
+    public function findUserByEmailOrUsername(string $identifier): ?User
+    {
+        // Check if identifier is an email
+        if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+            return $this->findUserByEmail($identifier);
+        }
+        
+        // Otherwise, treat as username
+        return $this->findUserByUsername($identifier);
+    }
+
     public function createUser(array $data): ?User
     {
         return $this->create($data);

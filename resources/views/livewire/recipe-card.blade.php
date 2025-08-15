@@ -53,7 +53,7 @@
 
         <div class="w-full flex justify-between items-end">
             {{-- TO-DO: Get Author Id from database --}}
-            <a href="{{ route('users.show', ['id' => 'author Id']) }}" class="flex items-center justify-center gap-3 group max-w-1/2">
+            <a href="{{ route('users.show', ['username' => 'author username']) }}" class="flex items-center justify-center gap-3 group max-w-1/2">
                 <img src="{{  asset('images/default-profile.webp') }}" alt="Profile Picture" class="h-8 w-8 rounded-full cursor-pointer border-2 border-primary/50 border-dashed">
                 <div class="flex flex-col justify-center items-start text-left">
                     <span class=" line-clamp-1 cursor-pointer font-medium text-sm group-hover:text-secondary text-primary transition duration-300 ease-in-out group-hover:underline">

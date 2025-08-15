@@ -25,8 +25,8 @@
     {{-- Inputs --}} 
     <div class="flex flex-col gap-4 w-full">
         <div class="flex flex-col gap-2">
-            <label for="email" class="text-text/60 text-sm">Email</label>
-            <input type="email" id="email" name="email" required placeholder="johnDoe123@gmail.com" class="bg-secondary/15 border border-gray-300 px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full" />
+            <label for="identifier" class="text-text/60 text-sm">Email or Username</label>
+            <input type="text" id="identifier" name="identifier" required placeholder="johnDoe123@gmail.com or johndoe" class="bg-secondary/15 border border-gray-300 px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full" />
         </div>
         <div class="flex flex-col gap-2">
             <label for="password" class="text-text/60 text-sm">Password</label>

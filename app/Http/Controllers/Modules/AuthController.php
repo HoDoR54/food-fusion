@@ -32,8 +32,8 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-        $loginRequest = new LoginRequest($credentials['email'], $credentials['password']);
+        $credentials = $request->only('identifier', 'password');
+        $loginRequest = new LoginRequest($credentials['identifier'], $credentials['password']);
         $metadata = ['ip_address' => $request->ip(), 'decay_minutes' => 3];
 
         [$response, $tokens] = $this->_authService->login($loginRequest, $metadata);
@@ -86,11 +86,12 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $data = $request->only('firstName', 'lastName', 'email', 'phoneNumber', 'password');
+        $data = $request->only('firstName', 'lastName', 'username', 'email', 'phoneNumber', 'password');
 
         $registerRequest = new RegisterRequest(
             $data['firstName'],
             $data['lastName'],
+            $data['username'],
             $data['email'],
             $data['phoneNumber'],
             $data['password'],

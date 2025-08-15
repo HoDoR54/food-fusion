@@ -32,14 +32,14 @@ class AuthService
 
     public function login(LoginRequest $request, array $metadata): array
     {
-        $email = $request->getEmail();
+        $identifier = $request->getIdentifier();
         $password = $request->getPassword();
 
-        $user = $this->_userRepo->findUserByEmail($email);
+        $user = $this->_userRepo->findUserByEmailOrUsername($identifier);
 
         if (!$user) {
             $this->addFailedLoginAttempt($metadata['ip_address'], $metadata['decay_minutes']);
-            Log::warning("Login attempt failed for email: $email");
+            Log::warning("Login attempt failed for identifier: $identifier");
             return [new BaseResponse(false, 'User not found', 404), null];
         }
 
@@ -57,11 +57,16 @@ class AuthService
     }
 
     public function register(RegisterRequest $request): array {
-        // TO-DO: Validate Credentials
+        // Validate Credentials
+        $validationErrors = $this->validateRegistrationData($request);
+        if (!empty($validationErrors)) {
+            return [new BaseResponse(false, implode(', ', $validationErrors), 400), null];
+        }
 
         $newUser = $this->_userRepo->createUser([
             'first_name' => $request->getFirstName(),
             'last_name' => $request->getLastName(),
+            'username' => $request->getUsername(),
             'email' => $request->getEmail(),
             'phone' => $request->getPhoneNumber(),
             'mastery_level' => $request->getMasteryLevel(),
@@ -75,6 +80,33 @@ class AuthService
         $tokens = $this->generateTokens($newUser);
 
         return [new BaseResponse(true, 'Registration successful', 201, $newUser), $tokens];
+    }
+
+    private function validateRegistrationData(RegisterRequest $request): array
+    {
+        $errors = [];
+
+        if (strlen($request->getUsername()) < 3) {
+            $errors[] = 'Username must be at least 3 characters long';
+        }
+
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $request->getUsername())) {
+            $errors[] = 'Username can only contain letters, numbers, and underscores';
+        }
+
+        if ($this->_userRepo->findUserByUsername($request->getUsername())) {
+            $errors[] = 'Username is already taken';
+        }
+
+        if ($this->_userRepo->findUserByEmail($request->getEmail())) {
+            $errors[] = 'Email is already registered';
+        }
+
+        if (strlen($request->getPassword()) < 6) {
+            $errors[] = 'Password must be at least 6 characters long';
+        }
+
+        return $errors;
     }
 
     public function generateTokens(User $user): array

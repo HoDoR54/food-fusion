@@ -8,15 +8,17 @@ class RegisterRequest
 {
     private string $firstName;
     private string $lastName;
+    private string $username;
     private string $email;
     private string $phoneNumber;
     private string $password;
     private MasteryLevel $masteryLevel;
 
-    public function __construct(string $firstName, string $lastName, string $email, string $phoneNumber, string $password, MasteryLevel $masteryLevel)
+    public function __construct(string $firstName, string $lastName, string $username, string $email, string $phoneNumber, string $password, MasteryLevel $masteryLevel)
     {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
+        $this->username = $username;
         $this->email = $email;
         $this->masteryLevel = $masteryLevel;
         $this->phoneNumber = $phoneNumber;
@@ -31,6 +33,11 @@ class RegisterRequest
     public function getLastName(): string
     {
         return $this->lastName;
+    }
+
+    public function getUsername(): string
+    {
+        return $this->username;
     }
 
     public function getEmail(): string
