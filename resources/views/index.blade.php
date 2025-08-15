@@ -52,14 +52,14 @@
                     <p class="text-text/60 text-sm">
                         There'll be fun activities and discussions around food, cooking, and community building.
                     </p>
-                    <x-button :variant="ButtonVariant::Primary" :size="ButtonSize::Small" :text="'I\'ll be there'" class="mt-4 px-5" :icon="'<i data-lucide=\'calendar-plus\'></i>'" />
+                    <x-button :variant="ButtonVariant::Primary" :size="ButtonSize::Large" :text="'I\'ll be there'" class="mt-4 px-5" :icon="'<i data-lucide=\'calendar-plus\'></i>'" />
                 </div>
             </div>
         </section>
 
         {{-- What You Can Do With Us Section --}}
         <section class="w-full flex flex-col items-center justify-center min-h-screen px-6 py-12">
-            <h2 class="text-4xl font-bold text-center mb-6">What You Can Do With Us</h2>
+            <h2 class="text-3xl font-semibold text-center mb-6">What You Can Do With Us</h2>
             <p class="text-text/60 text-lg text-center max-w-2xl mb-12">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia similique fugiat incidunt nihil?
             </p>
@@ -132,7 +132,7 @@
         {{-- Upcoming Skill-sharing Sessions Later This Month
         TO-DO: fetch real events from the database --}}
         <section class="flex flex-col items-center justify-center min-h-screen px-6 py-12">
-            <h2 class="text-4xl font-bold text-center mb-6">Upcoming Skill-Sharing Sessions</h2>
+            <h2 class="text-3xl font-semibold text-center mb-6">Upcoming Skill-Sharing Sessions</h2>
             <p class="text-text/60 text-lg text-center max-w-2xl mb-12">
                 Learn from your neighbours
             </p>
@@ -158,7 +158,7 @@
         </section> 
 
         <section class="flex flex-col items-center justify-center min-h-screen bg-secondary/5 px-6 py-12">
-            <h2 class="text-4xl font-bold text-center mb-6">Most Liked Blogs</h2>
+            <h2 class="text-3xl font-semibold text-center mb-6">Most Liked Blogs</h2>
             <p class="text-text/60 text-lg text-center max-w-2xl mb-12">
                 မင်္ဂလာပါတောသားတွေ
             </p>

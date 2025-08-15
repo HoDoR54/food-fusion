@@ -22,11 +22,11 @@ return new class extends Migration
         Schema::create('recipes_tags_joint', function (Blueprint $table) {
             $table->uuid('recipe_id');
             $table->uuid('tag_id');
-            $table->timestamps();
 
-            $table->primary(['recipe_id', 'tag_id']);
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+
+            $table->primary(['recipe_id', 'tag_id']);
         });
     }
 
@@ -35,7 +35,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tags');        
         Schema::dropIfExists('recipes_tags_joint');
+        Schema::dropIfExists('tags');        
     }
 };

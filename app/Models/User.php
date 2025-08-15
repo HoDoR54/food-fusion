@@ -63,6 +63,11 @@ class User extends Authenticatable
         return $this->hasMany(Recipe::class, 'posted_by');
     }
 
+    public function blogs(): HasMany
+    {
+        return $this->hasMany(Blog::class, 'author_id');
+    }
+
     public function getNameAttribute(): string
     {
         return $this->first_name . ' ' . $this->last_name;

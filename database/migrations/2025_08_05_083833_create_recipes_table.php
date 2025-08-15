@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\DifficultyLevel;
+use App\Enums\RecipePostStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +20,7 @@ return new class extends Migration
             $table->text('description');
             $table->json('steps');
             $table->enum('difficulty', DifficultyLevel::values());
+            $table->enum('status', RecipePostStatus::values())->default(RecipePostStatus::DRAFT);
             $table->json('image_urls')->nullable();
             $table->timestamps();
 

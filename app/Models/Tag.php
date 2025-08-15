@@ -46,6 +46,11 @@ class Tag extends Model
         return $this->belongsToMany(Recipe::class, 'recipes_tags_joint');
     }
 
+    public function blogs(): BelongsToMany
+    {
+        return $this->belongsToMany(Blog::class, 'blogs_tags_joint');
+    }
+
     public function getTypeValueAttribute(): string
     {
         return $this->type->value;
