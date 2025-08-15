@@ -23,7 +23,7 @@
     <div class="p-4 flex flex-col gap-4">
         {{-- name and timestamp --}}
         <div class="flex items-center justify-between">
-            <h3 class="text-md font-bold text-text line-clamp-1">
+            <h3 class="text-lg font-semibold text-text line-clamp-1">
                 {{ $this->getName() }}
             </h3>
             <p class="text-xs text-text/60">

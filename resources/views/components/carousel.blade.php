@@ -10,9 +10,9 @@
     <div class="relative px-4 pb-8">
         <div class="flex justify-between items-center w-full">
             <div class="mb-3 flex flex-col items-start justify-center gap-2">
-                <h2 class="text-text text-2xl font-bold">{{ $title }}</h2>
+                <h2 class="text-text text-4xl font-bold">{{ $title }}</h2>
                 @if($description)
-                    <p class="text-gray-600">{{ $description }}</p>
+                    <p class="text-text/60 text-lg">{{ $description }}</p>
                 @endif
             </div>
             @if($showSeeAll)

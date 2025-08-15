@@ -4,7 +4,7 @@
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
             {{-- About Section --}}
             <div class="space-y-4">
-                <h3 class="font-semibold text-primary text-lg border-b border-dashed border-primary/30 pb-2">
+                <h3 class="font-bold text-primary text-xl border-b border-dashed border-primary/30 pb-2">
                     About FoodFusion
                 </h3>
                 <p class="text-sm text-primary/80 leading-relaxed">
@@ -24,7 +24,7 @@
 
             {{-- Explore Section --}}
             <div class="space-y-4">
-                <h3 class="font-semibold text-primary text-lg border-b border-dashed border-primary/30 pb-2">
+                <h3 class="font-bold text-primary text-xl border-b border-dashed border-primary/30 pb-2">
                     Explore
                 </h3>
                 <ul class="space-y-2 text-sm">
@@ -53,7 +53,7 @@
 
             {{-- Community Section --}}
             <div class="space-y-4">
-                <h3 class="font-semibold text-primary text-lg border-b border-dashed border-primary/30 pb-2">
+                <h3 class="font-bold text-primary text-xl border-b border-dashed border-primary/30 pb-2">
                     Community
                 </h3>
                 <ul class="space-y-2 text-sm">
@@ -98,7 +98,7 @@
 
             {{-- Contact --}}
             <div class="space-y-4">
-                <h3 class="font-semibold text-primary text-lg border-b border-dashed border-primary/30 pb-2">
+                <h3 class="font-bold text-primary text-xl border-b border-dashed border-primary/30 pb-2">
                     Stay Connected
                 </h3>
 
