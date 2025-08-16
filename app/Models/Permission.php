@@ -10,8 +10,6 @@ class Permission extends Model
 {
     use HasUuids;
 
-    public $timestamps = false;
-
     protected $fillable = [
         'action',
         'resource',

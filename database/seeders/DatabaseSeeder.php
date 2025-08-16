@@ -19,19 +19,21 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
         ]);
 
-        User::factory()->create([
-            'first_name' => 'Test',
-            'last_name' => 'User',
-            'username' => 'testuser',
-            'email' => 'test@example.com',
+        $this->call([
+            UserSeeder::class,
         ]);
-
-        User::factory(5)->create();
 
         $this->call([
             IngredientsSeeder::class,
             TagsSeeder::class,
-            RecipesSeeder::class,
         ]);
+
+        $this->call([
+            RecipesSeeder::class,
+            BlogSeeder::class,
+            RecipeAttemptsSeeder::class,
+        ]);
+
+        $this->command->info('All seeders completed successfully!');
     }
 }

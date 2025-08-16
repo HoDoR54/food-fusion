@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\RecipeStepsCast;
 use App\Enums\DifficultyLevel;
+use App\Enums\RecipeStepType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,8 @@ class Recipe extends Model
 
     protected $fillable = [
         'posted_by',
+        'approved_by',
+        'approved_at',
         'name',
         'description',
         'steps',
@@ -43,14 +46,24 @@ class Recipe extends Model
         return $this->belongsTo(User::class, 'posted_by');
     }
 
+    public function approvedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function attempts(): HasMany
+    {
+        return $this->hasMany(RecipeAttempt::class);
+    }
+
     public function ingredients(): BelongsToMany
     {
-        return $this->belongsToMany(Ingredient::class, 'recipes_ingredients_joint');
+        return $this->belongsToMany(Ingredient::class, 'recipe_ingredient');
     }
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'recipes_tags_joint');
+        return $this->belongsToMany(Tag::class, 'recipe_tag');
     }
 
     public function getFirstImageUrlAttribute(): ?string
@@ -68,5 +81,33 @@ class Recipe extends Model
     public function getDifficultyValueAttribute(): string
     {
         return $this->difficulty->value;
+    }
+
+    public function getPreparationMinutes(): int
+    {
+        return $this->steps
+            ->where('stepType', RecipeStepType::PREPARATION)
+            ->sum('estimated_minutes_taken');
+    }
+
+    public function getTotalCookingMinutes(): int
+    {
+        return $this->steps
+            ->where('stepType', RecipeStepType::COOKING)
+            ->sum('estimated_minutes_taken');
+    }
+
+    public function getTotalPlatingMinutes(): int
+    {
+        return $this->steps
+            ->where('stepType', RecipeStepType::PLATING)
+            ->sum('estimated_minutes_taken');
+    }
+
+    public function getTotalMinutes(): int
+    {
+        return $this->getPreparationMinutes()
+            + $this->getTotalCookingMinutes()
+            + $this->getTotalPlatingMinutes();
     }
 }

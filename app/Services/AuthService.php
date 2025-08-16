@@ -5,7 +5,7 @@ namespace App\Services;
 use App\DTO\Responses\BaseResponse;
 use App\DTO\Requests\LoginRequest;
 use App\DTO\Requests\RegisterRequest;
-use App\Models\LoginAttempt;
+use App\Models\FailedLoginAttempt;
 use App\Models\User;
 use App\Repositories\UserRepo;
 use Firebase\JWT\JWT;
@@ -25,9 +25,9 @@ class AuthService
         $this->_userRepo->addFailedLoginAttempt($ipAddress, $decayMinutes);
     }
 
-    public function findRecentLoginAttempt(string $ipAddress, int $decayMinutes): ?LoginAttempt
+    public function findRecentFailedLoginAttempt(string $ipAddress, int $decayMinutes): ?FailedLoginAttempt
     {
-        return $this->_userRepo->findRecentLoginAttempt($ipAddress, $decayMinutes);
+        return $this->_userRepo->findRecentFailedLoginAttempt($ipAddress, $decayMinutes);
     }
 
     public function login(LoginRequest $request, array $metadata): array

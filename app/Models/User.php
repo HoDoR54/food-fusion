@@ -60,6 +60,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function recipeAttempts(): HasMany
+    {
+        return $this->hasMany(RecipeAttempt::class);
+    }
+
     public function getUsername(): string
     {
         return $this->username;

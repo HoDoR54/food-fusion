@@ -18,6 +18,6 @@ class Blog extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'blogs_tags_joint');
+        return $this->belongsToMany(Tag::class, 'blog_tag');
     }
 }

@@ -17,7 +17,6 @@ class Ingredient extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'description',
     ];
 
@@ -26,6 +25,6 @@ class Ingredient extends Model
      */
     public function recipes(): BelongsToMany
     {
-        return $this->belongsToMany(Recipe::class, 'recipes_ingredients_joint');
+        return $this->belongsToMany(Recipe::class, 'recipe_ingredient');
     }
 }

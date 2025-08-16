@@ -5,25 +5,25 @@ namespace App\Casts;
 use App\DTO\Requests\RecipeStep;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use InvalidArgumentException;
 
 class RecipeStepsCast implements CastsAttributes
 {
-    public function get(Model $model, string $key, mixed $value, array $attributes): ?array
+    public function get(Model $model, string $key, mixed $value, array $attributes): ?Collection
     {
         if ($value === null) {
-            return null;
+            return collect();
         }
 
         $decoded = json_decode($value, true);
-        
+
         if (!is_array($decoded)) {
-            return null;
+            return collect();
         }
 
-        return array_map(
-            fn(array $step) => RecipeStep::fromArray($step),
-            $decoded
+        return collect($decoded)->map(
+            fn(array $step) => RecipeStep::fromArray($step)
         );
     }
 
@@ -33,29 +33,28 @@ class RecipeStepsCast implements CastsAttributes
             return null;
         }
 
-        if (!is_array($value)) {
-            throw new InvalidArgumentException('Steps must be an array');
+        if (!is_iterable($value)) {
+            throw new InvalidArgumentException('Steps must be iterable');
         }
 
-        $steps = array_map(function ($step) {
+        $steps = collect($value)->map(function ($step) {
             if ($step instanceof RecipeStep) {
                 return $step->toArray();
             }
-            
+
             if (is_array($step)) {
-                // Validate required fields
-                $required = ['order', 'description', 'estimated_time_taken'];
+                $required = ['order', 'description', 'step_type', 'estimated_time_taken'];
                 foreach ($required as $field) {
                     if (!isset($step[$field])) {
                         throw new InvalidArgumentException("Missing required field: {$field}");
                     }
                 }
-                return $step;
+                return RecipeStep::fromArray($step)->toArray();
             }
-            
-            throw new InvalidArgumentException('Each step must be a RecipeStep instance or array');
-        }, $value);
 
-        return json_encode($steps);
+            throw new InvalidArgumentException('Each step must be a RecipeStep instance or array');
+        });
+
+        return json_encode($steps->toArray());
     }
 }

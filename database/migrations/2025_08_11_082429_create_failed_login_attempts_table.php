@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('login_attempts', function (Blueprint $table) {
+        Schema::create('failed_login_attempts', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('ip_address');
             $table->timestamp('last_attempted_at')->useCurrent();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('login_attempts');
+        Schema::dropIfExists('failed_login_attempts');
     }
 };

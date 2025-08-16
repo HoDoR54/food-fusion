@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LoginAttempt extends Model
+class FailedLoginAttempt extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $table = 'failed_login_attempts';
 
     protected $fillable = [
         'ip_address',
@@ -21,7 +23,7 @@ class LoginAttempt extends Model
         'attempts_count' => 'integer',
     ];
 
-    public function getLoginAttemptsCount(): int
+    public function getAttemptsCount(): int
     {
         return $this->attempts_count;
     }

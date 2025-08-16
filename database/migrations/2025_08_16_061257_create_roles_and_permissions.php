@@ -33,6 +33,11 @@ return new class extends Migration
 
             $table->primary(['role_id', 'permission_id']);
         });
+
+        // Add foreign key constraint to users table now that roles exist
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
+        });
     }
 
     /**
@@ -40,6 +45,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Remove foreign key constraint from users table first
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['role_id']);
+        });
+        
         Schema::dropIfExists('role_permission');
         Schema::dropIfExists('roles');
         Schema::dropIfExists('permissions');

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckLoginAttempts
+class CheckFailedLoginAttempts
 {
     private readonly AuthService $_authService;
     private int $maxAttempts = 3;
@@ -23,10 +23,10 @@ class CheckLoginAttempts
         $ipAddress = $request->ip();
         Log::info("IP: $ipAddress");
 
-        $attempt = $this->_authService->findRecentLoginAttempt($ipAddress, $this->decayMinutes);
-        Log::info("Login attempt: ", ['attempt' => $attempt]);
+        $attempt = $this->_authService->findRecentFailedLoginAttempt($ipAddress, $this->decayMinutes);
+        Log::info("Failed login attempt: ", ['attempt' => $attempt]);
 
-        if ($attempt && $attempt->getLoginAttemptsCount() >= $this->maxAttempts) {
+        if ($attempt && $attempt->getAttemptsCount() >= $this->maxAttempts) {
             $maxSeconds = $this->decayMinutes * 60;
             $secondsPassed = $attempt->getLastAttemptedAt()->diffInSeconds(now());
             $secondsLeft = max(0, $maxSeconds - $secondsPassed);

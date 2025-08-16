@@ -20,7 +20,9 @@ return new class extends Migration
             $table->text('description');
             $table->json('steps');
             $table->enum('difficulty', DifficultyLevel::values());
-            $table->enum('status', RecipePostStatus::values())->default(RecipePostStatus::DRAFT);
+            $table->enum('status', RecipePostStatus::values())->default(RecipePostStatus::PENDING);
+            $table->uuid('approved_by')->nullable();
+            $table->timestamp('approved_at')->nullable();
             $table->json('image_urls')->nullable();
             $table->timestamps();
 

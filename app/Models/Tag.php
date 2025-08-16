@@ -43,12 +43,12 @@ class Tag extends Model
      */
     public function recipes(): BelongsToMany
     {
-        return $this->belongsToMany(Recipe::class, 'recipes_tags_joint');
+        return $this->belongsToMany(Recipe::class, 'recipe_tag');
     }
 
     public function blogs(): BelongsToMany
     {
-        return $this->belongsToMany(Blog::class, 'blogs_tags_joint');
+        return $this->belongsToMany(Blog::class, 'blog_tag');
     }
 
     public function getTypeValueAttribute(): string

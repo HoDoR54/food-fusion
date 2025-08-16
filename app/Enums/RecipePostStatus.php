@@ -5,7 +5,7 @@ namespace App\Enums;
 class RecipePostStatus
 {
     const DRAFT = 'draft';
-    const CURATED = 'curated';
+    const APPROVED = 'approved';
     const REJECTED = 'rejected';
     const PENDING = 'pending';
 
@@ -13,7 +13,7 @@ class RecipePostStatus
     {
         return [
             self::DRAFT,
-            self::CURATED,
+            self::APPROVED,
             self::PENDING,
         ];
     }
@@ -33,9 +33,9 @@ class RecipePostStatus
         return $status === self::PENDING;
     }
 
-    public static function isCurated(string $status): bool
+    public static function isApproved(string $status): bool
     {
-        return $status === self::CURATED;
+        return $status === self::APPROVED;
     }
 
     public static function isDraft(string $status): bool

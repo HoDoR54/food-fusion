@@ -22,11 +22,9 @@ return new class extends Migration
             $table->enum('mastery_level', MasteryLevel::values())->default(MasteryLevel::BEGINNER->value);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->uuid('role_id');
+            $table->uuid('role_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
-
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

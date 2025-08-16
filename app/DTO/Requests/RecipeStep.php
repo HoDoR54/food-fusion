@@ -2,11 +2,14 @@
 
 namespace App\DTO\Requests;
 
+use App\Enums\RecipeStepType;
+
 class RecipeStep
 {
     public function __construct(
         public readonly int $order,
         public readonly string $description,
+        public readonly RecipeStepType $stepType,
         public readonly int $estimated_minutes_taken,
     ) {}
 
@@ -15,6 +18,7 @@ class RecipeStep
         return new self(
             order: $data['order'],
             description: $data['description'],
+            stepType: RecipeStepType::from($data['step_type']),
             estimated_minutes_taken: $data['estimated_time_taken'],
         );
     }
@@ -27,6 +31,7 @@ class RecipeStep
         return [
             'order' => $this->order,
             'description' => $this->description,
+            'step_type' => $this->stepType->value,
             'estimated_time_taken' => $this->estimated_minutes_taken,
         ];
     }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
         });
 
-        Schema::create('blogs_tags_joint', function (Blueprint $table) {
+        Schema::create('blog_tag', function (Blueprint $table) {
             $table->uuid('blog_id');
             $table->uuid('tag_id');
             $table->timestamps();
@@ -38,7 +38,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('blogs_tags_joint');
+        Schema::dropIfExists('blog_tag');
         Schema::dropIfExists('blogs');
     }
 };
