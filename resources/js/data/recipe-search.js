@@ -1,9 +1,5 @@
 function handleFilterChange(selectId, paramName) {
     const selectElement = document.getElementById(selectId);
-    if (!selectElement) {
-        console.error(`Select element with id "${selectId}" not found.`);
-        return;
-    }
 
     selectElement.addEventListener("change", (event) => {
         const value = event.target.value;

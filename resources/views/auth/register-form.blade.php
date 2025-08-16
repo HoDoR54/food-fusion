@@ -38,11 +38,11 @@
     <div class="flex flex-col {{ $isPopUp ? 'gap-1' : 'gap-3' }} w-full">
         <div class="flex flex-col md:flex-row {{ $isPopUp ? 'gap-2' : 'gap-3' }}">
             <div class="flex flex-col {{ $isPopUp ? 'gap-1' : 'gap-2' }} w-full">
-                <label for="firstName" class="text-gray-600 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">First Name</label>
+                <label for="firstName" class="text-gray-600 {{ $isPopUp ? 'text-[10px]' : 'text-sm' }}">First Name</label>
                 <input type="text" id="firstName" name="firstName" required placeholder="John" class="bg-secondary/15 border border-gray-300 {{ $isPopUp ? 'px-3 py-1 text-sm' : 'px-4 py-2' }} focus:outline-2 focus:outline-primary rounded w-full" />
             </div>
             <div class="flex flex-col {{ $isPopUp ? 'gap-1' : 'gap-2' }} w-full">
-                <label for="lastName" class="text-gray-600 {{ $isPopUp ? 'text-xs' : 'text-sm' }}">Last Name</label>
+                <label for="lastName" class="text-gray-600 {{ $isPopUp ? 'text-[10px]' : 'text-sm' }}">Last Name</label>
                 <input type="text" id="lastName" name="lastName" required placeholder="Doe" class="bg-secondary/15 border border-gray-300 {{ $isPopUp ? 'px-3 py-1 text-sm' : 'px-4 py-2' }} focus:outline-2 focus:outline-primary rounded w-full" />
             </div>
         </div>

@@ -53,7 +53,7 @@
         @php
             $validTypes = ['success', 'info', 'warning', 'error'];
             $message = isset($toastMessage) ? $toastMessage : session('toastMessage');
-            $type = isset($toastType) ? $toastType : session('type', 'info');
+            $type = isset($toastType) ? $toastType : session('toastType', 'info');
             $toastType = in_array($type, $validTypes) ? $type : 'info';
             $message = addslashes(htmlspecialchars($message, ENT_QUOTES, 'UTF-8'));
         @endphp

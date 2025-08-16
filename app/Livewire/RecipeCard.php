@@ -104,6 +104,6 @@ class RecipeCard extends Component
 
     public function render()
     {
-        return view('livewire.recipe-card');
+        return view('recipes.recipe-card');
     }
 }
