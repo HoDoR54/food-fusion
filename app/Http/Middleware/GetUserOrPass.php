@@ -33,11 +33,14 @@ class GetUserOrPass
                         $accessToken = $tokens['access_token'];
                         $refreshToken = $tokens['refresh_token'];
 
+                        $user = $this->_authService->getUserFromToken($accessToken);
+                        if ($user) {
+                            Auth::guard()->setUser($user);
+                        }
+
                         $response = $next($request);
                         $response->cookie('access_token', $accessToken, 15, '/', null, false, false)
                                  ->cookie('refresh_token', $refreshToken, 10080, '/', null, false, false);
-
-                        Auth::guard()->setUser($this->_authService->getUserFromToken($accessToken));
 
                         return $response;
                     }
@@ -48,7 +51,10 @@ class GetUserOrPass
                 return $next($request);
             }
 
-            Auth::guard()->setUser($this->_authService->getUserFromToken($accessToken));
+            $user = $this->_authService->getUserFromToken($accessToken);
+            if ($user) {
+                Auth::guard()->setUser($user);
+            }
             return $next($request);
         } catch (\Exception $e) {
             Log::error('JWT Authentication failed', [

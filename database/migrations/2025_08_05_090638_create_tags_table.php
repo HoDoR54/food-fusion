@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('recipes_tags_joint', function (Blueprint $table) {
+        Schema::create('recipe_tag', function (Blueprint $table) {
             $table->uuid('recipe_id');
             $table->uuid('tag_id');
 
@@ -35,7 +35,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('recipes_tags_joint');
-        Schema::dropIfExists('tags');        
+        Schema::dropIfExists('recipe_tag');
+        Schema::dropIfExists('tags');
     }
 };

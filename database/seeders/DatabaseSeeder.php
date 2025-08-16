@@ -13,7 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create test user first
+        $this->call([
+            RoleSeeder::class,
+            PermissionSeeder::class,
+            RolePermissionSeeder::class,
+        ]);
+
         User::factory()->create([
             'first_name' => 'Test',
             'last_name' => 'User',
@@ -21,10 +26,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        // Create additional sample users
         User::factory(5)->create();
 
-        // Seed the application data
         $this->call([
             IngredientsSeeder::class,
             TagsSeeder::class,

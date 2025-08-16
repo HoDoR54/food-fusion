@@ -151,7 +151,7 @@
     </div>
 
     <div class="flex flex-col md:flex-row justify-between items-center px-6 py-3 bg-secondary/15 text-sm text-primary">
-        <p>&copy; {{ date('Y') }} FoodFusion. WTF is a copyright?</p>
+        <p>&copy; {{ date('Y') }} FoodFusion. Copyright? We don't do that here.</p>
         <p>Designed and developed by Hpone Tauk Nyi.</p>
     </div>
 </footer>

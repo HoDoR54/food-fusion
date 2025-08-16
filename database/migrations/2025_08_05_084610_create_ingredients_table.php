@@ -18,10 +18,9 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('recipes_ingredients_joint', function (Blueprint $table) {
+        Schema::create('recipe_ingredient', function (Blueprint $table) {
             $table->uuid('recipe_id');
             $table->uuid('ingredient_id');
-            $table->timestamps();
 
             $table->primary(['recipe_id', 'ingredient_id']);
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
@@ -34,7 +33,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('recipe_ingredient');
         Schema::dropIfExists('ingredients');
-        Schema::dropIfExists('recipes_ingredients_joint');
     }
 };

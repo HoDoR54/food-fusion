@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\MasteryLevel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,6 +24,7 @@ class User extends Authenticatable
         'phone',
         'mastery_level',
         'password',
+        'role_id',
     ];
 
     protected $hidden = [
@@ -53,9 +55,19 @@ class User extends Authenticatable
         return $this->hasMany(RefreshToken::class);
     }
 
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
     public function getUsername(): string
     {
         return $this->username;
+    }
+
+    public function hasPermission(string $action, string $resource): bool
+    {
+        return $this->role?->hasPermission($action, $resource) ?? false;
     }
 
     public function recipes(): HasMany
