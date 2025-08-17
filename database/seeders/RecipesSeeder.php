@@ -32,7 +32,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Classic Chicken Pasta',
                 'description' => 'A delicious and creamy chicken pasta dish perfect for dinner.',
                 'difficulty' => DifficultyLevel::Medium,
-                'image_urls' => ['https://example.com/chicken-pasta.jpg'],
+                'image_url' => 'https://example.com/chicken-pasta.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Cook pasta according to package instructions until al dente.', RecipeStepType::COOKING, 10),
                     new RecipeStep(2, 'Season chicken breast with salt, pepper, and paprika.', RecipeStepType::PREPARATION, 5),
@@ -50,7 +50,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Vegetarian Stir Fry',
                 'description' => 'A colorful and healthy vegetarian stir fry with fresh vegetables.',
                 'difficulty' => DifficultyLevel::Easy,
-                'image_urls' => ['https://example.com/veggie-stir-fry.jpg'],
+                'image_url' => 'https://example.com/veggie-stir-fry.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Prepare all vegetables by washing and cutting into bite-sized pieces.', RecipeStepType::PREPARATION, 10),
                     new RecipeStep(2, 'Heat oil in a wok or large pan over high heat.', RecipeStepType::COOKING, 2),
@@ -68,7 +68,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Beef and Potato Casserole',
                 'description' => 'A hearty and comforting casserole perfect for cold evenings.',
                 'difficulty' => DifficultyLevel::Medium,
-                'image_urls' => ['https://example.com/beef-casserole.jpg'],
+                'image_url' => 'https://example.com/beef-casserole.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Preheat oven to 375°F (190°C).', RecipeStepType::PREPARATION, 5),
                     new RecipeStep(2, 'Brown ground beef in a large oven-safe pan.', RecipeStepType::COOKING, 10),
@@ -86,7 +86,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Fresh Garden Salad',
                 'description' => 'A light and refreshing salad with seasonal vegetables.',
                 'difficulty' => DifficultyLevel::Easy,
-                'image_urls' => ['https://example.com/garden-salad.jpg'],
+                'image_url' => 'https://example.com/garden-salad.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Wash and dry all vegetables thoroughly.', RecipeStepType::PREPARATION, 5),
                     new RecipeStep(2, 'Chop tomatoes, carrots, and bell peppers.', RecipeStepType::PREPARATION, 8),
@@ -103,7 +103,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Spicy Thai Curry',
                 'description' => 'A fragrant and spicy Thai curry with coconut milk and fresh herbs.',
                 'difficulty' => DifficultyLevel::Hard,
-                'image_urls' => ['https://example.com/thai-curry.jpg'],
+                'image_url' => 'https://example.com/thai-curry.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Prepare curry paste by grinding chilies, garlic, and ginger.', RecipeStepType::PREPARATION, 15),
                     new RecipeStep(2, 'Heat coconut oil in a large pot over medium heat.', RecipeStepType::COOKING, 2),
@@ -121,7 +121,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Mediterranean Quinoa Bowl',
                 'description' => 'A nutritious and colorful bowl with quinoa, vegetables, and feta cheese.',
                 'difficulty' => DifficultyLevel::Easy,
-                'image_urls' => ['https://example.com/quinoa-bowl.jpg'],
+                'image_url' => 'https://example.com/quinoa-bowl.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Cook quinoa according to package instructions.', RecipeStepType::COOKING, 15),
                     new RecipeStep(2, 'Dice cucumber, tomatoes, and red onion.', RecipeStepType::PREPARATION, 10),
@@ -138,7 +138,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Honey Garlic Salmon',
                 'description' => 'Pan-seared salmon with a sweet and savory honey garlic glaze.',
                 'difficulty' => DifficultyLevel::Medium,
-                'image_urls' => ['https://example.com/honey-garlic-salmon.jpg'],
+                'image_url' => 'https://example.com/honey-garlic-salmon.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Season salmon fillets with salt and pepper.', RecipeStepType::PREPARATION, 5),
                     new RecipeStep(2, 'Heat olive oil in a large skillet over medium-high heat.', RecipeStepType::COOKING, 2),
@@ -156,7 +156,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Classic Caesar Salad',
                 'description' => 'Traditional Caesar salad with homemade dressing and croutons.',
                 'difficulty' => DifficultyLevel::Easy,
-                'image_urls' => ['https://example.com/caesar-salad.jpg'],
+                'image_url' => 'https://example.com/caesar-salad.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Wash and chop romaine lettuce into bite-sized pieces.', RecipeStepType::PREPARATION, 8),
                     new RecipeStep(2, 'Make dressing by whisking mayonnaise, garlic, and lemon juice.', RecipeStepType::PREPARATION, 5),
@@ -173,7 +173,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Mexican Black Bean Tacos',
                 'description' => 'Flavorful vegetarian tacos with seasoned black beans and fresh toppings.',
                 'difficulty' => DifficultyLevel::Easy,
-                'image_urls' => ['https://example.com/black-bean-tacos.jpg'],
+                'image_url' => 'https://example.com/black-bean-tacos.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Heat black beans with cumin, garlic, and lime juice.', RecipeStepType::COOKING, 8),
                     new RecipeStep(2, 'Warm tortillas in a dry pan or microwave.', RecipeStepType::COOKING, 3),
@@ -190,7 +190,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Chocolate Chip Cookies',
                 'description' => 'Classic homemade chocolate chip cookies that are crispy on the outside and chewy inside.',
                 'difficulty' => DifficultyLevel::Easy,
-                'image_urls' => ['https://example.com/chocolate-chip-cookies.jpg'],
+                'image_url' => 'https://example.com/chocolate-chip-cookies.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Preheat oven to 350°F (175°C).', RecipeStepType::PREPARATION, 5),
                     new RecipeStep(2, 'Cream butter with white and brown sugar.', RecipeStepType::PREPARATION, 5),
@@ -208,7 +208,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Asian Lettuce Wraps',
                 'description' => 'Light and flavorful chicken lettuce wraps with Asian-inspired seasonings.',
                 'difficulty' => DifficultyLevel::Medium,
-                'image_urls' => ['https://example.com/lettuce-wraps.jpg'],
+                'image_url' => 'https://example.com/lettuce-wraps.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Heat sesame oil in a large skillet over medium-high heat.', RecipeStepType::COOKING, 2),
                     new RecipeStep(2, 'Add ground chicken and cook until browned.', RecipeStepType::COOKING, 8),
@@ -226,7 +226,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Mushroom Risotto',
                 'description' => 'Creamy Italian risotto with mixed mushrooms and Parmesan cheese.',
                 'difficulty' => DifficultyLevel::Hard,
-                'image_urls' => ['https://example.com/mushroom-risotto.jpg'],
+                'image_url' => 'https://example.com/mushroom-risotto.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Heat vegetable broth in a saucepan and keep warm.', RecipeStepType::COOKING, 5),
                     new RecipeStep(2, 'Sauté sliced mushrooms in olive oil until golden.', RecipeStepType::COOKING, 8),
@@ -244,7 +244,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Greek Chicken Bowls',
                 'description' => 'Mediterranean-inspired chicken bowls with tzatziki and fresh vegetables.',
                 'difficulty' => DifficultyLevel::Medium,
-                'image_urls' => ['https://example.com/greek-chicken-bowls.jpg'],
+                'image_url' => 'https://example.com/greek-chicken-bowls.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Marinate chicken thighs in olive oil, lemon, and oregano.', RecipeStepType::PREPARATION, 30),
                     new RecipeStep(2, 'Grill chicken until cooked through and golden.', RecipeStepType::COOKING, 15),
@@ -262,7 +262,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Banana Pancakes',
                 'description' => 'Fluffy pancakes with mashed bananas and a hint of cinnamon.',
                 'difficulty' => DifficultyLevel::Easy,
-                'image_urls' => ['https://example.com/banana-pancakes.jpg'],
+                'image_url' => 'https://example.com/banana-pancakes.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Mash ripe bananas in a large bowl.', RecipeStepType::PREPARATION, 5),
                     new RecipeStep(2, 'Whisk in eggs, milk, and vanilla extract.', RecipeStepType::PREPARATION, 3),
@@ -280,7 +280,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Beef Stir Fry',
                 'description' => 'Quick and easy beef stir fry with colorful vegetables and savory sauce.',
                 'difficulty' => DifficultyLevel::Medium,
-                'image_urls' => ['https://example.com/beef-stir-fry.jpg'],
+                'image_url' => 'https://example.com/beef-stir-fry.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Slice beef into thin strips against the grain.', RecipeStepType::PREPARATION, 10),
                     new RecipeStep(2, 'Heat oil in wok or large skillet over high heat.', RecipeStepType::COOKING, 2),
@@ -298,7 +298,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Caprese Salad',
                 'description' => 'Simple Italian salad with fresh mozzarella, tomatoes, and basil.',
                 'difficulty' => DifficultyLevel::Easy,
-                'image_urls' => ['https://example.com/caprese-salad.jpg'],
+                'image_url' => 'https://example.com/caprese-salad.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Slice fresh mozzarella into 1/4 inch thick rounds.', RecipeStepType::PREPARATION, 5),
                     new RecipeStep(2, 'Slice ripe tomatoes into similar thickness.', RecipeStepType::PREPARATION, 5),
@@ -315,7 +315,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Lemon Herb Roasted Chicken',
                 'description' => 'Whole roasted chicken with aromatic herbs and bright lemon flavor.',
                 'difficulty' => DifficultyLevel::Hard,
-                'image_urls' => ['https://example.com/roasted-chicken.jpg'],
+                'image_url' => 'https://example.com/roasted-chicken.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Preheat oven to 425°F (220°C).', RecipeStepType::PREPARATION, 10),
                     new RecipeStep(2, 'Pat chicken dry and season inside and out with salt and pepper.', RecipeStepType::PREPARATION, 5),
@@ -333,7 +333,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Shrimp Scampi',
                 'description' => 'Classic Italian-American dish with shrimp in garlic white wine sauce.',
                 'difficulty' => DifficultyLevel::Medium,
-                'image_urls' => ['https://example.com/shrimp-scampi.jpg'],
+                'image_url' => 'https://example.com/shrimp-scampi.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Cook pasta according to package directions.', RecipeStepType::COOKING, 10),
                     new RecipeStep(2, 'Heat olive oil and butter in large skillet.', RecipeStepType::COOKING, 2),
@@ -351,7 +351,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Vegetable Curry',
                 'description' => 'Aromatic Indian-style curry with mixed vegetables and coconut milk.',
                 'difficulty' => DifficultyLevel::Medium,
-                'image_urls' => ['https://example.com/vegetable-curry.jpg'],
+                'image_url' => 'https://example.com/vegetable-curry.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Heat coconut oil in large pot over medium heat.', RecipeStepType::COOKING, 2),
                     new RecipeStep(2, 'Add onions and cook until softened, about 5 minutes.', RecipeStepType::COOKING, 5),
@@ -369,7 +369,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'BBQ Pulled Pork',
                 'description' => 'Slow-cooked pulled pork with tangy BBQ sauce, perfect for sandwiches.',
                 'difficulty' => DifficultyLevel::Hard,
-                'image_urls' => ['https://example.com/pulled-pork.jpg'],
+                'image_url' => 'https://example.com/pulled-pork.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Season pork with salt, pepper, and paprika.', RecipeStepType::PREPARATION, 10),
                     new RecipeStep(2, 'Sear pork in Dutch oven until browned on all sides.', RecipeStepType::COOKING, 15),
@@ -387,7 +387,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Overnight Oats',
                 'description' => 'No-cook breakfast with oats, yogurt, and fresh berries.',
                 'difficulty' => DifficultyLevel::Easy,
-                'image_urls' => ['https://example.com/overnight-oats.jpg'],
+                'image_url' => 'https://example.com/overnight-oats.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Combine oats, chia seeds, and cinnamon in jar.', RecipeStepType::PREPARATION, 2),
                     new RecipeStep(2, 'Add milk and Greek yogurt, stir well.', RecipeStepType::PREPARATION, 2),
@@ -404,7 +404,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Fish Tacos',
                 'description' => 'Light and fresh fish tacos with creamy coleslaw and lime.',
                 'difficulty' => DifficultyLevel::Medium,
-                'image_urls' => ['https://example.com/fish-tacos.jpg'],
+                'image_url' => 'https://example.com/fish-tacos.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Season fish fillets with cumin, paprika, and lime juice.', RecipeStepType::PREPARATION, 5),
                     new RecipeStep(2, 'Heat oil in skillet and cook fish until flaky.', RecipeStepType::COOKING, 8),
@@ -422,7 +422,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Stuffed Bell Peppers',
                 'description' => 'Colorful bell peppers stuffed with rice, ground turkey, and vegetables.',
                 'difficulty' => DifficultyLevel::Medium,
-                'image_urls' => ['https://example.com/stuffed-peppers.jpg'],
+                'image_url' => 'https://example.com/stuffed-peppers.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Cut tops off bell peppers and remove seeds and membranes.', RecipeStepType::PREPARATION, 10),
                     new RecipeStep(2, 'Cook rice according to package directions.', RecipeStepType::COOKING, 15),
@@ -440,7 +440,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Chicken Noodle Soup',
                 'description' => 'Classic comfort soup with tender chicken, vegetables, and egg noodles.',
                 'difficulty' => DifficultyLevel::Medium,
-                'image_urls' => ['https://example.com/chicken-soup.jpg'],
+                'image_url' => 'https://example.com/chicken-soup.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Heat olive oil in large pot over medium heat.', RecipeStepType::COOKING, 2),
                     new RecipeStep(2, 'Add onions, carrots, and celery, cook until softened.', RecipeStepType::COOKING, 8),
@@ -458,7 +458,7 @@ class RecipesSeeder extends Seeder
                 'name' => 'Chocolate Lava Cake',
                 'description' => 'Decadent individual chocolate cakes with molten chocolate centers.',
                 'difficulty' => DifficultyLevel::Hard,
-                'image_urls' => ['https://example.com/lava-cake.jpg'],
+                'image_url' => 'https://example.com/lava-cake.jpg',
                 'steps' => [
                     new RecipeStep(1, 'Preheat oven to 425°F and butter ramekins.', RecipeStepType::PREPARATION, 5),
                     new RecipeStep(2, 'Melt chocolate and butter in double boiler.', RecipeStepType::COOKING, 5),
@@ -486,7 +486,7 @@ class RecipesSeeder extends Seeder
                     'name' => $recipeData['name'],
                     'description' => $recipeData['description'],
                     'difficulty' => $recipeData['difficulty'],
-                    'image_urls' => $recipeData['image_urls'],
+                    'image_url' => $recipeData['image_url'],
                     'steps' => $recipeData['steps'],
                 ]
             );

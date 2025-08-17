@@ -29,7 +29,7 @@ class RecipeCard extends Component
 
     protected function getRecipe(): Recipe
     {
-        return $this->_recipeService->getRecipeById($this->recipeId)->getData();
+        return $this->_recipeService->getRecipeDetailsById($this->recipeId)->getData();
     }
 
     public function getId(): string

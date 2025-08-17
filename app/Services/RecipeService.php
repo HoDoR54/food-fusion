@@ -32,7 +32,7 @@ class RecipeService
         return new BaseResponse(true, 'Recipes retrieved successfully', 200, $paginatedRes);
     }
 
-    public function getRecipeById(string $id): BaseResponse {
+    public function getRecipeDetailsById(string $id): BaseResponse {
         $recipe = $this->_recipeRepo->findWithRelations($id, ['postedBy', 'tags', 'ingredients']);
         
         if (!$recipe) {

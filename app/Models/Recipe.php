@@ -24,11 +24,10 @@ class Recipe extends Model
         'description',
         'steps',
         'difficulty',
-        'image_urls',
+        'image_url',
     ];
 
     protected $appends = [
-        'first_image_url',
         'author_name',
     ];
 
@@ -36,7 +35,6 @@ class Recipe extends Model
     {
         return [
             'difficulty' => DifficultyLevel::class,
-            'image_urls' => 'array',
             'steps' => RecipeStepsCast::class,
         ];
     }
@@ -66,11 +64,9 @@ class Recipe extends Model
         return $this->belongsToMany(Tag::class, 'recipe_tag');
     }
 
-    public function getFirstImageUrlAttribute(): ?string
+    public function getImageUrlAttribute(): ?string
     {
-        return is_array($this->image_urls) && count($this->image_urls) > 0 
-            ? $this->image_urls[0] 
-            : null;
+        return $this->image_url ?? null;
     }
 
     public function getAuthorNameAttribute(): string

@@ -8,6 +8,21 @@ const routeToPage = (page) => {
 
 const initPagination = () => {
     document.addEventListener("click", (event) => {
+        const paginationLink = event.target.closest("[data-paginator] a");
+        if (paginationLink) {
+            event.preventDefault();
+
+            const href = paginationLink.getAttribute("href");
+            if (href && href !== "#") {
+                const url = new URL(href, window.location.origin);
+                const pageParam = url.searchParams.get("page");
+                if (pageParam) {
+                    routeToPage(pageParam);
+                }
+            }
+            return;
+        }
+
         const prevBtn = event.target.closest(".paginator-prev");
         const nextBtn = event.target.closest(".paginator-next");
         const paginator = document.querySelector("[data-paginator]");

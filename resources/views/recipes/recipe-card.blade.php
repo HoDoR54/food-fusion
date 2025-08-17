@@ -3,7 +3,7 @@
     use App\Enums\ButtonSize;
 @endphp
 
-<div class="bg-secondary/10 shadow rounded-lg border-2 border-primary border-dashed flex flex-col relative">
+<div class="bg-secondary/10 shadow rounded-lg border-2 border-primary/20 border-dashed flex flex-col relative">
     {{-- difficulty badge --}}
     <div class="{{ $this->getDifficultyColor() }} group gap-2 cursor-pointer text-white absolute top-2 left-2 z-10 rounded flex items-center justify-center text-center px-2 py-1">
         <span>

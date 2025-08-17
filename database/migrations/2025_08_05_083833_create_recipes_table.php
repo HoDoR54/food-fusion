@@ -23,7 +23,7 @@ return new class extends Migration
             $table->enum('status', RecipePostStatus::values())->default(RecipePostStatus::PENDING);
             $table->uuid('approved_by')->nullable();
             $table->timestamp('approved_at')->nullable();
-            $table->json('image_urls')->nullable();
+            $table->string('image_url')->nullable();
             $table->timestamps();
 
             $table->foreign('posted_by')
