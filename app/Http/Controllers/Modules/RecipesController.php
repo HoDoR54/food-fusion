@@ -37,9 +37,10 @@ class RecipesController extends Controller
         ]);
     }
 
-    public function show(Request $request, $id) {
+    public function show($id)
+    {
         $res = $this->_recipeService->getRecipeDetailsById($id);
-        
+
         if (!$res->isSuccess()) {
             session()->flash('toastMessage', $res->getMessage());
             session()->flash('toastType', 'error');

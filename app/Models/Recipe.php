@@ -25,6 +25,7 @@ class Recipe extends Model
         'steps',
         'difficulty',
         'image_url',
+        'servings',
     ];
 
     protected $appends = [

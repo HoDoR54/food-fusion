@@ -33,8 +33,8 @@ class RecipeService
     }
 
     public function getRecipeDetailsById(string $id): BaseResponse {
-        $recipe = $this->_recipeRepo->findWithRelations($id, ['postedBy', 'tags', 'ingredients']);
-        
+        $recipe = $this->_recipeRepo->findWithRelations($id, ['postedBy', 'tags', 'ingredients', 'attempts']);
+
         if (!$recipe) {
             return new BaseResponse(false, 'Recipe not found', 404);
         }

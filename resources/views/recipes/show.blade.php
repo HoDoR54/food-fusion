@@ -36,15 +36,29 @@
 
 
                     <h1 class="text-primary text-3xl font-bold">{{ $recipe->name }}</h1>
-                    <div class="flex gap-2">
-                        <div class="bg-secondary/20 border-2 border-primary/20 rounded-full px-2 py-1 border-dashed text-xs">Mexican</div>
-                        <div class="bg-secondary/20 border-2 border-primary/20 rounded-full px-2 py-1 border-dashed text-xs">Easy</div>
+                    <div class="flex gap-2 flex-wrap">
+                        @foreach($recipe->tags as $tag)
+                            <div class="bg-secondary/20 border-2 border-primary/20 rounded-full px-2 py-1 border-dashed text-xs">
+                                {{ $tag->name }}
+                            </div>
+                        @endforeach
+                        <div class="bg-secondary/20 border-2 border-primary/20 rounded-full px-2 py-1 border-dashed text-xs">
+                            {{ $recipe->difficulty->label() }}
+                        </div>
                     </div>
-                    <h3 class="text-primary text-sm">By <a class="font-medium hover:underline hover:text-secondary cursor-pointer">John Doe</a></h3>
-                    <p class="text-text/60 text-xs">Approved by FoodFusion QA Team — 13:43, August 12, 2024</p>
+                    <h3 class="text-primary text-sm">By <a class="font-medium hover:underline hover:text-secondary cursor-pointer">{{ $recipe->author_name }}</a></h3>
+                    @if($recipe->approved_at)
+                        <p class="text-text/60 text-xs">Approved by FoodFusion QA Team — {{ $recipe->approved_at->format('H:i, F j, Y') }}</p>
+                    @else
+                        <p class="text-text/60 text-xs">Pending approval</p>
+                    @endif
                 </div>
                 <div class="flex justify-end items-center">
-                    <img src="{{ asset('images/example-recipe.jpg') }}" alt="" class="h-40 w-auto object-cover rounded-2xl border-2 border-dashed border-primary/20">
+                    @if($recipe->image_url)
+                        <img src="{{ $recipe->image_url }}" alt="{{ $recipe->name }}" class="h-40 w-auto object-cover rounded-2xl border-2 border-dashed border-primary/20">
+                    @else
+                        <img src="{{ asset('images/example-recipe.jpg') }}" alt="{{ $recipe->name }}" class="h-40 w-auto object-cover rounded-2xl border-2 border-dashed border-primary/20">
+                    @endif
                 </div>
             </div>
 
@@ -52,9 +66,7 @@
             <div class="flex flex-col gap-3 py-5 px-8 bg-primary/10 rounded-2xl border-dashed border-2 border-primary/20">
                 <h2 class="text-primary text-xl font-semibold">About this recipe</h2>
                 <p class="text-text/60">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus cum accusantium impedit? Ea, quam veritatis?
-                    Nostrum, veritatis incidunt voluptate, recusandae perferendis suscipit, quis aspernatur magni commodi laboriosam quos facilis consectetur.
-                    Provident iure dicta, voluptatibus sequi nisi reiciendis quae nemo dignissimos odit autem corrupti, quasi recusandae!
+                    {{ $recipe->description }}
                 </p>
             </div>
 
@@ -63,22 +75,22 @@
                 <div class="flex items-center justify-center flex-col bg-white/30 rounded-2xl border-2 border-primary/20 border-dashed">
                     <i data-lucide="users" class="text-secondary mb-3"></i>
                     <span class="text-text/60">Servings</span>
-                    <span class="text-text font-semibold text-xl">10</span>
+                    <span class="text-text font-semibold text-xl">{{ $recipe->servings ?? 'N/A' }}</span>
                 </div>
                 <div class="flex items-center justify-center flex-col bg-white/30 rounded-2xl border-2 border-primary/20 border-dashed">
                     <i data-lucide="clock" class="text-secondary mb-3"></i>
                     <span class="text-text/60">Prep</span>
-                    <span class="text-text font-semibold text-xl">2 hours</span>
+                    <span class="text-text font-semibold text-xl">{{ $recipe->getPreparationMinutes() }} min</span>
                 </div>
                 <div class="flex items-center justify-center flex-col bg-white/30 rounded-2xl border-2 border-primary/20 border-dashed">
                     <i data-lucide="chef-hat" class="text-secondary mb-3"></i>
                     <span class="text-text/60">Cook</span>
-                    <span class="text-text font-semibold text-xl">3 hours</span>
+                    <span class="text-text font-semibold text-xl">{{ $recipe->getTotalCookingMinutes() }} min</span>
                 </div>
                 <div class="flex items-center justify-center flex-col bg-white/30 rounded-2xl border-2 border-primary/20 border-dashed">
                     <i data-lucide="flame" class="text-secondary mb-3"></i>
                     <span class="text-text/60">Difficulty</span>
-                    <span class="text-text font-semibold text-xl">Easy</span>
+                    <span class="text-text font-semibold text-xl">{{ $recipe->difficulty->label() }}</span>
                 </div>
             </div>
 
@@ -88,12 +100,12 @@
                     <div class="border-b-3 border-dashed border-primary/20 w-full flex py-3">
                         <h1 class=" text-primary text-2xl font-semibold">Ingredients</h1>
                     </div>
-                    <ul class="list-disc list-inside marker:text-secondary/60 marker:text-lg space-y-1">
-                        @for ($x = 1; $x <= 3; $x++)
-                            <li class="text-text/60">1 cup of flour</li>
-                            <li class="text-text/60">2 eggs</li>
-                            <li class="text-text/60">1/2 cup of sugar</li>
-                        @endfor
+                    <ul class="list-disc list-outside marker:text-secondary/60 marker:text-lg space-y-1">
+                        @forelse($recipe->ingredients as $ingredient)
+                            <li class="text-text/60">{{ $ingredient->description }}</li>
+                        @empty
+                            <li class="text-text/60 italic">No ingredients listed</li>
+                        @endforelse
                     </ul>
                 </div>
                 <div class="md:col-span-2 flex flex-col gap-3">
@@ -101,28 +113,38 @@
                         <h1 class=" text-primary text-2xl font-semibold">Instructions</h1>
                     </div>
                     <ul class="flex flex-col gap-2">
-                        @for ($x = 1; $x <= 5; $x++)
+                        @forelse($recipe->steps as $step)
                             <li>
                                 <div class="border-2 border-dashed border-primary/20 rounded-lg p-4 bg-white/30">
                                     <div class="flex items-start gap-4">
                                         <!-- Step Number -->
                                         <div class="w-8 h-8 bg-secondary text-white rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0">
-                                            {{ $x }}
+                                            {{ $step->order }}
                                         </div>
                                         <!-- Step Content -->
-                                        <div>
-                                            <h3 class="font-semibold text-primary mb-2">Step Title {{ $x }}</h3>
+                                        <div class="flex-1">
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <h3 class="font-semibold text-primary">{{ $step->stepType->label() }}</h3>
+                                                @if($step->estimated_minutes_taken > 0)
+                                                    <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+                                                        {{ $step->estimated_minutes_taken }} min
+                                                    </span>
+                                                @endif
+                                            </div>
                                             <p class="text-text leading-relaxed">
-                                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus laborum incidunt veritatis reprehenderit id?
-                                                Nesciunt ex provident velit sapiente quis impedit optio dolor, in illum quas? Quam, placeat.
-                                                Repudiandae aut omnis repellat, non excepturi ea aperiam eius placeat, amet unde laboriosam dolorum.
-                                                Sequi, dolorem, provident, repellendus quia fuga laborum aperiam omnis fugit vel distinctio facilis libero.
+                                                {{ $step->description }}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </li>
-                        @endfor
+                        @empty
+                            <li>
+                                <div class="border-2 border-dashed border-primary/20 rounded-lg p-4 bg-white/30">
+                                    <p class="text-text/60 italic">No instructions available</p>
+                                </div>
+                            </li>
+                        @endforelse
                     </ul>
                 </div>
             </div>
@@ -138,23 +160,44 @@
                 </div>
 
                 <div class="grid md:grid-cols-4 gap-3">
-                    @for ($x = 1; $x <= 4; $x++)
+                    @forelse($recipe->attempts->take(4) as $attempt)
                         <div class="border-2 border-dashed border-primary/20 rounded-lg overflow-hidden bg-white/30 flex flex-col">
                             <div class="w-full py-5 flex items-center justify-center">
                                 <img 
-                                    src="{{ asset('images/example-recipe.jpg') }}" 
-                                    alt="Attempt photo" 
+                                    src="{{ $attempt->image_url ?? asset('images/example-recipe.jpg') }}" 
+                                    alt="Attempt by {{ $attempt->user->name ?? 'Unknown' }}" 
                                     class="rounded-full border-primary/20 border-2 border-dashed w-24 h-24 object-cover"
                                 >
                             </div>
                             <div class="py-5 px-3 flex flex-col gap-2 items-center justify-center">
-                                <p class="text-sm text-text/70 text-center leading-relaxed">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius minus, maiores eveniet possimus qui harum.
-                                </p>
-                                <span class="text-sm font-semibold text-primary">—username{{ $x }}—</span>
+                                @if($attempt->notes)
+                                    <p class="text-sm text-text/70 text-center leading-relaxed">
+                                        {{ Str::limit($attempt->notes, 80) }}
+                                    </p>
+                                @else
+                                    <p class="text-sm text-text/70 text-center leading-relaxed italic">
+                                        No notes provided
+                                    </p>
+                                @endif
+                                <span class="text-sm font-semibold text-primary">—{{ $attempt->user->name ?? 'Anonymous' }}—</span>
+                                @if($attempt->rating)
+                                    <div class="flex items-center gap-1">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            <i data-lucide="star" class="w-3 h-3 {{ $i <= $attempt->rating ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300' }}"></i>
+                                        @endfor
+                                    </div>
+                                @endif
                             </div>
                         </div>
-                    @endfor
+                    @empty
+                        <div class="md:col-span-4 col-span-2">
+                            <div class="rounded-lg p-8 text-center">
+                                <i data-lucide="chef-hat" class="w-12 h-12 text-secondary/60 mx-auto mb-3"></i>
+                                <p class="text-text/60">No one has tried this recipe yet!</p>
+                                <p class="text-text/60 text-sm">Be the first to share your cooking adventure.</p>
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
                 <div class="flex items-center justify-center flex-col gap-4 py-4">
                     <p class="text-text/60 text-base">Trying this recipe this weekend?</p>

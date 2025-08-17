@@ -24,6 +24,7 @@ return new class extends Migration
             $table->uuid('approved_by')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->string('image_url')->nullable();
+            $table->integer('servings')->nullable();
             $table->timestamps();
 
             $table->foreign('posted_by')
