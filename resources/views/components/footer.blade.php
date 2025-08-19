@@ -58,8 +58,7 @@
                 </h3>
                 <ul class="space-y-2 text-sm">
                     <li>
-                        {{-- TO-DO: get discord server link from config --}}
-                        <a href="{{ route('home') }}" class="text-primary/80 hover:text-secondary hover:underline">
+                        <a href="{{ config('social-links.discord.server') }}" target="_blank" class="text-primary/80 hover:text-secondary hover:underline">
                             Join Our Discord
                         </a>
                     </li>
@@ -83,7 +82,7 @@
                 <div class="bg-secondary/10 p-3 border border-dashed border-primary/20">
                     <p class="text-xs text-primary/70 mb-2">Connect with us:</p>
                     <div class="flex space-x-3">
-                        <a href="https://www.facebook.com" target="_blank" class="text-primary/60 hover:text-secondary cursor-pointer">
+                        <a href={{ config('social-links.developer.facebook') }} target="_blank" class="text-primary/60 hover:text-secondary cursor-pointer">
                             <i data-lucide="facebook"></i>
                         </a>
                         <a href="https://www.instagram.com" target="_blank" class="text-primary/60 hover:text-secondary cursor-pointer">
@@ -152,6 +151,6 @@
 
     <div class="flex flex-col md:flex-row justify-between items-center px-6 py-3 bg-secondary/15 text-sm text-primary">
         <p>&copy; {{ date('Y') }} FoodFusion. Copyright? We don't do that here.</p>
-        <p>Designed and developed by Hpone Tauk Nyi.</p>
+        <p>Designed and developed by <a href="{{ config('social-links.developer.github') }}" target="_blank" class="hover:underline">Hpone Tauk Nyi.</a></p>
     </div>
 </footer>

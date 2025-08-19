@@ -24,9 +24,6 @@
                     <div class="absolute top-3 right-3 p-1 rounded-full flex gap-2">
                         {{-- TO-DO: implement these --}}
                         <div class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
-                            <i data-lucide="share-2" class="w-4 h-4"></i>
-                        </div>
-                        <div class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
                             <i data-lucide="bookmark" class="w-4 h-4"></i>
                         </div>
                         <div class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
@@ -164,7 +161,7 @@
                         <div class="border-2 border-dashed border-primary/20 rounded-lg overflow-hidden bg-white/30 flex flex-col">
                             <div class="w-full py-5 flex items-center justify-center">
                                 <img 
-                                    src="{{ $attempt->image_url ?? asset('images/example-recipe.jpg') }}" 
+                                    src="{{ asset('images/example-recipe.jpg') ?? $attempt->image_url }}" 
                                     alt="Attempt by {{ $attempt->user->name ?? 'Unknown' }}" 
                                     class="rounded-full border-primary/20 border-2 border-dashed w-24 h-24 object-cover"
                                 >

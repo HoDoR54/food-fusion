@@ -20,52 +20,41 @@ class GetUserOrPass
 
     public function handle(Request $request, Closure $next): Response
     {
-        try {
-            $accessToken = $request->cookie('access_token');
-            $refreshToken = $request->cookie('refresh_token');
+        $accessToken = $request->cookie('access_token');
+        $refreshToken = $request->cookie('refresh_token');
 
-            if (!$accessToken) {
-                if ($refreshToken) {
-                    $res = $this->_authService->refresh($refreshToken);
+        if (!$accessToken) {
+            if ($refreshToken) {
+                $res = $this->_authService->refresh($refreshToken);
 
-                    if ($res) {
-                        $tokens = $res->getData();
-                        $accessToken = $tokens['access_token'];
-                        $refreshToken = $tokens['refresh_token'];
+                if ($res) {
+                    $tokens = $res->getData();
+                    $accessToken = $tokens['access_token'];
+                    $refreshToken = $tokens['refresh_token'];
 
-                        $user = $this->_authService->getUserFromToken($accessToken);
-                        if ($user) {
-                            Auth::guard()->setUser($user);
-                        }
-
-                        $response = $next($request);
-                        $response->cookie('access_token', $accessToken, 15, '/', null, false, false)
-                                 ->cookie('refresh_token', $refreshToken, 10080, '/', null, false, false);
-
-                        return $response;
+                    $user = $this->_authService->getUserFromToken($accessToken);
+                    if ($user) {
+                        Auth::guard()->setUser($user);
                     }
-                } else {
-                    Log::info('no refresh token found');
-                }
 
+                    $response = $next($request);
+                    $response->cookie('access_token', $accessToken, 15, '/', null, false, false)
+                                ->cookie('refresh_token', $refreshToken, 10080, '/', null, false, false);
+
+                    return $response;
+                }
+            } else {
+                Log::info('no refresh token found');
                 return $next($request);
             }
 
-            $user = $this->_authService->getUserFromToken($accessToken);
-            if ($user) {
-                Auth::guard()->setUser($user);
-            }
             return $next($request);
-        } catch (\Exception $e) {
-            Log::error('JWT Authentication failed', [
-                'error' => $e->getMessage(),
-                'url' => $request->url(),
-                'ip' => $request->ip(),
-            ]);
-            
-            session()->flash('toastMessage', 'Authentication error. Please log in again.');
-            session()->flash('toastType', 'error');
-            return redirect('/login');
         }
+
+        $user = $this->_authService->getUserFromToken($accessToken);
+        if ($user) {
+            Auth::guard()->setUser($user);
+        }
+        return $next($request);
     }
 }

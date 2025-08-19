@@ -80,4 +80,11 @@ class UserRepo extends AbstractRepo
         }
     }
 
+    public function revokeRefreshToken(string $userId, string $token): bool
+    {
+        return RefreshToken::where('user_id', $userId)
+            ->where('token', $token)
+            ->update(['revoked' => true]);
+    }
+
 }

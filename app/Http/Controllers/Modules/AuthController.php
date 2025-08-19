@@ -8,6 +8,7 @@ use App\DTO\Requests\RegisterRequest;
 use App\Enums\MasteryLevel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Log;
 
@@ -54,10 +55,9 @@ class AuthController extends Controller
         ]);
 
 
-        // TO-DO: change refresh_token options
         return redirect('/')
             ->cookie('access_token', $tokens['access_token'], 15, '/', null, false, false)
-            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, false);
+            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, true);
     }
 
    public function setSession(Request $request)
@@ -112,11 +112,26 @@ class AuthController extends Controller
 
         return redirect('/')
             ->cookie('access_token', $tokens['access_token'], 15, '/', null, false, false)
-            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, false);
+            ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, true);
     }
 
     public function logout(Request $request)
     {
-        // TO-DO
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        $cookieNames = ['access_token', 'refresh_token'];
+        foreach ($cookieNames as $cookieName) {
+            if ($request->hasCookie($cookieName)) {
+                $request->queue(
+                    Cookie::forget($cookieName)
+                );
+            }
+        }
+
+        return redirect('/')->with([
+            'toastMessage' => 'Logout successful!',
+            'toastType' => 'success'
+        ]);
     }
 }

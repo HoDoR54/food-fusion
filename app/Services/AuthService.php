@@ -160,14 +160,10 @@ class AuthService
             return new BaseResponse(false, 'User not found', 404);
         }
 
+        $this->_userRepo->revokeRefreshToken($user->id, $refreshToken);
         $newTokens = $this->generateTokens($user);
 
         return new BaseResponse(true, 'Token refreshed successfully', 200, $newTokens);
-    }
-
-    // TO-DO: fill up the placeholders
-    public function logout(): bool {
-        return true;
     }
 
     public function getUserFromToken(string $token): ?User

@@ -100,9 +100,9 @@
                 </div>
             </div>
 
-            <div class="mt-12">
-                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Join Our Discord'" :icon="'<i class=\'fa-brands fa-discord\'></i>'" />
-            </div>
+            <a href="{{ config('social-links.discord.server') }}" target="_blank" class="mt-12">
+                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Join Our Discord'" :icon="'<i class=\'fa-brands fa-discord\'></i>'"/>
+            </a>
         </section>
 
         {{-- Previous Events Monumentals --}}
