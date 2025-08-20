@@ -16,7 +16,12 @@ return [
     'default' => env('FILESYSTEM_DISK', 'local'),
 
     /*
-    |--------------------------------------------------------------------------
+        'cloudinary' => [
+            'driver'     => 'cloudinary',
+            'api_key'    => env('CLOUDINARY_KEY'),
+            'api_secret' => env('CLOUDINARY_SECRET'),
+            'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+        ],
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
@@ -45,6 +50,14 @@ return [
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
+        ],
+
+        'cloudinary' => [
+            'driver' => 'cloudinary',
+            'key' => env('CLOUDINARY_KEY'),
+            'secret' => env('CLOUDINARY_SECRET'),
+            'cloud' => env('CLOUDINARY_CLOUD_NAME'),
+            'url' => env('CLOUDINARY_URL'),
         ],
 
         's3' => [

@@ -51,4 +51,11 @@ class RecipesController extends Controller
             'res' => $res
         ]);
     }
+
+    public function showStore()
+    {
+        return view('recipes.create', [
+            'title' => 'Create New Recipe',
+        ]);
+    }
 }

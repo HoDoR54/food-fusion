@@ -50,6 +50,8 @@
         @endforeach
       @endif
     </div>
-    <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :icon="'<i class=\'fa-solid fa-cloud-arrow-up\'></i>'" :text="'Share Your Recipe'" onclick="window.location.href='{{ route('blogs.create') }}'"></x-button>
+    <a href="{{ route('recipes.create.show') }}">
+        <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Small" :icon="'<i class=\'fa-solid fa-cloud-arrow-up\'></i>'" :text="'Share Your Recipe'"></x-button>
+    </a>
   </div>
 </header>
