@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->text('description');
+            $table->string('name')->unique();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
 
         Schema::create('recipe_ingredient', function (Blueprint $table) {
             $table->uuid('recipe_id');
             $table->uuid('ingredient_id');
+            $table->string('amount');
+            $table->string('unit');
 
             $table->primary(['recipe_id', 'ingredient_id']);
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');

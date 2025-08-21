@@ -66,4 +66,97 @@ class RecipeService
     {
         return $this->_recipeRepo->getTagsByType(TagType::Occasion->value);
     }
+
+    public function storeRecipe(array $data, ?string $userId = null): BaseResponse
+    {
+        try {
+            \DB::beginTransaction();
+
+            // Handle image upload if present
+            $imageUrl = null;
+            if (isset($data['image']) && $data['image']) {
+                $imageUrl = $this->uploadRecipeImage($data['image']);
+            }
+
+            // Create the recipe
+            $recipe = Recipe::create([
+                'posted_by' => $userId,
+                'name' => $data['name'],
+                'description' => $data['description'],
+                'servings' => $data['servings'],
+                'difficulty' => $data['difficulty'],
+                'image_url' => $imageUrl,
+                'steps' => $data['steps'],
+            ]);
+
+            // Handle ingredients
+            if (isset($data['ingredients'])) {
+                $this->attachIngredients($recipe, $data['ingredients']);
+            }
+
+            // Handle tags
+            if (isset($data['tags'])) {
+                $this->attachTags($recipe, $data['tags']);
+            }
+
+            \DB::commit();
+
+            return new BaseResponse(true, 'Recipe created successfully! It will be reviewed before publication.', 201, $recipe);
+        } catch (\Exception $e) {
+            \DB::rollback();
+            \Log::error('Error creating recipe: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'data' => $data
+            ]);
+            return new BaseResponse(false, 'Failed to create recipe. Please try again.', 500);
+        }
+    }
+
+    private function uploadRecipeImage($image): ?string
+    {
+        // This is a placeholder - implement your image upload logic here
+        // You might want to use Cloudinary, S3, or local storage
+        $path = $image->store('recipes', 'public');
+        return asset('storage/' . $path);
+    }
+
+    private function attachIngredients(Recipe $recipe, array $ingredients): void
+    {
+        foreach ($ingredients as $ingredientData) {
+            // Find or create ingredient
+            $ingredient = \App\Models\Ingredient::firstOrCreate(
+                ['name' => $ingredientData['name']],
+                ['description' => ''] // Default empty description
+            );
+
+            // Attach to recipe with pivot data
+            $recipe->ingredients()->attach($ingredient->id, [
+                'amount' => $ingredientData['amount'],
+                'unit' => $ingredientData['unit'],
+            ]);
+        }
+    }
+
+    private function attachTags(Recipe $recipe, array $tags): void
+    {
+        $tagIds = [];
+        
+        foreach ($tags as $tagData) {
+            if (empty($tagData['name'])) {
+                continue;
+            }
+
+            // Find or create tag
+            $tag = \App\Models\Tag::firstOrCreate(
+                ['name' => strtolower(trim($tagData['name']))],
+                ['type' => $tagData['type']]
+            );
+
+            $tagIds[] = $tag->id;
+        }
+
+        if (!empty($tagIds)) {
+            $recipe->tags()->attach($tagIds);
+        }
+    }
 }

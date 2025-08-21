@@ -1,22 +1,25 @@
 function handleFilterChange(selectId, paramName) {
     const selectElement = document.getElementById(selectId);
 
-    selectElement.addEventListener("change", (event) => {
-        const value = event.target.value;
-        const params = new URLSearchParams(window.location.search);
+    // Only add event listener if element exists
+    if (selectElement) {
+        selectElement.addEventListener("change", (event) => {
+            const value = event.target.value;
+            const params = new URLSearchParams(window.location.search);
 
-        if (value) {
-            params.set(paramName, value);
-        } else {
-            params.delete(paramName);
-        }
+            if (value) {
+                params.set(paramName, value);
+            } else {
+                params.delete(paramName);
+            }
 
-        params.set("page", "1");
+            params.set("page", "1");
 
-        window.location.href = `${
-            window.location.pathname
-        }?${params.toString()}`;
-    });
+            window.location.href = `${
+                window.location.pathname
+            }?${params.toString()}`;
+        });
+    }
 }
 
 handleFilterChange("difficulty_level", "difficulty_level");
@@ -40,12 +43,13 @@ function clearFilters() {
 }
 
 const clearFiltersButton = document.getElementById("clear-filters");
-clearFiltersButton.addEventListener("click", clearFilters);
+if (clearFiltersButton) {
+    clearFiltersButton.addEventListener("click", clearFilters);
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     const params = new URLSearchParams(window.location.search);
 
-    // Set selected values for all filters
     const filters = [
         "difficulty_level",
         "dietary_preference",
