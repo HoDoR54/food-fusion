@@ -28,6 +28,17 @@ enum MasteryLevel: string {
             self::cases()
         );
     }
+
+    public static function toEnum(string $value): ?MasteryLevel
+    {
+        foreach (self::cases() as $case) {
+            if ($case->value === $value) {
+                return $case;
+            }
+        }
+        return null;
+    }
+
 }
 ?>
 

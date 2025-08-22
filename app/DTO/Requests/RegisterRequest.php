@@ -14,13 +14,13 @@ class RegisterRequest
     private string $password;
     private MasteryLevel $masteryLevel;
 
-    public function __construct(string $firstName, string $lastName, string $username, string $email, string $phoneNumber, string $password, MasteryLevel $masteryLevel)
+    public function __construct(string $firstName, string $lastName, string $username, string $email, string $phoneNumber, string $password, string $masteryLevel)
     {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->username = $username;
         $this->email = $email;
-        $this->masteryLevel = $masteryLevel;
+        $this->masteryLevel = MasteryLevel::toEnum($masteryLevel);
         $this->phoneNumber = $phoneNumber;
         $this->password = $password;
     }

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\FailedLoginAttempt;
 use App\Models\RefreshToken;
 use App\Models\User;
+use App\Models\Role;
 
 class UserRepo extends AbstractRepo
 {
@@ -30,12 +31,10 @@ class UserRepo extends AbstractRepo
 
     public function findUserByEmailOrUsername(string $identifier): ?User
     {
-        // Check if identifier is an email
         if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
             return $this->findUserByEmail($identifier);
         }
         
-        // Otherwise, treat as username
         return $this->findUserByUsername($identifier);
     }
 
@@ -87,4 +86,9 @@ class UserRepo extends AbstractRepo
             ->update(['revoked' => true]);
     }
 
+    public function getDefaultRoleId(): string
+    {
+        $userRoleId = Role::where('name', 'User')->value('id');
+        return $userRoleId;
+    }
 }

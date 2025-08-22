@@ -57,7 +57,6 @@ class AuthService
     }
 
     public function register(RegisterRequest $request): array {
-        // Validate Credentials
         $validationErrors = $this->validateRegistrationData($request);
         if (!empty($validationErrors)) {
             return [new BaseResponse(false, implode(', ', $validationErrors), 400), null];
@@ -71,6 +70,7 @@ class AuthService
             'phone' => $request->getPhoneNumber(),
             'mastery_level' => $request->getMasteryLevel(),
             'password' => password_hash($request->getPassword(), PASSWORD_BCRYPT),
+            'role_id' => $this->_userRepo->getDefaultRoleId(),
         ]);
 
         if (!$newUser) {

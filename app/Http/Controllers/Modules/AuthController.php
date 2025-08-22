@@ -69,7 +69,6 @@ class AuthController extends Controller
         foreach ($request->all() as $key => $value) {
             Log::info("Setting session key: $key with value: $value");
             
-            // Convert string 'false' to boolean false for isPopUpConsent
             if ($key === 'isPopUpConsent' && $value === 'false') {
                 session([$key => false]);
                 Log::info("Converted string 'false' to boolean false for $key");
@@ -86,7 +85,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $data = $request->only('firstName', 'lastName', 'username', 'email', 'phoneNumber', 'password');
+        $data = $request->only('firstName', 'lastName', 'username', 'email', 'phoneNumber', 'password', 'mastery_level');
 
         $registerRequest = new RegisterRequest(
             $data['firstName'],
@@ -95,7 +94,7 @@ class AuthController extends Controller
             $data['email'],
             $data['phoneNumber'],
             $data['password'],
-            MasteryLevel::BEGINNER
+            $data['mastery_level']
         );
 
         [$response, $tokens] = $this->_authService->register($registerRequest);

@@ -34,7 +34,6 @@ class RecipeRepo extends AbstractRepo
     private function applyFilters($query, RecipeSearchQuery $searchQ): void
     {
         if ($searchQ->hasFilters()) {
-            // keyword
             if ($searchQ->getSearchTerm()) {
                 $term = '%' . $searchQ->getSearchTerm() . '%';
                 $query->where(function ($q) use ($term) {
