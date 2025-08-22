@@ -18,7 +18,7 @@
         <i class="fa-solid fa-ellipsis-vertical"></i>
     </div>
 
-    <img src="{{ asset('images/example-recipe.jpg') }}" alt="{{ $this->getName() }}" class="w-full h-48 object-cover rounded-t-lg">
+    <img src="{{ $this->getPrimaryImageUrl() ? $this->getPrimaryImageUrl() : asset('images/example-recipe.jpg') }}" alt="{{ $this->getName() }}" class="w-full h-48 object-cover rounded-t-lg">
 
     <div class="p-4 flex flex-col gap-4">
         {{-- name and timestamp --}}

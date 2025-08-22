@@ -61,6 +61,17 @@ class Recipe extends Model
             ->withPivot(['amount', 'unit']);
     }
 
+    public function getIngredientListAttribute(): array
+    {
+        return $this->ingredients->map(function ($ingredient) {
+            $name = $ingredient->name;
+            $amount = $ingredient->pivot->amount;
+            $unit = $ingredient->pivot->unit;
+
+            return "{$amount} {$unit} of {$name}";
+        })->toArray();
+    }
+
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'recipe_tag');
@@ -68,7 +79,7 @@ class Recipe extends Model
 
     public function getImageUrlAttribute(): ?string
     {
-        return $this->image_url ?? null;
+        return $this->attributes['image_url'] ?? null;
     }
 
     public function getAuthorNameAttribute(): string

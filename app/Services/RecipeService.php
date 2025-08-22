@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\RecipeRepo;
+use App\Repositories\IngredientRepo;
+use App\Repositories\TagRepo;
 use App\DTO\Requests\PaginationQuery;
 use App\DTO\Requests\RecipeSearchQuery;
 use App\DTO\Requests\SortQuery;
@@ -14,22 +16,35 @@ use App\Enums\TagType;
 class RecipeService
 {
     protected RecipeRepo $_recipeRepo;
+    protected IngredientRepo $_ingredientRepo;
+    protected TagRepo $_tagRepo;
 
-    public function __construct(RecipeRepo $recipeRepo) {
+    public function __construct(RecipeRepo $recipeRepo, IngredientRepo $ingredientRepo, TagRepo $tagRepo) {
         $this->_recipeRepo = $recipeRepo;
+        $this->_ingredientRepo = $ingredientRepo;
+        $this->_tagRepo = $tagRepo;
     }
 
     public function getRecipes(PaginationQuery $paginationQuery, RecipeSearchQuery $recipeSearchQuery, SortQuery $sortQuery): BaseResponse {
-        // Get the paginated recipes with filtering, sorting, and relations
         $paginator = $this->_recipeRepo->getRecipes($recipeSearchQuery, $sortQuery, $paginationQuery);
 
-        // Map the recipes to the response format
         $resData = $paginator->getCollection()->map(function (Recipe $recipe) {
             return ['recipe' => $recipe];
         })->toArray();
 
         $paginatedRes = PaginatedResponse::fromPaginator($paginator, $resData);
         return new BaseResponse(true, 'Recipes retrieved successfully', 200, $paginatedRes);
+    }
+
+    public function getApprovedRecipes(PaginationQuery $paginationQuery, RecipeSearchQuery $recipeSearchQuery, SortQuery $sortQuery): BaseResponse {
+        $paginator = $this->_recipeRepo->getApprovedRecipes($recipeSearchQuery, $sortQuery, $paginationQuery);
+
+        $resData = $paginator->getCollection()->map(function (Recipe $recipe) {
+            return ['recipe' => $recipe];
+        })->toArray();
+
+        $paginatedRes = PaginatedResponse::fromPaginator($paginator, $resData);
+        return new BaseResponse(true, 'Approved recipes retrieved successfully', 200, $paginatedRes);
     }
 
     public function getRecipeDetailsById(string $id): BaseResponse {
@@ -44,42 +59,35 @@ class RecipeService
 
     public function getDietaryPreferences(): array
     {
-        return $this->_recipeRepo->getTagsByType(TagType::Dietary->value);
+        return $this->_tagRepo->getByType(TagType::Dietary->value);
     }
 
     public function getCuisineTypes(): array
     {
-        return $this->_recipeRepo->getTagsByType(TagType::Origin->value);
+        return $this->_tagRepo->getByType(TagType::Origin->value);
     }
 
     public function getCourses(): array
     {
-        return $this->_recipeRepo->getTagsByType(TagType::Course->value);
+        return $this->_tagRepo->getByType(TagType::Course->value);
     }
 
     public function getCookingMethods(): array
     {
-        return $this->_recipeRepo->getTagsByType(TagType::CookingMethod->value);
+        return $this->_tagRepo->getByType(TagType::CookingMethod->value);
     }
 
     public function getOccasions(): array
     {
-        return $this->_recipeRepo->getTagsByType(TagType::Occasion->value);
+        return $this->_tagRepo->getByType(TagType::Occasion->value);
     }
 
-    public function storeRecipe(array $data, ?string $userId = null): BaseResponse
+    public function storeRecipe(array $data, ?string $userId = null, ?string $imageUrl = null): BaseResponse
     {
         try {
             \DB::beginTransaction();
 
-            // Handle image upload if present
-            $imageUrl = null;
-            if (isset($data['image']) && $data['image']) {
-                $imageUrl = $this->uploadRecipeImage($data['image']);
-            }
-
-            // Create the recipe
-            $recipe = Recipe::create([
+            $recipe = $this->_recipeRepo->create([
                 'posted_by' => $userId,
                 'name' => $data['name'],
                 'description' => $data['description'],
@@ -89,12 +97,10 @@ class RecipeService
                 'steps' => $data['steps'],
             ]);
 
-            // Handle ingredients
+            // attach ingredients and tags
             if (isset($data['ingredients'])) {
                 $this->attachIngredients($recipe, $data['ingredients']);
             }
-
-            // Handle tags
             if (isset($data['tags'])) {
                 $this->attachTags($recipe, $data['tags']);
             }
@@ -114,8 +120,6 @@ class RecipeService
 
     private function uploadRecipeImage($image): ?string
     {
-        // This is a placeholder - implement your image upload logic here
-        // You might want to use Cloudinary, S3, or local storage
         $path = $image->store('recipes', 'public');
         return asset('storage/' . $path);
     }
@@ -123,14 +127,14 @@ class RecipeService
     private function attachIngredients(Recipe $recipe, array $ingredients): void
     {
         foreach ($ingredients as $ingredientData) {
-            // Find or create ingredient
-            $ingredient = \App\Models\Ingredient::firstOrCreate(
-                ['name' => $ingredientData['name']],
-                ['description' => ''] // Default empty description
+            // Find or create ingredient using repository
+            $ingredient = $this->_ingredientRepo->findOrCreateByName(
+                $ingredientData['name'],
+                '' // Default empty description
             );
 
-            // Attach to recipe with pivot data
-            $recipe->ingredients()->attach($ingredient->id, [
+            // Attach to recipe with pivot data using repository
+            $this->_recipeRepo->attachIngredient($recipe, $ingredient->id, [
                 'amount' => $ingredientData['amount'],
                 'unit' => $ingredientData['unit'],
             ]);
@@ -146,17 +150,16 @@ class RecipeService
                 continue;
             }
 
-            // Find or create tag
-            $tag = \App\Models\Tag::firstOrCreate(
-                ['name' => strtolower(trim($tagData['name']))],
-                ['type' => $tagData['type']]
+            // Find or create tag using repository
+            $tag = $this->_tagRepo->findOrCreateByNameAndType(
+                $tagData['name'],
+                $tagData['type']
             );
 
             $tagIds[] = $tag->id;
         }
 
-        if (!empty($tagIds)) {
-            $recipe->tags()->attach($tagIds);
-        }
+        // Attach tags using repository
+        $this->_recipeRepo->attachTags($recipe, $tagIds);
     }
 }

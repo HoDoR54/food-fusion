@@ -51,11 +51,7 @@
                     @endif
                 </div>
                 <div class="flex justify-end items-center">
-                    @if($recipe->image_url)
-                        <img src="{{ $recipe->image_url }}" alt="{{ $recipe->name }}" class="h-40 w-auto object-cover rounded-2xl border-2 border-dashed border-primary/20">
-                    @else
-                        <img src="{{ asset('images/example-recipe.jpg') }}" alt="{{ $recipe->name }}" class="h-40 w-auto object-cover rounded-2xl border-2 border-dashed border-primary/20">
-                    @endif
+                    <img src="{{ $recipe->image_url ? $recipe->image_url : asset('images/example-recipe.jpg') }}" alt="{{ $recipe->name }}" class="h-40 w-auto object-cover rounded-2xl border-2 border-dashed border-primary/20">
                 </div>
             </div>
 
@@ -98,8 +94,8 @@
                         <h1 class=" text-primary text-2xl font-semibold">Ingredients</h1>
                     </div>
                     <ul class="list-disc list-outside marker:text-secondary/60 marker:text-lg space-y-1">
-                        @forelse($recipe->ingredients as $ingredient)
-                            <li class="text-text/60">{{ $ingredient->description }}</li>
+                        @forelse($recipe->getIngredientListAttribute() as $ingredient)
+                            <li class="text-text/60">{{ $ingredient }}</li>
                         @empty
                             <li class="text-text/60 italic">No ingredients listed</li>
                         @endforelse
@@ -161,7 +157,7 @@
                         <div class="border-2 border-dashed border-primary/20 rounded-lg overflow-hidden bg-white/30 flex flex-col">
                             <div class="w-full py-5 flex items-center justify-center">
                                 <img 
-                                    src="{{ asset('images/example-recipe.jpg') ?? $attempt->image_url }}" 
+                                    src="{{ $attempt->image_url ? $attempt->image_url : asset('images/example-recipe.jpg') }}" 
                                     alt="Attempt by {{ $attempt->user->name ?? 'Unknown' }}" 
                                     class="rounded-full border-primary/20 border-2 border-dashed w-24 h-24 object-cover"
                                 >

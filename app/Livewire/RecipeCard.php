@@ -78,7 +78,8 @@ class RecipeCard extends Component
 
     public function getPrimaryImageUrl(): ?string
     {
-        return $this->getRecipe()->first_image_url;
+        $imageUrl = $this->getRecipe()->image_url;
+        return !empty($imageUrl) ? $imageUrl : null;
     }
 
     public function getVisibleTags(): array

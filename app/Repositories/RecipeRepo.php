@@ -15,11 +15,16 @@ class RecipeRepo extends AbstractRepo
         parent::__construct($recipe);
     }
 
-    public function getRecipes (RecipeSearchQuery $searchQ, SortQuery $sortQ, PaginationQuery $paginationQ): LengthAwarePaginator {
+    public function getRecipes(RecipeSearchQuery $searchQ, SortQuery $sortQ, PaginationQuery $paginationQ): LengthAwarePaginator {
+        return $this->getApprovedRecipes($searchQ, $sortQ, $paginationQ);
+    }
+
+    public function getApprovedRecipes (RecipeSearchQuery $searchQ, SortQuery $sortQ, PaginationQuery $paginationQ): LengthAwarePaginator {
         $query = $this->model->newQuery();
 
         $this->applyFilters($query, $searchQ);
         $this->applySorting($query, $sortQ);
+        $query->where('status', 'approved');
 
         $query->with(['postedBy', 'tags', 'ingredients']);
         $paginator = $query->paginate($paginationQ->getSize(), ['*'], 'page', $paginationQ->getPage());
@@ -124,5 +129,17 @@ class RecipeRepo extends AbstractRepo
             ->distinct()
             ->pluck('name')
             ->toArray();
+    }
+
+    public function attachIngredient(Recipe $recipe, string $ingredientId, array $pivotData): void
+    {
+        $recipe->ingredients()->attach($ingredientId, $pivotData);
+    }
+
+    public function attachTags(Recipe $recipe, array $tagIds): void
+    {
+        if (!empty($tagIds)) {
+            $recipe->tags()->attach($tagIds);
+        }
     }
 }

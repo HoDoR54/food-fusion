@@ -10,22 +10,26 @@ use App\DTO\Requests\SortQuery;
 use App\DTO\Requests\StoreRecipeRequest;
 use App\DTO\Responses\PaginatedResponse;
 use App\Http\Controllers\Controller;
+use App\Services\CloudinaryService;
 use App\DTO\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RecipesController extends Controller
 {
     protected RecipeService $_recipeService;
+    protected CloudinaryService $_cloudinaryService;
 
-    public function __construct(RecipeService $recipeService) {
+    public function __construct(RecipeService $recipeService, CloudinaryService $cloudinaryService) {
         $this->_recipeService = $recipeService;
+        $this->_cloudinaryService = $cloudinaryService;
     }
 
     public function index(Request $request) {
         $paginationQuery = new PaginationQuery($request);
         $recipeFilterQuery = new RecipeSearchQuery($request);
         $sortQuery = new SortQuery($request);
-        $res = $this->_recipeService->getRecipes($paginationQuery, $recipeFilterQuery, $sortQuery);
+        $res = $this->_recipeService->getApprovedRecipes($paginationQuery, $recipeFilterQuery, $sortQuery);
 
         if (!$res->isSuccess()) {
             session()->flash('toastMessage', $res->getMessage());
@@ -64,8 +68,22 @@ class RecipesController extends Controller
     public function store(StoreRecipeRequest $request)
     {
         $userId = auth()->id();
+        $imageUrl = null;
         
-        $res = $this->_recipeService->storeRecipe($request->validated(), $userId);
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $result = $this->_cloudinaryService->uploadImage($request->file('image'), 'recipes');
+            if (!$result->isSuccess()) {
+                session()->flash('toastMessage', $result->getMessage());
+                session()->flash('toastType', 'error');
+                return back()->withInput();
+            }
+            $imageUrl = $result->getData()->secure_url;
+        }
+
+        $validatedData = $request->validated();
+        unset($validatedData['image']);
+
+        $res = $this->_recipeService->storeRecipe($validatedData, $userId, $imageUrl);
 
         if ($res->isSuccess()) {
             session()->flash('toastMessage', $res->getMessage());
