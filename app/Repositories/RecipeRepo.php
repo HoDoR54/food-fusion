@@ -48,7 +48,9 @@ class RecipeRepo extends AbstractRepo
                         $q->where('name', 'like', $term);
                     });
                     $q->orWhereHas('postedBy', function ($q) use ($term) {
-                        $q->where('name', 'like', $term);
+                        $q->where('first_name', 'like', $term)
+                          ->orWhere('last_name', 'like', $term)
+                          ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", [$term]);
                     });
                 });
             }
@@ -56,7 +58,10 @@ class RecipeRepo extends AbstractRepo
             // author
             if ($searchQ->getSearchAuthor()) {
                 $query->whereHas('postedBy', function ($q) use ($searchQ) {
-                    $q->where('name', 'like', '%' . $searchQ->getSearchAuthor() . '%');
+                    $term = '%' . $searchQ->getSearchAuthor() . '%';
+                    $q->where('first_name', 'like', $term)
+                      ->orWhere('last_name', 'like', $term)
+                      ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", [$term]);
                 });
             }
             
