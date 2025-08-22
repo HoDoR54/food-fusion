@@ -11,7 +11,7 @@
 @section('title', $title)
 
 @section('content')
-    <section class="grid md:grid-cols-3 gap-5 p-5">
+    <section class="grid md:grid-cols-3 gap-5 p-5 pb-12">
         <div class="flex flex-col">
             <div class="recipe-form-card rounded-lg p-6 bg-primary/5">
                 <div class="mb-6">

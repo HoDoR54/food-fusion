@@ -53,17 +53,31 @@
 
         <div class="w-full flex justify-between items-end">
             {{-- TO-DO: Get Author Id from database --}}
-            <a href="{{ route('users.show', ['username' => 'author username']) }}" class="flex items-center justify-center gap-3 group max-w-1/2">
-                <img src="{{  asset('images/default-profile.webp') }}" alt="Profile Picture" class="h-8 w-8 rounded-full cursor-pointer border-2 border-primary/50 border-dashed">
-                <div class="flex flex-col justify-center items-start text-left">
-                    <span class=" line-clamp-1 cursor-pointer font-medium text-sm group-hover:text-secondary text-primary transition duration-300 ease-in-out group-hover:underline">
-                        {{  $this->getAuthorName() ?? 'Nothing beats an Jet 2 holiday' }}
-                    </span>
-                    <span class="text-xs text-text/60">
-                        69 Followers
-                    </span>
-                </div>     
-            </a>
+            @if($this->getAuthorUsername())
+                <a href="{{ route('users.show', ['username' => $this->getAuthorUsername()]) }}" class="flex items-center justify-center gap-3 group max-w-1/2">
+                    <img src="{{  asset('images/default-profile.webp') }}" alt="Profile Picture" class="h-8 w-8 rounded-full cursor-pointer border-2 border-primary/50 border-dashed">
+                    <div class="flex flex-col justify-center items-start text-left">
+                        <span class=" line-clamp-1 cursor-pointer font-medium text-sm group-hover:text-secondary text-primary transition duration-300 ease-in-out group-hover:underline">
+                            {{  $this->getAuthorName() ?? 'Nothing beats an Jet 2 holiday' }}
+                        </span>
+                        <span class="text-xs text-text/60">
+                            69 Followers
+                        </span>
+                    </div>     
+                </a>
+            @else
+                <div class="flex items-center justify-center gap-3 max-w-1/2">
+                    <img src="{{  asset('images/default-profile.webp') }}" alt="Profile Picture" class="h-8 w-8 rounded-full border-2 border-primary/50 border-dashed opacity-50">
+                    <div class="flex flex-col justify-center items-start text-left">
+                        <span class="line-clamp-1 font-medium text-sm text-gray-400">
+                            Unknown Author
+                        </span>
+                        <span class="text-xs text-text/60">
+                            User not found
+                        </span>
+                    </div>     
+                </div>
+            @endif
 
             {{-- to details --}}
             <div class="flex items-center justify-center">

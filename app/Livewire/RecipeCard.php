@@ -39,7 +39,18 @@ class RecipeCard extends Component
 
     public function getAuthorName(): ?string
     {
-        return $this->getRecipe()->author_name;
+        $recipe = $this->getRecipe();
+        return $recipe->author_name ?? 'Unknown Author';
+    }
+
+    public function getAuthorUsername(): ?string
+    {
+        $recipe = $this->getRecipe();
+        if (!$recipe || !$recipe->postedBy) {
+            return null;
+        }
+
+        return $recipe->postedBy->username ?? null;
     }
 
     public function getDifficultyColor(): string
