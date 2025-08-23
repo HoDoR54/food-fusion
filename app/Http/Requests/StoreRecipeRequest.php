@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO\Requests;
+namespace App\Http\Requests;
 
 use App\Enums\DifficultyLevel;
 use App\Enums\RecipeStepType;

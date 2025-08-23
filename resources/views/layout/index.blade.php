@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Lobster&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -33,7 +32,6 @@
         </div>
     </div>
 
-
     <main class="flex-grow container mx-auto">
         @if (isset($breadcrumbItems))
             <x-breadcrumb :items="$breadcrumbItems" />
@@ -41,27 +39,41 @@
         @yield('content')
     </main>
 
-
     @include('components.footer')
     @livewireScripts
-    
+
     {{-- toaster --}}
     <div id="toast-container" class="fixed top-8 right-4 z-50 space-y-2"></div>
 
-    
-    @if (session()->has('toastMessage') || (isset($toastMessage) && $toastMessage))
-        @php
+    @php
+        $toastData = [];
+
+        // for session flash messages or direct variables
+        if (session()->has('toastMessage') || (isset($toastMessage) && $toastMessage)) {
             $validTypes = ['success', 'info', 'warning', 'error'];
             $message = isset($toastMessage) ? $toastMessage : session('toastMessage');
             $type = isset($toastType) ? $toastType : session('toastType', 'info');
             $toastType = in_array($type, $validTypes) ? $type : 'info';
-            $message = addslashes(htmlspecialchars($message, ENT_QUOTES, 'UTF-8'));
-        @endphp
+            $toastData[] = [
+                'message' => addslashes(htmlspecialchars($message, ENT_QUOTES, 'UTF-8')),
+                'type' => $toastType
+            ];
+        }
+
+        // for form validation errosr
+        if ($errors->any()) {
+            foreach ($errors->all() as $error) {
+                $toastData[] = [
+                    'message' => addslashes(htmlspecialchars($error, ENT_QUOTES, 'UTF-8')),
+                    'type' => 'error'
+                ];
+            }
+        }
+    @endphp
+
+    @if (!empty($toastData))
         <script>
-            window.laravelToastData = {
-                message: "{{ $message }}",
-                type: "{{ $toastType }}"
-            };
+            window.laravelToastData = @json($toastData);
         </script>
     @endif
 </body>
@@ -70,16 +82,11 @@
     lucide.createIcons();
     
     function closePopup() {
-        // Hide the popup elements
         const overlay = document.querySelector('.fixed.bg-black\\/50');
         const popup = overlay ? overlay.nextElementSibling : null;
         
-        if (overlay) {
-            overlay.style.display = 'none';
-        }
-        if (popup) {
-            popup.style.display = 'none';
-        }
+        if (overlay) overlay.style.display = 'none';
+        if (popup) popup.style.display = 'none';
     }
 </script>
 </html>

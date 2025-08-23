@@ -24,23 +24,37 @@
     </main>
     @livewireScripts
     
-    <!-- Toast Container -->
     <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
 
-    <!-- Laravel Toast Data -->
-    @if (session()->has('toastMessage') || (isset($toastMessage) && $toastMessage))
-        @php
+    @php
+        $toastData = [];
+
+        // for session flash messages or direct variables
+        if (session()->has('toastMessage') || (isset($toastMessage) && $toastMessage)) {
             $validTypes = ['success', 'info', 'warning', 'error'];
             $message = isset($toastMessage) ? $toastMessage : session('toastMessage');
             $type = isset($toastType) ? $toastType : session('toastType', 'info');
             $toastType = in_array($type, $validTypes) ? $type : 'info';
-            $message = addslashes(htmlspecialchars($message, ENT_QUOTES, 'UTF-8'));
-        @endphp
+            $toastData[] = [
+                'message' => addslashes(htmlspecialchars($message, ENT_QUOTES, 'UTF-8')),
+                'type' => $toastType
+            ];
+        }
+
+        // for form validation errors
+        if ($errors->any()) {
+            foreach ($errors->all() as $error) {
+                $toastData[] = [
+                    'message' => addslashes(htmlspecialchars($error, ENT_QUOTES, 'UTF-8')),
+                    'type' => 'error'
+                ];
+            }
+        }
+    @endphp
+
+    @if (!empty($toastData))
         <script>
-            window.laravelToastData = {
-                message: "{{ $message }}",
-                type: "{{ $toastType }}"
-            };
+            window.laravelToastData = @json($toastData);
         </script>
     @endif
 </body>

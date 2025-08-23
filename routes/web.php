@@ -7,4 +7,3 @@ require __DIR__.'/events.php';
 require __DIR__.'/users.php';
 require __DIR__.'/static.php';
 
-

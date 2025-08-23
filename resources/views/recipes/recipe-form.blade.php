@@ -64,7 +64,7 @@
             
             <div class="flex flex-col gap-2">
                 <label class="block text-sm text-text/60">Recipe Photo</label>
-                <div id="image-preview-container" class="hidden relative">
+                <div id="image-preview-container" class="hidden relative flex-1">
                     <img id="image-preview" src="#"
                         alt="Image Preview"
                         class="w-full h-[200px] object-cover rounded-lg border border-dashed border-primary/30" />
@@ -75,7 +75,7 @@
                 </div>
 
                 <label id="image-label" for="image"
-                    class="flex flex-col items-center justify-center gap-3 border border-dashed border-primary/30 rounded-lg bg-primary/10 hover:bg-primary/20 transition cursor-pointer w-full h-[200px]">
+                    class="flex flex-col flex-1 items-center justify-center gap-3 border border-dashed border-primary/30 rounded-lg bg-primary/10 hover:bg-primary/20 transition cursor-pointer w-full h-[200px]">
                     <i data-lucide="image" class="w-10 h-10 text-gray-500"></i>
                     <span class="text-sm text-gray-500">Click to upload or drag & drop</span>
                     <span class="text-xs text-gray-400">PNG, JPG, JPEG • Max 5MB</span>

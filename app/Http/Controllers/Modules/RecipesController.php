@@ -7,7 +7,7 @@ use App\DTO\Responses\BaseResponse;
 use App\DTO\Requests\PaginationQuery;
 use App\DTO\Requests\RecipeSearchQuery;
 use App\DTO\Requests\SortQuery;
-use App\DTO\Requests\StoreRecipeRequest;
+use App\Http\Requests\StoreRecipeRequest;
 use App\DTO\Responses\PaginatedResponse;
 use App\Http\Controllers\Controller;
 use App\Services\CloudinaryService;

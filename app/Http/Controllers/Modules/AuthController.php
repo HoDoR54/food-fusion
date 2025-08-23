@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Services\AuthService;
-use App\DTO\Requests\LoginRequest;
-use App\DTO\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Enums\MasteryLevel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -31,13 +31,11 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->only('identifier', 'password');
-        $loginRequest = new LoginRequest($credentials['identifier'], $credentials['password']);
         $metadata = ['ip_address' => $request->ip(), 'decay_minutes' => 3];
 
-        [$response, $tokens] = $this->_authService->login($loginRequest, $metadata);
+        [$response, $tokens] = $this->_authService->login($request, $metadata);
 
         if (!$response->toArray()['success']) {
             return back()->with([
@@ -48,13 +46,6 @@ class AuthController extends Controller
 
         session()->flash('toastMessage', 'Login successful!');
         session()->flash('toastType', 'success');
-
-        Log::info('User logged in successfully', [
-            'ip_address' => $request->ip(),
-            'tokens' => $tokens
-        ]);
-
-
         return redirect('/')
             ->cookie('access_token', $tokens['access_token'], 15, '/', null, false, false)
             ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, true);
@@ -62,42 +53,22 @@ class AuthController extends Controller
 
    public function setSession(Request $request)
     {
-        Log::info("Raw request data: " . $request->getContent());
-        Log::info("Request all(): " . json_encode($request->all()));
-        Log::info("Request input(): " . json_encode($request->input()));
-        
-        foreach ($request->all() as $key => $value) {
-            Log::info("Setting session key: $key with value: $value");
-            
+        foreach ($request->all() as $key => $value) {            
             if ($key === 'isPopUpConsent' && $value === 'false') {
                 session([$key => false]);
-                Log::info("Converted string 'false' to boolean false for $key");
             } else {
                 session([$key => $value]);
             }
         }
-
         return Response::json([
             'success' => true,
             'message' => 'Session updated successfully.',
         ]);
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $data = $request->only('firstName', 'lastName', 'username', 'email', 'phoneNumber', 'password', 'mastery_level');
-
-        $registerRequest = new RegisterRequest(
-            $data['firstName'],
-            $data['lastName'],
-            $data['username'],
-            $data['email'],
-            $data['phoneNumber'],
-            $data['password'],
-            $data['mastery_level']
-        );
-
-        [$response, $tokens] = $this->_authService->register($registerRequest);
+        [$response, $tokens] = $this->_authService->register($request);
 
         if (!$response->toArray()['success']) {
             return back()->with([
@@ -108,7 +79,6 @@ class AuthController extends Controller
 
         session()->flash('toastMessage', 'Registration successful! Welcome to Food Fusion!');
         session()->flash('toastType', 'success');
-
         return redirect('/')
             ->cookie('access_token', $tokens['access_token'], 15, '/', null, false, false)
             ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, true);

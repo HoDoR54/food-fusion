@@ -21,10 +21,7 @@ class CheckFailedLoginAttempts
     public function handle(Request $request, Closure $next): Response
     {
         $ipAddress = $request->ip();
-        Log::info("IP: $ipAddress");
-
         $attempt = $this->_authService->findRecentFailedLoginAttempt($ipAddress, $this->decayMinutes);
-        Log::info("Failed login attempt: ", ['attempt' => $attempt]);
 
         if ($attempt && $attempt->getAttemptsCount() >= $this->maxAttempts) {
             $maxSeconds = $this->decayMinutes * 60;
@@ -36,7 +33,6 @@ class CheckFailedLoginAttempts
                 'toastType' => 'warning'
             ]);
         }
-
         return $next($request);
     }
 }
