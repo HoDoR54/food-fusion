@@ -144,12 +144,12 @@ class AuthService
         $token = JWT::encode($payload, $secret, env('JWT_ALGORITHM'));
 
         RefreshToken::create([
-            'user_id' => $userId,
+            'user_id' => $user->id,
             'token' => $token,
             'expires_at' => now()->addDays(7),
         ]);
 
-        return RefreshToken::where('user_id', $userId)
+        return RefreshToken::where('user_id', $user->id)
             ->where('token', $token)
             ->exists();
     }
