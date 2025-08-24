@@ -39,7 +39,7 @@
                                  class="w-full h-full contrast-[90%] saturate-[50%] brightness-125 object-cover transition-all duration-300 group-hover:scale-110 ease-in-out">
                             <div class="hidden group-hover:block absolute bottom-0 left-0 right-0 p-4 text-white z-20">
                                 <h3 class="text-lg font-semibold">{{ $item['title'] ?? 'Item Title' }}</h3>
-                                <p class="text-sm line-clamp-2 text-primary/60">
+                                <p class="text-sm line-clamp-2 text-white/80">
                                     {{ $item['description'] ?? 'Item description' }}
                                 </p>
                             </div>

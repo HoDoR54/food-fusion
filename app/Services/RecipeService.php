@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use App\Repositories\RecipeRepo;
-use App\Repositories\IngredientRepo;
-use App\Repositories\TagRepo;
+use App\Models\Tag;
+use App\Models\Ingredient;
 use App\Http\Requests\PaginationRequest;
 use App\Http\Requests\RecipeSearchRequest;
 use App\Http\Requests\SortRequest;
@@ -16,19 +15,20 @@ use App\Enums\TagType;
 
 class RecipeService
 {
-    protected RecipeRepo $_recipeRepo;
-    protected IngredientRepo $_ingredientRepo;
-    protected TagRepo $_tagRepo;
+    // Main Methods
+    public function getApprovedRecipes(PaginationRequest $pagination, RecipeSearchRequest $search, SortRequest $sort): BaseResponse {
+        $query = Recipe::query();
+        $this->applyFilters($query, $search);
+        $this->applySorting($query, $sort);
+        $query->where('status', 'approved');
 
-    public function __construct(RecipeRepo $recipeRepo, IngredientRepo $ingredientRepo, TagRepo $tagRepo) {
-        $this->_recipeRepo = $recipeRepo;
-        $this->_ingredientRepo = $ingredientRepo;
-        $this->_tagRepo = $tagRepo;
-    }
-
-    public function getRecipes(PaginationRequest $pagination, RecipeSearchRequest $search, SortRequest $sort): BaseResponse {
-        $paginator = $this->_recipeRepo->getRecipes($search, $sort, $pagination);
-
+        $paginator = $query->paginate(
+            $pagination->input('size', 12), 
+            ['*'], 
+            'page', 
+            $pagination->input('page', 1)
+        );
+        
         $resData = $paginator->getCollection()->map(function (Recipe $recipe) {
             return ['recipe' => $recipe];
         })->toArray();
@@ -37,19 +37,8 @@ class RecipeService
         return new BaseResponse(true, 'Recipes retrieved successfully', 200, $paginatedRes);
     }
 
-    public function getApprovedRecipes(PaginationRequest $pagination, RecipeSearchRequest $search, SortRequest $sort): BaseResponse {
-        $paginator = $this->_recipeRepo->getApprovedRecipes($search, $sort, $pagination);
-
-        $resData = $paginator->getCollection()->map(function (Recipe $recipe) {
-            return ['recipe' => $recipe];
-        })->toArray();
-
-        $paginatedRes = PaginatedResponse::fromPaginator($paginator, $resData);
-        return new BaseResponse(true, 'Approved recipes retrieved successfully', 200, $paginatedRes);
-    }
-
     public function getRecipeDetailsById(string $id): BaseResponse {
-        $recipe = $this->_recipeRepo->findWithRelations($id, ['postedBy', 'tags', 'ingredients', 'attempts']);
+        $recipe = Recipe::with(['postedBy', 'tags', 'ingredients', 'attempts'])->find($id);
 
         if (!$recipe) {
             return new BaseResponse(false, 'Recipe not found', 404);
@@ -58,37 +47,12 @@ class RecipeService
         return new BaseResponse(true, 'Recipe retrieved successfully', 200, $recipe);
     }
 
-    public function getDietaryPreferences(): array
-    {
-        return $this->_tagRepo->getByType(TagType::Dietary->value);
-    }
-
-    public function getCuisineTypes(): array
-    {
-        return $this->_tagRepo->getByType(TagType::Origin->value);
-    }
-
-    public function getCourses(): array
-    {
-        return $this->_tagRepo->getByType(TagType::Course->value);
-    }
-
-    public function getCookingMethods(): array
-    {
-        return $this->_tagRepo->getByType(TagType::CookingMethod->value);
-    }
-
-    public function getOccasions(): array
-    {
-        return $this->_tagRepo->getByType(TagType::Occasion->value);
-    }
-
     public function storeRecipe(StoreRecipeRequest $request, ?string $userId = null, ?string $imageUrl = null): BaseResponse
     {
         try {
             \DB::beginTransaction();
 
-            $recipe = $this->_recipeRepo->create([
+            $newRecipe = Recipe::create([
                 'posted_by' => $userId,
                 'name' => $request->input('name'),
                 'description' => $request->input('description'),
@@ -98,17 +62,16 @@ class RecipeService
                 'steps' => $request->input('steps'),
             ]);
 
-            // attach ingredients and tags
             if ($request->has('ingredients')) {
-                $this->attachIngredients($recipe, $request->input('ingredients'));
+                $this->attachIngredients($newRecipe, $request->input('ingredients'));
             }
             if ($request->has('tags')) {
-                $this->attachTags($recipe, $request->input('tags'));
+                $this->attachTags($newRecipe, $request->input('tags'));
             }
 
             \DB::commit();
 
-            return new BaseResponse(true, 'Recipe created successfully! It will be reviewed before publication.', 201, $recipe);
+            return new BaseResponse(true, 'Recipe created successfully! It will be reviewed before publication.', 201, $newRecipe);
         } catch (\Exception $e) {
             \DB::rollback();
             \Log::error('Error creating recipe: ' . $e->getMessage(), [
@@ -119,25 +82,174 @@ class RecipeService
         }
     }
 
-    private function uploadRecipeImage($image): ?string
+
+    // Support Methods
+    public function getDietaryPreferences(): array
     {
-        $path = $image->store('recipes', 'public');
-        return asset('storage/' . $path);
+        return Tag::where('type', TagType::Dietary->value)
+            ->distinct()
+            ->pluck('name')
+            ->toArray();
+    }
+
+    public function getCuisineTypes(): array
+    {
+        return Tag::where('type', TagType::Origin->value)
+            ->distinct()
+            ->pluck('name')
+            ->toArray();
+    }
+
+    public function getCourses(): array
+    {
+        return Tag::where('type', TagType::Course->value)
+            ->distinct()
+            ->pluck('name')
+            ->toArray();
+    }
+
+    public function getCookingMethods(): array
+    {
+        return Tag::where('type', TagType::CookingMethod->value)
+            ->distinct()
+            ->pluck('name')
+            ->toArray();
+    }
+
+    public function getOccasions(): array
+    {
+        return Tag::where('type', TagType::Occasion->value)
+            ->distinct()
+            ->pluck('name')
+            ->toArray();
+    }
+
+
+    // Helpers
+    private function applyFilters($query, RecipeSearchRequest $search): void
+    {
+        if ($search->filled('search_term')) {
+            $term = '%' . $search->input('search_term') . '%';
+            $query->where(function ($q) use ($term) {
+                $q->where('name', 'like', $term)
+                ->orWhere('description', 'like', $term)
+                ->orWhere('steps', 'like', $term)
+                ->orWhere('difficulty', 'like', $term);
+                $q->orWhereHas('ingredients', function ($q) use ($term) {
+                    $q->where('name', 'like', $term);
+                });
+                $q->orWhereHas('tags', function ($q) use ($term) {
+                    $q->where('name', 'like', $term);
+                });
+                $q->orWhereHas('postedBy', function ($q) use ($term) {
+                    $q->where('first_name', 'like', $term)
+                      ->orWhere('last_name', 'like', $term)
+                      ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", [$term]);
+                });
+            });
+        }
+
+        // Author
+        if ($search->filled('author')) {
+            $query->whereHas('postedBy', function ($q) use ($search) {
+                $term = '%' . $search->input('author') . '%';
+                $q->where('first_name', 'like', $term)
+                  ->orWhere('last_name', 'like', $term)
+                  ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", [$term]);
+            });
+        }
+        
+        // Ingredient
+        if ($search->filled('ingredient')) {
+            $query->whereHas('ingredients', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search->input('ingredient') . '%');
+            });
+        }
+
+        // Difficulty level 
+        if ($search->filled('difficulty_level')) {
+            $query->where('difficulty', $search->input('difficulty_level'));
+        }
+
+        // Dietary preference 
+        if ($search->filled('dietary_preference')) {
+            $query->whereHas('tags', function ($q) use ($search) {
+                $q->where('type', 'dietary')
+                  ->where('name', 'like', '%' . $search->input('dietary_preference') . '%');
+            });
+        }
+
+        // Cuisine type (origin) 
+        if ($search->filled('cuisine_type')) {
+            $query->whereHas('tags', function ($q) use ($search) {
+                $q->where('type', 'origin')
+                  ->where('name', 'like', '%' . $search->input('cuisine_type') . '%');
+            });
+        }
+
+        // Course 
+        if ($search->filled('course')) {
+            $query->whereHas('tags', function ($q) use ($search) {
+                $q->where('type', 'course')
+                  ->where('name', 'like', '%' . $search->input('course') . '%');
+            });
+        }
+
+        // Cooking method 
+        if ($search->filled('cooking_method')) {
+            $query->whereHas('tags', function ($q) use ($search) {
+                $q->where('type', 'method')
+                  ->where('name', 'like', '%' . $search->input('cooking_method') . '%');
+            });
+        }
+
+        // Occasion
+        if ($search->filled('occasion')) {
+            $query->whereHas('tags', function ($q) use ($search) {
+                $q->where('type', 'occasion')
+                  ->where('name', 'like', '%' . $search->input('occasion') . '%');
+            });
+        }
+    }
+
+    private function applySorting($query, SortRequest $sort): void
+    {
+        // Define allowed sortable columns
+        $allowedSortColumns = ['name', 'created_at', 'updated_at', 'difficulty', 'servings'];
+        
+        $sortBy = $sort->input('sort_by', 'created_at');
+        $sortDirection = $sort->input('sort_direction', 'desc');
+        
+        if ($sortBy === 'popularity') {
+            // Sort by number of recipe attempts (popularity)
+            $query->withCount('attempts')
+                  ->orderBy('attempts_count', $sortDirection)
+                  ->orderBy('created_at', 'desc'); // Secondary sort for consistency
+        } elseif (in_array($sortBy, $allowedSortColumns)) {
+            // Sort by regular columns
+            $query->orderBy($sortBy, $sortDirection);
+            
+            // Add secondary sort for consistency when primary values are equal
+            if ($sortBy !== 'created_at') {
+                $query->orderBy('created_at', 'desc');
+            }
+        } else {
+            // Default fallback sorting
+            $query->orderBy('created_at', 'desc');
+        }
     }
 
     private function attachIngredients(Recipe $recipe, array $ingredients): void
     {
         foreach ($ingredients as $ingredientData) {
-            // Find or create ingredient using repository
-            $ingredient = $this->_ingredientRepo->findOrCreateByName(
-                $ingredientData['name'],
-                '' // Default empty description
+            $ingredient = Ingredient::firstOrCreate(
+                ['name' => $ingredientData['name']],
+                ['description' => '']
             );
 
-            // Attach to recipe with pivot data using repository
-            $this->_recipeRepo->attachIngredient($recipe, $ingredient->id, [
-                'amount' => $ingredientData['amount'],
-                'unit' => $ingredientData['unit'],
+            $recipe->ingredients()->attach($ingredient->id, [
+                'quantity' => $ingredientData['quantity'] ?? null,
+                'unit' => $ingredientData['unit'] ?? null,
             ]);
         }
     }
@@ -151,16 +263,19 @@ class RecipeService
                 continue;
             }
 
-            // Find or create tag using repository
-            $tag = $this->_tagRepo->findOrCreateByNameAndType(
-                $tagData['name'],
-                $tagData['type']
+            $tag = Tag::firstOrCreate(
+                ['name' => $tagData['name'], 'type' => $tagData['type']]
             );
 
             $tagIds[] = $tag->id;
         }
 
-        // Attach tags using repository
-        $this->_recipeRepo->attachTags($recipe, $tagIds);
+        $recipe->tags()->attach($tagIds);
+    }
+
+    private function uploadRecipeImage($image): ?string
+    {
+        $path = $image->store('recipes', 'public');
+        return asset('storage/' . $path);
     }
 }
