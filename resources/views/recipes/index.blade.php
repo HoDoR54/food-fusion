@@ -48,7 +48,7 @@
                             :has-prev="$pagination['has_previous_page']" 
                             :has-next="$pagination['has_next_page']"
                             :base-url="route('recipes.index')"
-                            :preserve-params="['search_term', 'difficulty_level', 'dietary_preference', 'cuisine_type', 'course', 'order_by']"
+                            :preserve-params="['search_term', 'difficulty_level', 'dietary_preference', 'cuisine_type', 'course', 'sort_by', 'sort_direction']"
                             :max-buttons="5"
                         />
                     </div>

@@ -5,9 +5,10 @@ namespace App\Services;
 use App\Repositories\RecipeRepo;
 use App\Repositories\IngredientRepo;
 use App\Repositories\TagRepo;
-use App\DTO\Requests\PaginationQuery;
-use App\DTO\Requests\RecipeSearchQuery;
-use App\DTO\Requests\SortQuery;
+use App\Http\Requests\PaginationRequest;
+use App\Http\Requests\RecipeSearchRequest;
+use App\Http\Requests\SortRequest;
+use App\Http\Requests\StoreRecipeRequest;
 use App\DTO\Responses\BaseResponse;
 use App\DTO\Responses\PaginatedResponse;
 use App\Models\Recipe;
@@ -25,8 +26,8 @@ class RecipeService
         $this->_tagRepo = $tagRepo;
     }
 
-    public function getRecipes(PaginationQuery $paginationQuery, RecipeSearchQuery $recipeSearchQuery, SortQuery $sortQuery): BaseResponse {
-        $paginator = $this->_recipeRepo->getRecipes($recipeSearchQuery, $sortQuery, $paginationQuery);
+    public function getRecipes(PaginationRequest $pagination, RecipeSearchRequest $search, SortRequest $sort): BaseResponse {
+        $paginator = $this->_recipeRepo->getRecipes($search, $sort, $pagination);
 
         $resData = $paginator->getCollection()->map(function (Recipe $recipe) {
             return ['recipe' => $recipe];
@@ -36,8 +37,8 @@ class RecipeService
         return new BaseResponse(true, 'Recipes retrieved successfully', 200, $paginatedRes);
     }
 
-    public function getApprovedRecipes(PaginationQuery $paginationQuery, RecipeSearchQuery $recipeSearchQuery, SortQuery $sortQuery): BaseResponse {
-        $paginator = $this->_recipeRepo->getApprovedRecipes($recipeSearchQuery, $sortQuery, $paginationQuery);
+    public function getApprovedRecipes(PaginationRequest $pagination, RecipeSearchRequest $search, SortRequest $sort): BaseResponse {
+        $paginator = $this->_recipeRepo->getApprovedRecipes($search, $sort, $pagination);
 
         $resData = $paginator->getCollection()->map(function (Recipe $recipe) {
             return ['recipe' => $recipe];
@@ -82,27 +83,27 @@ class RecipeService
         return $this->_tagRepo->getByType(TagType::Occasion->value);
     }
 
-    public function storeRecipe(array $data, ?string $userId = null, ?string $imageUrl = null): BaseResponse
+    public function storeRecipe(StoreRecipeRequest $request, ?string $userId = null, ?string $imageUrl = null): BaseResponse
     {
         try {
             \DB::beginTransaction();
 
             $recipe = $this->_recipeRepo->create([
                 'posted_by' => $userId,
-                'name' => $data['name'],
-                'description' => $data['description'],
-                'servings' => $data['servings'],
-                'difficulty' => $data['difficulty'],
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'servings' => $request->input('servings'),
+                'difficulty' => $request->input('difficulty'),
                 'image_url' => $imageUrl,
-                'steps' => $data['steps'],
+                'steps' => $request->input('steps'),
             ]);
 
             // attach ingredients and tags
-            if (isset($data['ingredients'])) {
-                $this->attachIngredients($recipe, $data['ingredients']);
+            if ($request->has('ingredients')) {
+                $this->attachIngredients($recipe, $request->input('ingredients'));
             }
-            if (isset($data['tags'])) {
-                $this->attachTags($recipe, $data['tags']);
+            if ($request->has('tags')) {
+                $this->attachTags($recipe, $request->input('tags'));
             }
 
             \DB::commit();
@@ -112,7 +113,7 @@ class RecipeService
             \DB::rollback();
             \Log::error('Error creating recipe: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
-                'data' => $data
+                'request_data' => $request->validated()
             ]);
             return new BaseResponse(false, 'Failed to create recipe. Please try again.', 500);
         }

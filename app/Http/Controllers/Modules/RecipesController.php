@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Modules;
 
 use App\Services\RecipeService;
 use App\DTO\Responses\BaseResponse;
-use App\DTO\Requests\PaginationQuery;
-use App\DTO\Requests\RecipeSearchQuery;
-use App\DTO\Requests\SortQuery;
+use App\Http\Requests\PaginationRequest;
+use App\Http\Requests\RecipeSearchRequest;
+use App\Http\Requests\SortRequest;
 use App\Http\Requests\StoreRecipeRequest;
 use App\DTO\Responses\PaginatedResponse;
 use App\Http\Controllers\Controller;
 use App\Services\CloudinaryService;
-use App\DTO\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -25,11 +24,8 @@ class RecipesController extends Controller
         $this->_cloudinaryService = $cloudinaryService;
     }
 
-    public function index(Request $request) {
-        $paginationQuery = new PaginationQuery($request);
-        $recipeFilterQuery = new RecipeSearchQuery($request);
-        $sortQuery = new SortQuery($request);
-        $res = $this->_recipeService->getApprovedRecipes($paginationQuery, $recipeFilterQuery, $sortQuery);
+    public function index(PaginationRequest $pagination, RecipeSearchRequest $search, SortRequest $sort) {
+        $res = $this->_recipeService->getApprovedRecipes($pagination, $search, $sort);
 
         if (!$res->isSuccess()) {
             session()->flash('toastMessage', $res->getMessage());
@@ -80,10 +76,7 @@ class RecipesController extends Controller
             $imageUrl = $result->getData()->secure_url;
         }
 
-        $validatedData = $request->validated();
-        unset($validatedData['image']);
-
-        $res = $this->_recipeService->storeRecipe($validatedData, $userId, $imageUrl);
+        $res = $this->_recipeService->storeRecipe($request, $userId, $imageUrl);
 
         if ($res->isSuccess()) {
             session()->flash('toastMessage', $res->getMessage());

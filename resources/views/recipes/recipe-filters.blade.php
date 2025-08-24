@@ -89,17 +89,21 @@
         </div>
     </div>
 
-    {{-- Order By --}}
+    {{-- Sort By --}}
     <div class="relative w-full sm:w-auto flex-1">
         <select
-            id="order_by"
-            name="order_by"
+            id="sort_by"
+            name="sort_by"
             class="bg-secondary/15 border border-gray-300 px-4 pr-10 py-2 focus:outline-2 focus:outline-primary rounded-lg w-full appearance-none cursor-pointer text-text/60"
         >
-            <option value="" disabled selected>Order by</option>
-            <option value="vote_count" {{ request('order_by') == 'vote_count' ? 'selected' : '' }}>Highest Votes</option>
-            <option value="newest" {{ request('order_by') == 'newest' ? 'selected' : '' }}>Newest</option>
-            <option value="oldest" {{ request('order_by') == 'oldest' ? 'selected' : '' }}>Oldest</option>
+            <option value="" disabled selected>Sort by</option>
+            <option value="popularity,desc" {{ request('sort_by') == 'popularity' && request('sort_direction') == 'desc' ? 'selected' : '' }}>Most Popular</option>
+            <option value="created_at,desc" {{ request('sort_by') == 'created_at' && request('sort_direction') == 'desc' ? 'selected' : '' }}>Newest</option>
+            <option value="created_at,asc" {{ request('sort_by') == 'created_at' && request('sort_direction') == 'asc' ? 'selected' : '' }}>Oldest</option>
+            <option value="name,asc" {{ request('sort_by') == 'name' && request('sort_direction') == 'asc' ? 'selected' : '' }}>A-Z</option>
+            <option value="name,desc" {{ request('sort_by') == 'name' && request('sort_direction') == 'desc' ? 'selected' : '' }}>Z-A</option>
+            <option value="difficulty,asc" {{ request('sort_by') == 'difficulty' && request('sort_direction') == 'asc' ? 'selected' : '' }}>Easiest</option>
+            <option value="difficulty,desc" {{ request('sort_by') == 'difficulty' && request('sort_direction') == 'desc' ? 'selected' : '' }}>Hardest</option>
         </select>
         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
             <svg class="w-5 h-5 text-text/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">

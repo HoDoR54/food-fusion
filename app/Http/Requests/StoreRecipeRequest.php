@@ -22,12 +22,12 @@ class StoreRecipeRequest extends FormRequest
             'description' => 'required|string|max:1000',
             'servings' => 'required|integer|min:1|max:20',
             'difficulty' => ['required', Rule::enum(DifficultyLevel::class)],
-            'image' => 'nullable|image|mimes:png,jpg,jpeg|max:5120', // 5MB max
-            
+            'image' => 'nullable|image|mimes:png,jpg,jpeg|max:5120',
+
             'steps' => 'required|array|min:1',
             'steps.*.description' => 'required|string|max:1000',
             'steps.*.step_type' => ['required', Rule::enum(RecipeStepType::class)],
-            'steps.*.estimated_time_taken' => 'required|integer|min:1|max:300', // max 5 hours
+            'steps.*.estimated_time_taken' => 'required|integer|min:1|max:300',
             'steps.*.order' => 'required|integer|min:1',
             
             'ingredients' => 'required|array|min:1',
