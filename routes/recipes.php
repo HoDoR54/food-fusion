@@ -9,4 +9,5 @@ Route::middleware(GetUserOrPass::class)->prefix('recipes')->name('recipes.')->gr
     Route::get('/new-recipe', [RecipesController::class, 'showStore'])->name('create.show');
     Route::post('/new-recipe', [RecipesController::class, 'store'])->name('store');
     Route::get('/{id}', [RecipesController::class, 'show'])->name('show');
+    Route::post('/{id}/save', [RecipesController::class, 'saveToProfile'])->name('save');
 });

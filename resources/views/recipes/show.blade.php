@@ -16,20 +16,25 @@
 @section('title', $recipe->name)
 
 @section('content')
-    <section class="flex items-center justify-center pb-16">
+    <section id="recipe-details" data-recipe-id="{{ $recipe->id }}" class="flex items-center justify-center pb-16">
         <section class="flex flex-col min-w-[50vw] lg:max-w-[60vw] gap-5">
             {{-- overall section --}}
             <div class="w-full grid grid-cols-3">
                 <div class="flex flex-col p-3 justify-start items-start gap-2 md:col-span-2 relative">
                     <div class="absolute top-3 right-3 p-1 rounded-full flex gap-2">
                         {{-- TO-DO: implement these --}}
-                        <div class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
+                        <button id="save-recipe" class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
                             <i data-lucide="bookmark" class="w-4 h-4"></i>
-                        </div>
-                        <div class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
+                        </button>
+                        <button id="download-recipe" class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
                             <i data-lucide="download" class="w-4 h-4"></i>
-                        </div>
+                        </button>
                     </div>
+
+                    {{-- Hidden form for saving recipe --}}
+                    <form id="save-recipe-form" action="{{ route('recipes.save', $recipe->id) }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
 
 
                     <h1 class="text-primary text-3xl font-bold">{{ $recipe->name }}</h1>

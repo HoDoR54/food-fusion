@@ -50,6 +50,11 @@ class Recipe extends Model
         return $this->belongsTo(User::class, 'approved_by');
     }
 
+    public function savedBy(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'saved_recipes')->withTimestamps();
+    }
+
     public function attempts(): HasMany
     {
         return $this->hasMany(RecipeAttempt::class);

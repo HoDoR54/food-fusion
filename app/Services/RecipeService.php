@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Models\Tag;
 use App\Models\Ingredient;
 use App\Http\Requests\PaginationRequest;
@@ -12,6 +13,7 @@ use App\DTO\Responses\BaseResponse;
 use App\DTO\Responses\PaginatedResponse;
 use App\Models\Recipe;
 use App\Enums\TagType;
+use Illuminate\Support\Facades\Log;
 
 class RecipeService
 {
@@ -79,6 +81,45 @@ class RecipeService
                 'request_data' => $request->validated()
             ]);
             return new BaseResponse(false, 'Failed to create recipe. Please try again.', 500);
+        }
+    }
+
+    public function saveRecipeToUserProfile(string $userId, string $recipeId): ?BaseResponse
+    {
+        try {
+            \DB::beginTransaction();
+
+            $user = User::find($userId);
+            if (!$user) {
+                Log::error('User not found: ' . $userId);
+                return new BaseResponse(false, 'User not found', 404);
+            }
+
+            $recipe = Recipe::find($recipeId);
+            if (!$recipe) {
+                Log::error('Recipe not found: ' . $recipeId, [
+                    'user_id' => $userId
+                ]);
+                return new BaseResponse(false, 'Recipe not found', 404);
+            }
+
+            if ($user->savedRecipes()->where('recipe_id', $recipe->id)->exists()) {
+                Log::error('User attempted to save a recipe that is already saved: ' . $recipe->id, [
+                    'user_id' => $userId
+                ]);
+                return new BaseResponse(false, 'Recipe already saved to profile', 409);
+            }
+
+            $user->savedRecipes()->attach($recipe->id);
+
+            \DB::commit();
+            return new BaseResponse(true, 'Recipe saved to profile successfully', 200);
+        } catch (\Exception $e) {
+            \DB::rollback();
+            \Log::error('Error saving recipe to user profile: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+            return new BaseResponse(false, 'Failed to save recipe to profile. Please try again.', 500);
         }
     }
 

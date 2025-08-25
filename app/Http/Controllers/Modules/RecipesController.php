@@ -88,4 +88,23 @@ class RecipesController extends Controller
             return back()->withInput();
         }
     }
+
+    public function saveToProfile(string $id)
+    {
+        $userId = auth()->id();
+        $res = $this->_recipeService->saveRecipeToUserProfile($userId, $id);
+
+        if (!$res->isSuccess()) {
+            Log::error('Error saving recipe to profile: ' . $res->getMessage(), ['user_id' => $userId, 'recipe_id' => $id]);
+            session()->flash('toastMessage', $res->getMessage());
+            session()->flash('toastType', 'error');
+            Log::info('Flash message set for error', ['message' => $res->getMessage(), 'type' => 'error']);
+        } else {
+            session()->flash('toastMessage', $res->getMessage());
+            session()->flash('toastType', 'success');
+            Log::info('Flash message set for success', ['message' => $res->getMessage(), 'type' => 'success']);
+        }
+
+        return redirect()->route('recipes.show', $id);
+    }
 }
