@@ -138,7 +138,7 @@ class AuthService
             'sub' => $user->id,
             'email' => $user->email,
             'iat' => time(),
-            'exp' => time() + (60 * 60 * 24 * 7)
+            'exp' => time() + (60 * 60 * 24 * 7), // expires in 7 days
         ];
 
         $token = JWT::encode($payload, $secret, env('JWT_ALGORITHM'));
@@ -149,10 +149,9 @@ class AuthService
             'expires_at' => now()->addDays(7),
         ]);
 
-        return RefreshToken::where('user_id', $user->id)
-            ->where('token', $token)
-            ->exists();
+        return $token;
     }
+
 
     // Failed Login Attempt Methods
     public function addFailedLoginAttempt(string $ipAddress, int $decayMinutes): void

@@ -27,7 +27,7 @@ class GetUserOrPass
             if ($refreshToken) {
                 $res = $this->_authService->refresh($refreshToken);
 
-                if ($res) {
+                if ($res && $res->isSuccess()) {
                     $tokens = $res->getData();
                     $accessToken = $tokens['access_token'];
                     $refreshToken = $tokens['refresh_token'];
@@ -39,7 +39,7 @@ class GetUserOrPass
 
                     $response = $next($request);
                     $response->cookie('access_token', $accessToken, 15, '/', null, false, false)
-                                ->cookie('refresh_token', $refreshToken, 10080, '/', null, false, false);
+                                ->cookie('refresh_token', $refreshToken, 10080, '/', null, false, true);
 
                     return $response;
                 }
