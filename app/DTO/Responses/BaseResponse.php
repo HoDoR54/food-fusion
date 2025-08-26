@@ -58,4 +58,9 @@ class BaseResponse
     {
         return $this->message;
     }
+
+    public function getStatusCode(): int
+    {
+        return $this->status_code;
+    }
 }

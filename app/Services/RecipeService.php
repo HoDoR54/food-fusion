@@ -91,22 +91,25 @@ class RecipeService
 
             $user = User::find($userId);
             if (!$user) {
-                Log::error('User not found: ' . $userId);
+                Log::error('User not found when saving recipe', ['user_id' => $userId]);
                 return new BaseResponse(false, 'User not found', 404);
             }
 
             $recipe = Recipe::find($recipeId);
             if (!$recipe) {
-                Log::error('Recipe not found: ' . $recipeId, [
-                    'user_id' => $userId
-                ]);
+                Log::error('Recipe not found when saving', ['recipe_id' => $recipeId, 'user_id' => $userId]);
                 return new BaseResponse(false, 'Recipe not found', 404);
             }
 
-            if ($user->savedRecipes()->where('recipe_id', $recipe->id)->exists()) {
-                Log::error('User attempted to save a recipe that is already saved: ' . $recipe->id, [
-                    'user_id' => $userId
+            // Check if recipe is already saved
+            $alreadySaved = $user->savedRecipes()->where('recipe_id', $recipe->id)->exists();
+
+            if ($alreadySaved) {
+                Log::info('User attempted to save already saved recipe', [
+                    'user_id' => $userId,
+                    'recipe_id' => $recipeId
                 ]);
+                \DB::rollback();
                 return new BaseResponse(false, 'Recipe already saved to profile', 409);
             }
 
@@ -116,8 +119,10 @@ class RecipeService
             return new BaseResponse(true, 'Recipe saved to profile successfully', 200);
         } catch (\Exception $e) {
             \DB::rollback();
-            \Log::error('Error saving recipe to user profile: ' . $e->getMessage(), [
-                'trace' => $e->getTraceAsString()
+            \Log::error('Error saving recipe to user profile', [
+                'user_id' => $userId,
+                'recipe_id' => $recipeId,
+                'error' => $e->getMessage()
             ]);
             return new BaseResponse(false, 'Failed to save recipe to profile. Please try again.', 500);
         }

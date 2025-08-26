@@ -37,9 +37,9 @@ class AuthController extends Controller
 
         [$response, $tokens] = $this->_authService->login($request, $metadata);
 
-        if (!$response->toArray()['success']) {
+        if (!$response->isSuccess()) {
             return back()->with([
-                'toastMessage' => $response->toArray()['message'],
+                'toastMessage' => $response->getMessage(),
                 'toastType' => 'error'
             ]);
         }
@@ -70,9 +70,9 @@ class AuthController extends Controller
     {
         [$response, $tokens] = $this->_authService->register($request);
 
-        if (!$response->toArray()['success']) {
+        if (!$response->isSuccess()) {
             return back()->with([
-                'toastMessage' => $response->toArray()['message'],
+                'toastMessage' => $response->getMessage(),
                 'toastType' => 'error'
             ]);
         }

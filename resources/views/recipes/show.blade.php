@@ -23,18 +23,21 @@
                 <div class="flex flex-col p-3 justify-start items-start gap-2 md:col-span-2 relative">
                     <div class="absolute top-3 right-3 p-1 rounded-full flex gap-2">
                         {{-- TO-DO: implement these --}}
-                        <button id="save-recipe" class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
-                            <i data-lucide="bookmark" class="w-4 h-4"></i>
-                        </button>
-                        <button id="download-recipe" class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
-                            <i data-lucide="download" class="w-4 h-4"></i>
-                        </button>
+                        <form action="{{ route('recipes.save', $recipe->id) }}" method="POST" id="save-recipe-form">
+                            @csrf
+                            <button type="submit" class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
+                                <i data-lucide="bookmark" class="w-4 h-4"></i>
+                            </button>
+                        </form>
+                        {{-- <form action="{{ route('recipes.download', $recipe->id) }}" method="POST" style="display: none;">
+                            @csrf --}}
+                            <button type="submit" id="download-recipe" class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                            </button>
+                        {{-- </form> --}}
                     </div>
 
-                    {{-- Hidden form for saving recipe --}}
-                    <form id="save-recipe-form" action="{{ route('recipes.save', $recipe->id) }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
+                    
 
 
                     <h1 class="text-primary text-3xl font-bold">{{ $recipe->name }}</h1>

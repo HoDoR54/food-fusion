@@ -48,15 +48,27 @@
     @php
         $toastData = [];
 
-        // for session flash messages or direct variables
-        if (session()->has('toastMessage') || (isset($toastMessage) && $toastMessage)) {
+        // Check for session flash messages
+        if (session()->has('toastMessage')) {
             $validTypes = ['success', 'info', 'warning', 'error'];
-            $message = isset($toastMessage) ? $toastMessage : session('toastMessage');
-            $type = isset($toastType) ? $toastType : session('toastType', 'info');
-            $toastType = in_array($type, $validTypes) ? $type : 'info';
+            $message = session('toastMessage');
+            $type = session('toastType', 'info');
+            $type = in_array($type, $validTypes) ? $type : 'info';
             $toastData[] = [
                 'message' => addslashes(htmlspecialchars($message, ENT_QUOTES, 'UTF-8')),
-                'type' => $toastType
+                'type' => $type
+            ];
+        }
+        
+        // Check for direct variables (from with() method)
+        if (isset($toastMessage) && $toastMessage) {
+            $validTypes = ['success', 'info', 'warning', 'error'];
+            $message = $toastMessage;
+            $type = isset($toastType) ? $toastType : 'info';
+            $type = in_array($type, $validTypes) ? $type : 'info';
+            $toastData[] = [
+                'message' => addslashes(htmlspecialchars($message, ENT_QUOTES, 'UTF-8')),
+                'type' => $type
             ];
         }
 

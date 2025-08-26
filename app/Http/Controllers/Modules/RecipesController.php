@@ -92,19 +92,32 @@ class RecipesController extends Controller
     public function saveToProfile(string $id)
     {
         $userId = auth()->id();
+        
+        if (!auth()->check()) {
+            Log::warning('Unauthorized recipe save attempt', ['recipe_id' => $id]);
+            session()->flash('toastMessage', 'You must be logged in to save recipes');
+            session()->flash('toastType', 'error');
+            return redirect()->route('recipes.show', ['id' => $id]);
+        }
+        
         $res = $this->_recipeService->saveRecipeToUserProfile($userId, $id);
 
         if (!$res->isSuccess()) {
-            Log::error('Error saving recipe to profile: ' . $res->getMessage(), ['user_id' => $userId, 'recipe_id' => $id]);
+            Log::info('Recipe save failed', [
+                'user_id' => $userId,
+                'recipe_id' => $id,
+                'reason' => $res->getMessage()
+            ]);
+            
             session()->flash('toastMessage', $res->getMessage());
             session()->flash('toastType', 'error');
-            Log::info('Flash message set for error', ['message' => $res->getMessage(), 'type' => 'error']);
+            
+            return redirect()->route('recipes.show', ['id' => $id]);
         } else {
             session()->flash('toastMessage', $res->getMessage());
             session()->flash('toastType', 'success');
-            Log::info('Flash message set for success', ['message' => $res->getMessage(), 'type' => 'success']);
+            
+            return redirect()->route('recipes.show', ['id' => $id]);
         }
-
-        return redirect()->route('recipes.show', $id);
     }
 }
