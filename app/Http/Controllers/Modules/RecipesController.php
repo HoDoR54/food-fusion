@@ -89,12 +89,20 @@ class RecipesController extends Controller
         }
     }
 
-    public function saveToProfile(string $id)
+    public function saveToProfile(Request $request, string $id)
     {
         $userId = auth()->id();
         
         if (!auth()->check()) {
             Log::warning('Unauthorized recipe save attempt', ['recipe_id' => $id]);
+            
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You must be logged in to save recipes'
+                ], 401);
+            }
+            
             session()->flash('toastMessage', 'You must be logged in to save recipes');
             session()->flash('toastType', 'error');
             return redirect()->route('recipes.show', ['id' => $id]);
@@ -109,11 +117,25 @@ class RecipesController extends Controller
                 'reason' => $res->getMessage()
             ]);
             
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $res->getMessage()
+                ], 400);
+            }
+            
             session()->flash('toastMessage', $res->getMessage());
             session()->flash('toastType', 'error');
             
             return redirect()->route('recipes.show', ['id' => $id]);
         } else {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => $res->getMessage()
+                ], 200);
+            }
+            
             session()->flash('toastMessage', $res->getMessage());
             session()->flash('toastType', 'success');
             

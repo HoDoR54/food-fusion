@@ -6,3 +6,4 @@ import "./utils/consent";
 import "./data/recipe-search";
 import "./data/recipe-upload";
 import "./utils/pagination";
+import "./data/recipe-save";

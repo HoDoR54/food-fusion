@@ -23,18 +23,12 @@
                 <div class="flex flex-col p-3 justify-start items-start gap-2 md:col-span-2 relative">
                     <div class="absolute top-3 right-3 p-1 rounded-full flex gap-2">
                         {{-- TO-DO: implement these --}}
-                        <form action="{{ route('recipes.save', $recipe->id) }}" method="POST" id="save-recipe-form">
-                            @csrf
-                            <button type="submit" class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
-                                <i data-lucide="bookmark" class="w-4 h-4"></i>
-                            </button>
-                        </form>
-                        {{-- <form action="{{ route('recipes.download', $recipe->id) }}" method="POST" style="display: none;">
-                            @csrf --}}
-                            <button type="submit" id="download-recipe" class="border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
-                                <i data-lucide="download" class="w-4 h-4"></i>
-                            </button>
-                        {{-- </form> --}}
+                        <button data-recipe-id="{{ $recipe->id }}" class="recipe-save-button border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
+                            <i data-lucide="bookmark" class="w-4 h-4"></i>
+                        </button>
+                        <button data-recipe-id="{{ $recipe->id }}" class="recipe-download-button border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                        </button>
                     </div>
 
                     
