@@ -24,7 +24,7 @@
                     <div class="absolute top-3 right-3 p-1 rounded-full flex gap-2">
                         {{-- TO-DO: implement these --}}
                         <button data-recipe-id="{{ $recipe->id }}" class="recipe-save-button border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
-                            <i data-lucide="bookmark" class="w-4 h-4"></i>
+                            <i data-lucide="bookmark" class="w-4 h-4 save-icon"></i>
                         </button>
                         <button data-recipe-id="{{ $recipe->id }}" class="recipe-download-button border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
                             <i data-lucide="download" class="w-4 h-4"></i>

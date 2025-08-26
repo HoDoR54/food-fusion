@@ -128,6 +128,64 @@ class RecipeService
         }
     }
 
+    public function unsaveRecipeFromUserProfile(string $userId, string $recipeId): ?BaseResponse
+    {
+        try {
+            \DB::beginTransaction();
+
+            $user = User::find($userId);
+            if (!$user) {
+                Log::error('User not found when unsaving recipe', ['user_id' => $userId]);
+                return new BaseResponse(false, 'User not found', 404);
+            }
+
+            $recipe = Recipe::find($recipeId);
+            if (!$recipe) {
+                Log::error('Recipe not found when unsaving', ['recipe_id' => $recipeId, 'user_id' => $userId]);
+                return new BaseResponse(false, 'Recipe not found', 404);
+            }
+
+            // Check if recipe is not saved
+            $notSaved = !$user->savedRecipes()->where('recipe_id', $recipe->id)->exists();
+
+            if ($notSaved) {
+                \DB::rollback();
+                return new BaseResponse(false, 'This recipe is not saved to profile', 409);
+            }
+
+            $user->savedRecipes()->detach($recipe->id);
+
+            \DB::commit();
+            return new BaseResponse(true, 'Recipe unsaved from profile successfully', 200);
+        } catch (\Exception $e) {
+            \DB::rollback();
+            \Log::error('Error unsaving recipe from user profile', [
+                'user_id' => $userId,
+                'recipe_id' => $recipeId,
+                'error' => $e->getMessage()
+            ]);
+            return new BaseResponse(false, 'Failed to unsave recipe from profile. Please try again.', 500);
+        }
+    }
+
+    public function isRecipeSaved(string $userId, string $recipeId): ?BaseResponse
+    {
+        $user = User::find($userId);
+        if (!$user) {
+            Log::error('User not found when checking saved recipe', ['user_id' => $userId]);
+            return new BaseResponse(false, 'User not found', 404);
+        }
+
+        $recipe = Recipe::find($recipeId);
+        if (!$recipe) {
+            Log::error('Recipe not found when checking saved status', ['recipe_id' => $recipeId, 'user_id' => $userId]);
+            return new BaseResponse(false, 'Recipe not found', 404);
+        }
+
+        $isSaved = $user->savedRecipes()->where('recipe_id', $recipe->id)->exists();
+
+        return new BaseResponse(true, 'Recipe saved status retrieved successfully', 200, ['is_saved' => $isSaved]);
+    }
 
     // Support Methods
     public function getDietaryPreferences(): array

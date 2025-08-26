@@ -93,9 +93,7 @@ class RecipesController extends Controller
     {
         $userId = auth()->id();
         
-        if (!auth()->check()) {
-            Log::warning('Unauthorized recipe save attempt', ['recipe_id' => $id]);
-            
+        if (!$userId) {
             if ($request->expectsJson()) {
                 return response()->json([
                     'success' => false,
@@ -105,18 +103,13 @@ class RecipesController extends Controller
             
             session()->flash('toastMessage', 'You must be logged in to save recipes');
             session()->flash('toastType', 'error');
+            
             return redirect()->route('recipes.show', ['id' => $id]);
         }
         
         $res = $this->_recipeService->saveRecipeToUserProfile($userId, $id);
 
         if (!$res->isSuccess()) {
-            Log::info('Recipe save failed', [
-                'user_id' => $userId,
-                'recipe_id' => $id,
-                'reason' => $res->getMessage()
-            ]);
-            
             if ($request->expectsJson()) {
                 return response()->json([
                     'success' => false,
@@ -141,5 +134,84 @@ class RecipesController extends Controller
             
             return redirect()->route('recipes.show', ['id' => $id]);
         }
+    }
+
+    public function unsaveFromProfile(Request $request, string $id)
+    {
+        $userId = auth()->id();
+        
+        if (!$userId) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You must be logged in to unsave recipes'
+                ], 401);
+            }
+            
+            session()->flash('toastMessage', 'You must be logged in to unsave recipes');
+            session()->flash('toastType', 'error');
+            
+            return redirect()->route('recipes.show', ['id' => $id]);
+        }
+        
+        $res = $this->_recipeService->unsaveRecipeFromUserProfile($userId, $id);
+
+        if (!$res->isSuccess()) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $res->getMessage()
+                ], 400);
+            }
+            
+            session()->flash('toastMessage', $res->getMessage());
+            session()->flash('toastType', 'error');
+            
+            return redirect()->route('recipes.show', ['id' => $id]);
+        } else {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => $res->getMessage()
+                ], 200);
+            }
+            
+            session()->flash('toastMessage', $res->getMessage());
+            session()->flash('toastType', 'success');
+            
+            return redirect()->route('recipes.show', ['id' => $id]);
+        }
+    }
+
+    public function isSaved(Request $request, string $id)
+    {
+        $userId = auth()->id();
+
+        if (!$userId) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'User not authenticated',
+                    'data' => ['is_saved' => false]
+                ], 200);
+            }
+            
+            return redirect()->route('recipes.show', ['id' => $id]);
+        }
+
+        $res = $this->_recipeService->isRecipeSaved($userId, $id);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => $res->isSuccess(),
+                'message' => $res->getMessage(),
+                'data' => $res->getData()
+            ], $res->isSuccess() ? 200 : 400);
+        }
+
+        session()->flash('toastMessage', $res->getMessage());
+        session()->flash('toastType', $res->isSuccess() ? 'success' : 'error');
+
+        return redirect()->route('recipes.show', ['id' => $id]);
     }
 }
