@@ -20,10 +20,10 @@
     @else
         <div class="w-full flex items-center justify-between mb-2">
             <div class="flex items-center justify-center gap-2">
-                <input type="checkbox" id="doNotShowAgain">
+                <input type="checkbox" id="doNotShowAgain" onchange="handleDoNotShowAgain(this.checked)">
                 <label for="doNotShowAgain" class="text-gray-500 text-sm">Do not show again</label>
             </div>
-            <i data-lucide="x" class="stroke-2 w-[1.5rem] h-[1.5rem] text-primary hover:text-secondary cursor-pointer" onclick="closePopup()"></i>
+            <i data-lucide="x" class="stroke-2 w-[1.5rem] h-[1.5rem] text-primary hover:text-secondary cursor-pointer" data-action="close-popup"></i>
         </div>
     @endif
 
