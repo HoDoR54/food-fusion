@@ -12,4 +12,5 @@ Route::middleware(GetUserOrPass::class)->prefix('recipes')->name('recipes.')->gr
     Route::post('/{id}/save', [RecipesController::class, 'saveToProfile'])->name('save');
     Route::post('/{id}/unsave', [RecipesController::class, 'unsaveFromProfile'])->name('unsave');
     Route::get('/{id}/is-saved', [RecipesController::class, 'isSaved'])->name('is.saved');
+    Route::post('/attempt', [RecipesController::class, 'storeAttempt'])->name('attempt.store');
 });

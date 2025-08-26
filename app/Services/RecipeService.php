@@ -12,7 +12,9 @@ use App\Http\Requests\StoreRecipeRequest;
 use App\DTO\Responses\BaseResponse;
 use App\DTO\Responses\PaginatedResponse;
 use App\Models\Recipe;
+use App\Models\RecipeAttempt;
 use App\Enums\TagType;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class RecipeService
@@ -185,6 +187,38 @@ class RecipeService
         $isSaved = $user->savedRecipes()->where('recipe_id', $recipe->id)->exists();
 
         return new BaseResponse(true, 'Recipe saved status retrieved successfully', 200, ['is_saved' => $isSaved]);
+    }
+
+    public function storeRecipeAttempt(Request $request, string $userId, ?string $imageUrl): ?BaseResponse
+    {
+        try {
+            \DB::beginTransaction();
+
+            $recipeId = $request->input('recipe_id');
+            $recipe = Recipe::find($recipeId);
+            if (!$recipe) {
+                Log::error('Recipe not found when storing attempt', ['recipe_id' => $recipeId, 'user_id' => $userId]);
+                return new BaseResponse(false, 'Recipe not found', 404);
+            }
+
+            $attempt = new RecipeAttempt();
+            $attempt->user_id = $userId;
+            $attempt->recipe_id = $recipeId;
+            $attempt->notes = $request->input('notes');
+            $attempt->image_url = $imageUrl;
+            $attempt->save();
+
+            \DB::commit();
+            return new BaseResponse(true, 'Recipe attempt shared successfully', 200);
+        } catch (\Exception $e) {
+            \DB::rollback();
+            Log::error('Error sharing recipe attempt', [
+                'user_id' => $userId,
+                'recipe_id' => $request->input('recipe_id'),
+                'error' => $e->getMessage()
+            ]);
+            return new BaseResponse(false, 'Failed to share recipe attempt. Please try again.', 500);
+        }
     }
 
     // Support Methods

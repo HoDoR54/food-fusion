@@ -4,14 +4,15 @@
 @endphp
 
 <div class="border-2 border-dashed border-primary/30 bg-white rounded-xl max-w-lg mx-auto min-w-[400px]">
-    <!-- Header with close button -->
     <div class="flex items-center justify-between border-b border-dashed border-primary/20 p-4">
             <h2 class="text-lg font-bold text-primary">Share Your Attempt</h2>
             <i data-lucide="x" class="stroke-2 w-[1.5rem] h-[1.5rem] text-primary hover:text-secondary cursor-pointer" data-action="close-popup"></i>
     </div>
 
-        <form method="POST" enctype="multipart/form-data" class="p-4 flex flex-col gap-4 w-full">
+        <form action="{{ route('recipes.attempt.store') }}" method="POST" enctype="multipart/form-data" class="p-4 flex flex-col gap-4 w-full">
             @csrf
+
+            <input type="text" name="recipe_id" value="{{ $recipe->id }}" class="hidden" />
 
             <div class="flex flex-col gap-4 md:flex-row md:gap-4">
                 <!-- Photo Upload Section -->
@@ -31,13 +32,13 @@
                         </button>
                     </div>
 
-                    <label id="attempt-image-label" for="image_file"
+                    <label id="attempt-image-label" for="image"
                         class="flex flex-col items-center justify-center gap-2 border border-dashed border-primary/30 rounded-lg bg-primary/10 hover:bg-primary/20 transition cursor-pointer w-full h-24">
                         <i data-lucide="camera" class="w-6 h-6 text-gray-500"></i>
                         <span class="text-xs text-gray-500">Upload photo</span>
                     </label>
 
-                    <input type="file" id="image_file" name="image_file" accept="image/*" class="hidden" />
+                    <input type="file" id="image" name="image" accept="image/*" class="hidden" />
                 </div>
 
                 <!-- Notes Section -->
@@ -46,7 +47,8 @@
                         <i data-lucide="edit-3" class="w-4 h-4 inline mr-1"></i>
                         How did it go?
                     </label>
-                    <textarea 
+                    <textarea
+                        required
                         id="notes" 
                         name="notes" 
                         placeholder="Share your experience, modifications, or tips..."
@@ -56,12 +58,15 @@
             </div>
 
             <div class="flex gap-2 pt-2">
-                <button 
+                <x-button 
+                    :variant="ButtonVariant::Secondary"
+                    :size="ButtonSize::Large"
                     type="submit" 
-                    class="flex-1 bg-primary hover:bg-primary/90 text-white py-2 px-4 rounded-lg transition text-sm font-semibold flex items-center justify-center gap-1">
-                    <i data-lucide="upload" class="w-4 h-4"></i>
-                    Share
-                </button>
+                    class="flex-1 bg-primary hover:bg-primary/90 text-white py-2 px-4 rounded-lg transition text-sm font-semibold flex items-center justify-center gap-1"
+                    :icon="'<i data-lucide=\'upload\' class=\'w-4 h-4\'></i>'"
+                    :text="'Share'"
+                >
+                </x-button>
             </div>
         </form>
 </div>

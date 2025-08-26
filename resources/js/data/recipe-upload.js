@@ -8,12 +8,14 @@ import {
     createTimeInputWrapper,
     reinitializeLucideIcons,
 } from "../utils/components.js";
+import { ImageUploadHandler } from "../interactivity/image-upload.js";
 
 class RecipeUploadManager {
     constructor() {
         this.stepCounter = 0;
         this.ingredientCounter = 0;
         this.tagCounter = 0;
+        this.imageUploadHandler = null;
         this.init();
     }
 
@@ -24,50 +26,7 @@ class RecipeUploadManager {
     }
 
     initImageHandling() {
-        const imageInput = document.getElementById("image");
-        const removeImageBtn = document.getElementById("remove-image");
-
-        if (imageInput) {
-            imageInput.addEventListener("change", (e) => this.previewImage(e));
-        }
-
-        if (removeImageBtn) {
-            removeImageBtn.addEventListener("click", () => this.removeImage());
-        }
-    }
-
-    previewImage(event) {
-        const file = event.target.files[0];
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const imagePreview = document.getElementById("image-preview");
-                const imagePreviewContainer = document.getElementById(
-                    "image-preview-container"
-                );
-                const imageLabel = document.getElementById("image-label");
-
-                imagePreview.src = e.target.result;
-                imagePreviewContainer?.classList.remove("hidden");
-                imageLabel?.classList.add("hidden");
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    removeImage() {
-        const imageInput = document.getElementById("image");
-        const imagePreview = document.getElementById("image-preview");
-        const imagePreviewContainer = document.getElementById(
-            "image-preview-container"
-        );
-        const imageLabel = document.getElementById("image-label");
-
-        imageInput.value = "";
-        imagePreview.src = "#";
-        imagePreviewContainer?.classList.add("hidden");
-        imageLabel?.classList.remove("hidden");
+        this.imageUploadHandler = ImageUploadHandler.createRecipeUpload();
     }
 
     createStepComponent(stepIndex) {

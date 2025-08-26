@@ -214,4 +214,33 @@ class RecipesController extends Controller
 
         return redirect()->route('recipes.show', ['id' => $id]);
     }
+
+    public function storeAttempt(Request $request)
+    {
+        $userId = auth()->id();
+
+        $imageUrl = null;
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $result = $this->_cloudinaryService->uploadImage($request->file('image'), 'recipe_attempts');
+            if (!$result->isSuccess()) {
+                session()->flash('toastMessage', $result->getMessage());
+                session()->flash('toastType', 'error');
+                return redirect()->route('recipes.show', ['id' => $request->input('recipe_id')]);
+            }
+            $imageUrl = $result->getData()->secure_url;
+        }
+
+        $res = $this->_recipeService->storeRecipeAttempt($request, $userId, $imageUrl);
+
+        if ($res->isSuccess()) {
+            session()->flash('toastMessage', $res->getMessage());
+            session()->flash('toastType', 'success');
+        } else {
+            session()->flash('toastMessage', $res->getMessage());
+            session()->flash('toastType', 'error');
+        }
+
+        return redirect()->route('recipes.show', ['id' => $request->input('recipe_id')]);
+    }
 }
