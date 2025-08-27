@@ -61,6 +61,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Recipe::class, 'saved_recipes')->withTimestamps();
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);

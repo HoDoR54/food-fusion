@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RecipesSeeder::class,
             BlogSeeder::class,
+            CommentSeeder::class,
             RecipeAttemptsSeeder::class,
         ]);
 

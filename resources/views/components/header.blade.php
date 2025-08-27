@@ -7,7 +7,7 @@
         'About Us' => '/about',
         'Contact' => '/contact',
         'Educational Resources' => '/educational-resources',
-        'Curated Recipes' => '/recipes',
+        'Recipes' => '/recipes',
         'Community Cookbook' => '/blogs',
   ];
 
