@@ -5,65 +5,161 @@ namespace App\Http\Controllers\Modules;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BlogCommentCreateRequest;
-use App\Models\Blog;
+use App\Http\Requests\PaginationRequest;
+use App\Services\BlogService;
 
 class BlogsController extends Controller
 {
-    public function index()
+    protected $_blogService;
+
+    public function __construct(BlogService $blogService) {
+        $this->_blogService = $blogService;
+    }
+
+    public function index(PaginationRequest $pagination)
     {
-        $blogs = Blog::all();
-        return view('blogs.index', compact('blogs'));
+        $response = $this->_blogService->getPaginatedBlogs($pagination);
+        
+        if (!$response->isSuccess()) {
+            session()->flash('toastMessage', $response->getMessage());
+            session()->flash('toastType', 'error');
+            return redirect()->route('home');
+        }
+
+        return view('blogs.index', [
+            'res' => $response,
+            'title' => 'Community Cookbook',
+        ]);
     }
 
     public function show($id)
     {
-        $blog = Blog::with('comments.user', 'tags', 'author')->find($id);
+        $response = $this->_blogService->getBlogWithRelations($id);
+        
+        if (!$response->isSuccess()) {
+            if ($response->getStatusCode() === 404) {
+                abort(404, $response->getMessage());
+            }
+            return redirect()->back()->with('error', $response->getMessage());
+        }
+        
+        $blog = $response->getData();
         return view('blogs.show', compact('blog'));
     }
 
     public function createComment(BlogCommentCreateRequest $request, $blogId)
     {
-        try {
-            $blog = Blog::findOrFail($blogId);
-            
-            $comment = $blog->comments()->create([
-                'user_id' => auth()->id(),
-                'content' => $request->input('content'),
-            ]);
+        $response = $this->_blogService->createComment(
+            $blogId, 
+            auth()->id(), 
+            $request->input('content')
+        );
 
-            // Load the user relationship for the response
-            $comment->load('user');
-
-            // If it's an AJAX request, return JSON
-            if ($request->ajax() || $request->wantsJson()) {
+        // If it's an AJAX request, return JSON
+        if ($request->ajax() || $request->wantsJson()) {
+            if ($response->isSuccess()) {
+                $data = $response->getData();
                 return response()->json([
                     'success' => true,
-                    'message' => 'Comment added successfully.',
+                    'message' => $response->getMessage(),
                     'comment' => [
-                        'id' => $comment->id,
-                        'content' => $comment->content,
-                        'user_name' => $comment->user->name,
-                        'created_at' => $comment->created_at->diffForHumans(),
-                        'formatted_date' => $comment->created_at->format('Y-m-d H:i:s')
+                        'id' => $data['comment']->id,
+                        'content' => $data['comment']->content,
+                        'user_name' => $data['comment']->user->name,
+                        'created_at' => $data['comment']->created_at->diffForHumans(),
+                        'formatted_date' => $data['comment']->created_at->format('Y-m-d H:i:s')
                     ],
-                    'total_comments' => $blog->comments()->count()
-                ], 201);
-            }
-
-            return redirect()->back()->with('success', 'Comment added successfully.');
-            
-        } catch (\Exception $e) {
-            \Log::error('Comment creation error: ' . $e->getMessage());
-            
-            if ($request->ajax() || $request->wantsJson()) {
+                    'total_comments' => $data['total_comments']
+                ], $response->getStatusCode());
+            } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'An error occurred while adding the comment.',
-                    'errors' => ['general' => ['Something went wrong. Please try again.']]
-                ], 500);
+                    'message' => $response->getMessage(),
+                    'errors' => ['general' => [$response->getMessage()]]
+                ], $response->getStatusCode());
             }
+        }
 
-            return redirect()->back()->with('error', 'An error occurred while adding the comment.');
+        if ($response->isSuccess()) {
+            return redirect()->back()->with('success', $response->getMessage());
+        } else {
+            return redirect()->back()->with('error', $response->getMessage());
         }
     }
+
+    public function upvote($blogId) {
+        $user = auth()->user();
+        if (!$user) {
+            \Log::warning('User not authenticated for upvote');
+            return response()->json(['success' => false, 'message' => 'You must be logged in to vote.'], 401);
+        }
+
+        $response = $this->_blogService->upvoteBlog($blogId, $user);
+        
+        if ($response->isSuccess()) {
+            $data = $response->getData();
+            return response()->json([
+                'success' => true,
+                'message' => $response->getMessage(),
+                'upvotes' => $data['upvotes'],
+                'downvotes' => $data['downvotes'],
+                'vote_score' => $data['vote_score'],
+                'user_vote' => $data['user_vote']
+            ], $response->getStatusCode());
+        } else {
+            return response()->json([
+                'success' => false, 
+                'message' => $response->getMessage()
+            ], $response->getStatusCode());
+        }
+    }
+
+    public function downvote($blogId) {
+        $user = auth()->user();
+        if (!$user) {
+            \Log::warning('User not authenticated for downvote');
+            return response()->json(['success' => false, 'message' => 'You must be logged in to vote.'], 401);
+        }
+
+        $response = $this->_blogService->downvoteBlog($blogId, $user);
+        
+        if ($response->isSuccess()) {
+            $data = $response->getData();
+            return response()->json([
+                'success' => true,
+                'message' => $response->getMessage(),
+                'upvotes' => $data['upvotes'],
+                'downvotes' => $data['downvotes'],
+                'vote_score' => $data['vote_score'],
+                'user_vote' => $data['user_vote']
+            ], $response->getStatusCode());
+        } else {
+            return response()->json([
+                'success' => false, 
+                'message' => $response->getMessage()
+            ], $response->getStatusCode());
+        }
+    }
+
+    public function getVoteStatus($blogId) {
+        $user = auth()->user();
+        $response = $this->_blogService->getVoteStatus($blogId, $user);
+        
+        if ($response->isSuccess()) {
+            $data = $response->getData();
+            return response()->json([
+                'success' => true,
+                'upvotes' => $data['upvotes'],
+                'downvotes' => $data['downvotes'],
+                'vote_score' => $data['vote_score'],
+                'user_vote' => $data['user_vote']
+            ], $response->getStatusCode());
+        } else {
+            return response()->json([
+                'success' => false, 
+                'message' => $response->getMessage()
+            ], $response->getStatusCode());
+        }
+    }
+
 }

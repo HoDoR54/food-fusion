@@ -55,22 +55,25 @@
                 <div class="flex items-center gap-3">
                     {{-- upvote/downvote buttons --}}
                     <div class="flex items-center gap-1">
-                        <button data-blog-id="{{ $blog->id }}" class="blog-upvote-button border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-green-500 hover:text-green-500 transition-colors">
+                        @php
+                            $userVote = auth()->user() ? $blog->getUserVote(auth()->user()->id) : null;
+                            $upvoteClasses = $userVote && $userVote->isUpvote() ? 'border-green-500 text-green-500' : 'border-text/60 text-text/60';
+                            $downvoteClasses = $userVote && $userVote->isDownvote() ? 'border-red-500 text-red-500' : 'border-text/60 text-text/60';
+                        @endphp
+                        <button data-blog-id="{{ $blog->id }}" class="blog-upvote-button {{ $upvoteClasses }} p-1 rounded border cursor-pointer hover:border-green-500 hover:text-green-500 transition-colors">
                             <i data-lucide="arrow-up" class="w-4 h-4"></i>
                         </button>
-                        <span class="vote-count text-text font-medium text-sm min-w-[20px] text-center">0</span>
-                        <button data-blog-id="{{ $blog->id }}" class="blog-downvote-button border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-red-500 hover:text-red-500 transition-colors">
+                        <span class="vote-count-display text-text font-medium text-sm min-w-[20px] text-center">{{ $blog->vote_score }}</span>
+                        <button data-blog-id="{{ $blog->id }}" class="blog-downvote-button {{ $downvoteClasses }} p-1 rounded border cursor-pointer hover:border-red-500 hover:text-red-500 transition-colors">
                             <i data-lucide="arrow-down" class="w-4 h-4"></i>
                         </button>
                     </div>
                 </div>
                 <div class="flex items-center gap-3 text-xs text-text/60">
-                    <a href="#comment-section">
-                        <button class="flex items-center gap-1 hover:text-secondary transition-colors cursor-pointer">
-                            <i data-lucide="message-circle" class="w-3 h-3"></i>
-                            <span>Comment</span>
-                        </button>
-                    </a>
+                    <button class="to-comments flex items-center gap-1 hover:text-secondary transition-colors cursor-pointer">
+                        <i data-lucide="message-circle" class="w-3 h-3"></i>
+                        <span>Comment</span>
+                    </button>
                     <button class="flex items-center gap-1 hover:text-secondary transition-colors cursor-pointer">
                         <i data-lucide="share-2" class="w-3 h-3"></i>
                         <span>Share</span>

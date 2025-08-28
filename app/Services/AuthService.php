@@ -84,7 +84,7 @@ class AuthService
     {
         try {
             $secret = env('JWT_SECRET');
-            $alg = env('JWT_ALGORITHM');
+            $alg = env('JWT_ALGORITHM', 'HS256');
             $payload = JWT::decode($token, new Key($secret, $alg));
             return User::find($payload->sub);
         } catch (\Exception $e) {
@@ -97,7 +97,7 @@ class AuthService
     {
         try {
             $secret = env('JWT_SECRET');
-            $alg = env('JWT_ALGORITHM');
+            $alg = env('JWT_ALGORITHM', 'HS256');
             $payload = JWT::decode($token, new Key($secret, $alg));
             return $payload->exp < time();
         } catch (\Exception $e) {
@@ -128,7 +128,7 @@ class AuthService
             'exp' => time() + (60 * 15)
         ];
 
-        return JWT::encode($payload, $secret, env('JWT_ALGORITHM'));
+        return JWT::encode($payload, $secret, env('JWT_ALGORITHM', 'HS256'));
     }
 
     public function createRefreshToken(User $user): string
@@ -141,7 +141,7 @@ class AuthService
             'exp' => time() + (60 * 60 * 24 * 7), // expires in 7 days
         ];
 
-        $token = JWT::encode($payload, $secret, env('JWT_ALGORITHM'));
+        $token = JWT::encode($payload, $secret, env('JWT_ALGORITHM', 'HS256'));
 
         RefreshToken::create([
             'user_id' => $user->id,

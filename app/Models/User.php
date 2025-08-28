@@ -106,6 +106,28 @@ class User extends Authenticatable
         return $this->belongsToMany(Event::class, 'event_attendees', 'user_id', 'event_id');
     }
 
+    public function votes(): HasMany
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    public function voteOnBlog(Blog $blog, string $direction): Vote
+    {
+        // Remove existing vote if any
+        $this->votes()->where('blog_id', $blog->id)->delete();
+        
+        // Create new vote
+        return $this->votes()->create([
+            'blog_id' => $blog->id,
+            'direction' => $direction,
+        ]);
+    }
+
+    public function removeVoteFromBlog(Blog $blog): bool
+    {
+        return $this->votes()->where('blog_id', $blog->id)->delete() > 0;
+    }
+
     public function getNameAttribute(): string
     {
         return $this->first_name . ' ' . $this->last_name;

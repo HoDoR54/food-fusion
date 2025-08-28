@@ -386,7 +386,7 @@ class RecipeService
             );
 
             $recipe->ingredients()->attach($ingredient->id, [
-                'quantity' => $ingredientData['quantity'] ?? null,
+                'amount' => $ingredientData['amount'] ?? null,
                 'unit' => $ingredientData['unit'] ?? null,
             ]);
         }

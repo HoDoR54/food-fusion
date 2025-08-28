@@ -9,6 +9,8 @@ Route::middleware(GetUserOrPass::class)->prefix('blogs')->name('blogs.')->group(
     Route::middleware(RequireLogin::class)->group(function () {
         Route::get('/new-post', fn() => view('blogs.create'))->name('create');
         Route::post('/{id}/comments/create', [BlogsController::class, 'createComment'])->name('comments.create');
+        Route::post('/{id}/upvote', [BlogsController::class, 'upvote'])->name('upvote');
+        Route::post('/{id}/downvote', [BlogsController::class, 'downvote'])->name('downvote');
     });
 
     Route::get('/', [BlogsController::class, 'index'])->name('index');

@@ -9,3 +9,4 @@ import "./utils/pagination";
 import "./data/recipe-save";
 import "./interactivity/pop-up";
 import "./interactivity/image-upload";
+import "./data/blog";
