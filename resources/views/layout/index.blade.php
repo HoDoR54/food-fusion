@@ -12,7 +12,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="icon" href="{{ asset('logo/logo-dark.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     @livewireStyles
     <title>@yield('title', 'Food Fusion')</title>
 </head>
@@ -111,6 +111,8 @@
 </body>
 
 <script>
-    lucide.createIcons();
+    document.addEventListener("DOMContentLoaded", () => {
+        lucide.createIcons();
+    });
 </script>
 </html>

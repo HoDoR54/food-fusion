@@ -263,10 +263,14 @@ class BlogManager {
             ?.getAttribute("content");
         if (!token) {
             console.error("❌ CSRF token missing");
-            return { "Content-Type": "application/json" };
+            return {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            };
         }
         return {
             "Content-Type": "application/json",
+            Accept: "application/json",
             "X-CSRF-TOKEN": token,
         };
     }

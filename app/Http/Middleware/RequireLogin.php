@@ -11,10 +11,21 @@ class RequireLogin
 {
     public function handle(Request $request, Closure $next)
     {
+        Log::info('Checking authentication for: ' . $request->fullUrl());
+
         if (!Auth::check()) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You need to log in to perform this action.',
+                ], 401);
+            }
+
             $request->session()->flash('toastMessage', 'You need to log in to perform this action.');
             $request->session()->flash('toastType', 'error');
+
             Log::info('Unauthorized access attempt to: ' . $request->fullUrl());
+
             return redirect()->route('auth.login.show');
         }
 

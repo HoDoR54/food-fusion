@@ -20,6 +20,7 @@ class GetUserOrPass
 
     public function handle(Request $request, Closure $next): Response
     {
+        Log::info('Getting user or pass for: ' . $request->fullUrl());
         $accessToken = $request->cookie('access_token');
         $refreshToken = $request->cookie('refresh_token');
 
@@ -47,8 +48,6 @@ class GetUserOrPass
                 Log::info('no refresh token found');
                 return $next($request);
             }
-
-            return $next($request);
         }
 
         $user = $this->_authService->getUserFromToken($accessToken);
