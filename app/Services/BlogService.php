@@ -16,10 +16,8 @@ class BlogService
         try {
             $query = Blog::query();
             
-            // Load the author relationship
             $query->with('author');
             
-            // Order by latest first
             $query->orderBy('created_at', 'desc');
 
             $paginator = $query->paginate(
@@ -41,16 +39,6 @@ class BlogService
         }
     }
 
-    public function getAllBlogs(): BaseResponse {
-        try {
-            $blogs = Blog::all();
-            return new BaseResponse(true, 'Blogs retrieved successfully', 200, $blogs);
-        } catch (\Exception $e) {
-            Log::error('Error retrieving blogs: ' . $e->getMessage());
-            return new BaseResponse(false, 'Failed to retrieve blogs', 500);
-        }
-    }
-
     public function getBlogById($id): BaseResponse {
         try {
             $blog = Blog::findOrFail($id);
@@ -65,7 +53,14 @@ class BlogService
 
     public function getBlogWithRelations($id): BaseResponse {
         try {
-            $blog = Blog::with('comments.user', 'tags', 'author')->find($id);
+            $blog = Blog::with([
+                'comments' => function ($query) {
+                    $query->orderBy('created_at', 'desc');
+                },
+                'comments.user',
+                'tags',
+                'author'
+            ])->find($id);
             
             if (!$blog) {
                 return new BaseResponse(false, 'Blog not found', 404);
@@ -78,30 +73,40 @@ class BlogService
         }
     }
 
-    public function createComment($blogId, $userId, $content): BaseResponse {
+    public function createComment($blogId, $userId, $content): BaseResponse
+    {
         try {
             DB::beginTransaction();
-            
+
             $blog = Blog::findOrFail($blogId);
-            
+            Log::info('Blog found: ' . $blog->id);
+
             $comment = $blog->comments()->create([
                 'user_id' => $userId,
                 'content' => $content,
             ]);
+            Log::info('Comment created: ' . $comment->id);
 
-            // Load the user relationship for the response
+            // Load user relationship for front-end display
             $comment->load('user');
 
             $responseData = [
                 'comment' => $comment,
-                'total_comments' => $blog->comments()->count()
+                'total_comments' => $blog->comments()->count(),
             ];
 
             DB::commit();
-            return new BaseResponse(true, 'Comment added successfully', 201, $responseData);
-            
+
+            return new BaseResponse(
+                true,
+                'Comment added successfully',
+                201,
+                $responseData
+            );
+
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollback();
+            Log::error('Error creating comment: ' . $e->getMessage());
             return new BaseResponse(false, 'Blog not found', 404);
         } catch (\Exception $e) {
             DB::rollback();
@@ -109,6 +114,7 @@ class BlogService
             return new BaseResponse(false, 'Failed to create comment', 500);
         }
     }
+
 
     public function upvoteBlog($blogId, User $user): BaseResponse {
         try {

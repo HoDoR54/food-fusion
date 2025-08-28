@@ -16,12 +16,14 @@
 @section('content')
     <section id="blog-details" data-blog-id="{{ $blog->id }}" class="flex items-center justify-center pb-16">
         <section class="flex flex-col min-w-[50vw] lg:max-w-[60vw] gap-5">
-            {{-- featured image at the top --}}
+
+            {{-- featured image --}}
             <div class="w-full">
-                <img src="{{ asset('images/example-recipe.jpg') }}" alt="{{ $blog->title }}" class="w-full h-64 object-cover rounded-2xl border-2 border-dashed border-primary/20">
+                <img src="{{ asset('images/example-recipe.jpg') }}" alt="{{ $blog->title }}" 
+                    class="w-full h-64 object-cover rounded-2xl border-2 border-dashed border-primary/20">
             </div>
 
-            {{-- header section --}}
+            {{-- header --}}
             <div class="w-full relative">
                 <div class="flex flex-col gap-2 pr-20">
                     <h1 class="text-primary text-3xl font-bold">{{ $blog->title }}</h1>
@@ -33,6 +35,7 @@
                         <i data-lucide="clock" class="text-secondary w-4 h-4"></i>
                         <span class="text-text/60 text-sm">{{ $readTime }} min read</span>
                     </div>
+
                     <div class="flex gap-2 flex-wrap">
                         @if($blog->tags && $blog->tags->count() > 0)
                             @foreach($blog->tags as $tag)
@@ -45,30 +48,37 @@
                             Blog Post
                         </div>
                     </div>
-                    <h3 class="text-primary text-sm">By <a class="font-medium hover:underline hover:text-secondary cursor-pointer">{{ $blog->author->name }}</a></h3>
+
+                    <h3 class="text-primary text-sm">
+                        By <a class="font-medium hover:underline hover:text-secondary cursor-pointer">{{ $blog->author->name }}</a>
+                    </h3>
                     <p class="text-text/60 text-xs">Published {{ $blog->created_at->format('H:i, F j, Y') }}</p>
                 </div>
             </div>
 
-            {{-- voting section --}}
+            {{-- voting --}}
             <div class="flex items-center justify-between py-3 px-4 bg-primary/5 rounded-lg border border-primary/10">
                 <div class="flex items-center gap-3">
-                    {{-- upvote/downvote buttons --}}
+                    @php
+                        $userVote = auth()->user() ? $blog->getUserVote(auth()->user()->id) : null;
+                        $upvoteClasses = $userVote && $userVote->isUpvote() ? 'border-green-500 text-green-500' : 'border-text/60 text-text/60';
+                        $downvoteClasses = $userVote && $userVote->isDownvote() ? 'border-red-500 text-red-500' : 'border-text/60 text-text/60';
+                    @endphp
                     <div class="flex items-center gap-1">
-                        @php
-                            $userVote = auth()->user() ? $blog->getUserVote(auth()->user()->id) : null;
-                            $upvoteClasses = $userVote && $userVote->isUpvote() ? 'border-green-500 text-green-500' : 'border-text/60 text-text/60';
-                            $downvoteClasses = $userVote && $userVote->isDownvote() ? 'border-red-500 text-red-500' : 'border-text/60 text-text/60';
-                        @endphp
-                        <button data-blog-id="{{ $blog->id }}" class="blog-upvote-button {{ $upvoteClasses }} p-1 rounded border cursor-pointer hover:border-green-500 hover:text-green-500 transition-colors">
+                        <button data-blog-id="{{ $blog->id }}" 
+                            class="blog-upvote-button {{ $upvoteClasses }} p-1 rounded border cursor-pointer hover:border-green-500 hover:text-green-500 transition-colors">
                             <i data-lucide="arrow-up" class="w-4 h-4"></i>
                         </button>
-                        <span class="vote-count-display text-text font-medium text-sm min-w-[20px] text-center">{{ $blog->vote_score }}</span>
-                        <button data-blog-id="{{ $blog->id }}" class="blog-downvote-button {{ $downvoteClasses }} p-1 rounded border cursor-pointer hover:border-red-500 hover:text-red-500 transition-colors">
+                        <span class="vote-count-display text-text font-medium text-sm min-w-[20px] text-center">
+                            {{ $blog->vote_score }}
+                        </span>
+                        <button data-blog-id="{{ $blog->id }}" 
+                            class="blog-downvote-button {{ $downvoteClasses }} p-1 rounded border cursor-pointer hover:border-red-500 hover:text-red-500 transition-colors">
                             <i data-lucide="arrow-down" class="w-4 h-4"></i>
                         </button>
                     </div>
                 </div>
+
                 <div class="flex items-center gap-3 text-xs text-text/60">
                     <button class="to-comments flex items-center gap-1 hover:text-secondary transition-colors cursor-pointer">
                         <i data-lucide="message-circle" class="w-3 h-3"></i>
@@ -89,33 +99,21 @@
                 </div>
             </div>
 
-            {{-- content section --}}
+            {{-- content --}}
             <article class="prose prose-lg max-w-none text-text leading-relaxed">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi temporibus illo, repudiandae distinctio quo saepe aut voluptas officiis neque tempora vitae illum consequuntur numquam odit facilis. Atque quos doloribus magnam.
-                Quo recusandae autem porro laborum beatae corrupti, eaque voluptatum totam aperiam ipsum! Ipsum deserunt eius quaerat consectetur vel autem qui tempora debitis aperiam ipsam, at aut ea magni. Voluptate, fugit.
-                Distinctio, reprehenderit dolore. Deleniti voluptas obcaecati, inventore reprehenderit, omnis eos exercitationem est voluptate vitae fugit cum, dolorem sit amet voluptates ea molestias facilis nam cupiditate architecto qui. Perspiciatis, harum sed!
-                Consectetur officia eligendi corporis itaque iusto ipsa maiores quos delectus cum. Asperiores sint, neque in excepturi laborum eligendi nulla vero quasi. Vel laudantium harum vero fugit ipsa similique eius dicta?
-                Optio aspernatur minus alias nobis corrupti esse exercitationem eveniet consectetur at, nostrum debitis officia consequatur ut non molestiae facere possimus amet natus enim repudiandae dolores autem. Porro magni doloremque eligendi?
-                Corrupti pariatur nobis voluptatem possimus ab aperiam aliquam sed vitae dolore repellat. Quod neque magnam aliquam fuga sequi cum quis repellat ipsam, perspiciatis, facere ab quisquam vero id numquam maiores.
-                Voluptate ipsum consectetur, mollitia ea assumenda veritatis, commodi autem vitae velit praesentium saepe quis tenetur? Dolorem sequi unde quos asperiores temporibus cum aut harum nisi, reiciendis iste consectetur nemo vel?
-                Earum et itaque fugit quae nulla suscipit tempore culpa provident tempora quibusdam. Alias inventore ipsam quisquam explicabo dolore culpa, sapiente recusandae accusantium consequatur? Tenetur numquam in recusandae est voluptas assumenda!
-                Error sequi consequuntur, soluta voluptatem cupiditate voluptatum, doloremque consequatur explicabo ratione beatae magni. Repellendus tempore ratione id necessitatibus nam vero veniam deserunt, quaerat illum aliquid! Reiciendis fugiat laboriosam officia nulla.
-                Illum, voluptas cupiditate aspernatur accusamus officiis similique voluptatem. Nam tenetur quasi, voluptatibus optio molestias qui! Odio nesciunt sunt quod expedita quibusdam ipsam ut perferendis pariatur cum, aliquid aperiam accusantium repellat?
-                Iure, molestias maiores ut odit dolore soluta quis esse error iste nemo accusantium nostrum repellendus fugit eligendi, repudiandae quidem at eum! Voluptatibus, eligendi. Culpa dolorum ex corporis id consequuntur eveniet.
-                Facere minus laborum soluta quidem ipsa id ratione! Et id qui maiores deserunt blanditiis dolore velit eveniet sed totam laboriosam dolorum suscipit maxime cupiditate voluptate, omnis, a ullam distinctio corporis!
-                Tempora voluptates inventore modi in assumenda eaque aliquam repudiandae dolore! Corporis officiis maxime non iste repellendus, sapiente blanditiis, fugiat explicabo harum natus tenetur accusamus reiciendis perspiciatis, minima beatae ducimus nihil?
-                Sequi veritatis illo, at ex vero soluta dolores pariatur eius rem dolorem quibusdam, molestias enim cupiditate maiores nemo consectetur error reprehenderit aperiam facere. Repellat deserunt, nisi quibusdam modi architecto explicabo?
-                Praesentium atque autem explicabo repudiandae quod neque rerum distinctio, voluptas beatae deserunt maxime, mollitia nemo dolores facilis? Nihil veniam praesentium, vel earum suscipit deserunt repudiandae odit deleniti nostrum cupiditate eaque!
-                Consequuntur dicta, nam quos vel cum excepturi debitis nemo tempora ducimus accusantium ratione impedit architecto repellat quia ea. Exercitationem nobis mollitia unde? Quas, officia eaque possimus soluta vel deleniti sit.
-                </article>
+                {!! nl2br(e($blog->content)) !!}
+            </article>
 
+            {{-- comments --}}
             <div id="comment-section" class="flex flex-col gap-4 mt-16 pt-8 border-t border-primary/10">
                 <div class="w-full flex py-2 items-center justify-between">
-                    <h2 class="text-primary text-lg font-medium">Comments (<span id="comment-count">{{ $blog->comments->count() }}</span>)</h2>
+                    <h2 class="text-primary text-lg font-medium">
+                        Comments (<span id="comment-count">{{ $blog->comments->count() }}</span>)
+                    </h2>
                 </div>
 
                 <div class="border border-primary/10 rounded-lg p-4 bg-white/20">
-                    <form action="{{ route('blogs.comments.create', ['id' => $blog->id]) }}" method="POST" class="w-full">
+                    <form data-blog-id="{{ $blog->id }}" id="comment-upload-form" method="POST" class="w-full">
                         @csrf
                         <div class="flex flex-col gap-3">
                             <div class="relative">
@@ -139,12 +137,25 @@
                                     :variant="ButtonVariant::Secondary"
                                     :icon="'<i data-lucide=\'send\' class=\'w-4 h-4\'></i>'"
                                     :text="'Post Comment'"
-                                >
-                                </x-button>
+                                />
                             </div>
                         </div>
                     </form>
                 </div>
+
+                <script>
+                    // Character counter for comment textarea
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const textarea = document.getElementById('comment-content');
+                        const charCount = document.getElementById('char-count');
+                        
+                        if (textarea && charCount) {
+                            textarea.addEventListener('input', function() {
+                                charCount.textContent = this.value.length;
+                            });
+                        }
+                    });
+                </script>
 
                 <div id="comments-list" class="flex flex-col gap-3">
                     @forelse($blog->comments as $comment)
@@ -172,16 +183,17 @@
                 </div>
             </div>
 
-            {{-- related articles section --}}
+            {{-- related articles --}}
             <div class="flex flex-col gap-4 mt-12 pt-6 border-t border-primary/10">
                 <div class="w-full flex py-2">
                     <h2 class="text-primary text-lg font-medium">Related Articles</h2>
                 </div>
                 <div class="grid md:grid-cols-2 gap-3">
-                    {{-- Placeholder for related articles --}}
+                    {{-- Placeholder --}}
                     <div class="border border-primary/10 rounded-lg p-3 bg-white/20 cursor-pointer hover:bg-white/30 transition-colors">
                         <div class="flex gap-3">
-                            <img src="{{ asset('images/example-recipe.jpg') }}" alt="Related article" class="w-16 h-16 object-cover rounded-lg border border-primary/10">
+                            <img src="{{ asset('images/example-recipe.jpg') }}" alt="Related article" 
+                                class="w-16 h-16 object-cover rounded-lg border border-primary/10">
                             <div class="flex-1">
                                 <h4 class="font-medium text-primary mb-1 text-sm">10 Essential Cooking Tips for Beginners</h4>
                                 <p class="text-text/60 text-xs mb-1">Master the basics with these fundamental cooking techniques...</p>
@@ -191,7 +203,8 @@
                     </div>
                     <div class="border border-primary/10 rounded-lg p-3 bg-white/20 cursor-pointer hover:bg-white/30 transition-colors">
                         <div class="flex gap-3">
-                            <img src="{{ asset('images/example-recipe.jpg') }}" alt="Related article" class="w-16 h-16 object-cover rounded-lg border border-primary/10">
+                            <img src="{{ asset('images/example-recipe.jpg') }}" alt="Related article" 
+                                class="w-16 h-16 object-cover rounded-lg border border-primary/10">
                             <div class="flex-1">
                                 <h4 class="font-medium text-primary mb-1 text-sm">The Science Behind Perfect Pasta</h4>
                                 <p class="text-text/60 text-xs mb-1">Understanding the chemistry that makes pasta al dente...</p>
@@ -201,6 +214,7 @@
                     </div>
                 </div>
             </div>
+
         </section>
     </section>
 @endsection
