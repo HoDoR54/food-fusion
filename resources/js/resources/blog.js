@@ -68,6 +68,11 @@ class BlogManager {
                 headers: this.getHeaders(),
             });
 
+            if (response.status === 401) {
+                window.location.href = "/login";
+                return;
+            }
+
             const data = await response.json();
 
             if (!response.ok) {
@@ -92,6 +97,11 @@ class BlogManager {
                 method: "POST",
                 headers: this.getHeaders(),
             });
+
+            if (response.status === 401) {
+                window.location.href = "/login";
+                return;
+            }
 
             const data = await response.json();
 

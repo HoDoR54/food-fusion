@@ -15,8 +15,11 @@ class RequireLogin
 
         if (!Auth::check()) {
             if ($request->expectsJson()) {
+                $request->session()->flash('toastMessage', 'You need to log in to perform this action.');
+                $request->session()->flash('toastType', 'error');
                 return response()->json([
                     'success' => false,
+                    'status_code' => 401,
                     'message' => 'You need to log in to perform this action.',
                 ], 401);
             }
