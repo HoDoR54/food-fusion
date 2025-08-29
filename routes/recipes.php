@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Modules\RecipesController;
+use App\Http\Controllers\RecipesController;
 use App\Http\Middleware\GetUserOrPass;
 use App\Http\Middleware\RequireLogin;
 use Illuminate\Support\Facades\Route;

@@ -3,7 +3,7 @@
 use App\Http\Middleware\GetUserOrPass;
 use App\Http\Middleware\RequireLogin;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Modules\BlogsController;
+use App\Http\Controllers\BlogsController;
 
 Route::middleware(GetUserOrPass::class)->prefix('blogs')->name('blogs.')->group(function () {
     Route::middleware(RequireLogin::class)->group(function () {

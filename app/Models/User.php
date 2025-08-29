@@ -66,6 +66,11 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function contactFormSubmissions(): HasMany
+    {
+        return $this->hasMany(ContactFormSubmission::class);
+    }
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);

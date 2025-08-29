@@ -7,7 +7,6 @@ export function formatTimeAgo(dateString) {
         Math.floor(diff / 86400) > 1 ? "s" : ""
     } ago`;
 }
-
 export function getHeaders() {
     const token = document
         .querySelector('meta[name="csrf-token"]')
@@ -17,11 +16,13 @@ export function getHeaders() {
         return {
             "Content-Type": "application/json",
             Accept: "application/json",
+            "X-Requested-With": "XMLHttpRequest",
         };
     }
     return {
         "Content-Type": "application/json",
         Accept: "application/json",
         "X-CSRF-TOKEN": token,
+        "X-Requested-With": "XMLHttpRequest",
     };
 }

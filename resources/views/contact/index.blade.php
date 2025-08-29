@@ -1,8 +1,8 @@
 @php
-    $title = 'Share Your Recipe';
+    $title = 'Contact Us';
     $breadcrumbItems = [
         ['label' => 'Home', 'url' => route('home')],
-        ['label' => 'Share Your Recipe', 'url' => route('recipes.create.show')]
+        ['label' => 'Contact Us']
     ];
 @endphp
 
@@ -12,18 +12,21 @@
 
 @section('content')
     <section class="flex w-full gap-5 p-5 pb-12">
-        <div class="flex flex-col w-[40%]">
-            <div class="recipe-form-card rounded-lg p-6 bg-primary/5">
+        <div class="w-[60%] px-5">
+            @include('contact.contact-form')
+        </div>
+        <div class="flex flex-col w-[40%]" id="contact-form-section">
+            <div class="rounded-lg p-6 bg-primary/5 border border-dashed border-primary/20">
                 <div class="mb-6">
                     <h1 class="text-lg font-bold text-primary flex items-center gap-2 mb-4">
-                        <i data-lucide="book-open"></i>
-                        Standard Process
+                        <i data-lucide="help-circle"></i>
+                        How We Handle Messages
                     </h1>
                 </div>
                 
                 <div class="space-y-4">
                     <p class="text-text leading-relaxed text-sm">
-                        We believe every great recipe deserves to be shared thoughtfully. Here's how our community recipe process works:
+                        We appreciate you reaching out! Here’s how we handle your contact form submissions:
                     </p>
 
                     <div class="grid md:grid-cols-3 gap-4">
@@ -33,7 +36,7 @@
                             </div>
                             <h3 class="font-semibold text-primary mb-2">You Submit</h3>
                             <p class="text-xs text-text/60">
-                                Fill out the form below with your recipe details, ingredients, and step-by-step instructions.
+                                Fill in the subject, type, and your message. You may choose to remain anonymous.
                             </p>
                         </div>
 
@@ -43,7 +46,7 @@
                             </div>
                             <h3 class="font-semibold text-primary mb-2">We Review</h3>
                             <p class="text-xs text-text/60">
-                                Our community moderators review your recipe for clarity, completeness, and community guidelines.
+                                Our team reviews your submission to ensure it’s directed to the right department.
                             </p>
                         </div>
 
@@ -51,24 +54,20 @@
                             <div class="w-8 h-8 bg-secondary text-white rounded-full flex items-center justify-center mx-auto mb-2 font-semibold">
                                 3
                             </div>
-                            <h3 class="font-semibold text-primary mb-2">Community Enjoys</h3>
+                            <h3 class="font-semibold text-primary mb-2">We Respond</h3>
                             <p class="text-xs text-text/60">
-                                Once approved, your recipe joins our curated collection for everyone to discover and try.
+                                You’ll receive a response (if not anonymous) or your feedback will be recorded internally.
                             </p>
                         </div>
                     </div>
 
                     <div class="bg-primary/5 p-4 rounded-lg border border-dashed border-primary/20">
                         <p class="text-xs text-text/60">
-                            <strong>Review typically takes 2-3 days.</strong> We'll email you once your recipe is approved or if we need any clarifications. Our goal is to maintain a high-quality collection that serves our community well.
+                            <strong>Note:</strong> Response times vary, but we usually reply within 2–5 business days. Anonymous submissions are recorded but may not receive direct replies.
                         </p>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="w-[60%] px-5" id="recipe-form-section">
-            @include('recipes.recipe-form')
         </div>
     </section>
 @endsection

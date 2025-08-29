@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Modules;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -82,14 +82,10 @@ class BlogsController extends Controller
                 'errors' => ['general' => [$response->getMessage()]]
             ], $response->getStatusCode());
         }
-        }
+    }
 
     public function upvote($blogId) {
         $user = auth()->user();
-        if (!$user) {
-            \Log::warning('User not authenticated for upvote');
-            return response()->json(['success' => false, 'message' => 'You must be logged in to vote.'], 401);
-        }
 
         $response = $this->_blogService->upvoteBlog($blogId, $user);
         

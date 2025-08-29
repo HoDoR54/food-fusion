@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Modules\AuthController;
+use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckFailedLoginAttempts;
 use Illuminate\Support\Facades\Route;
 

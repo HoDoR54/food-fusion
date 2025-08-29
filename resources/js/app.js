@@ -2,6 +2,7 @@ import "./bootstrap";
 
 import "./resources/recipe/index";
 import "./resources/blog/index";
+import "./resources/contact-form-submissions/index";
 
 import "./utils/carousel";
 import "./utils/toast";

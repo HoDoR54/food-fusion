@@ -4,8 +4,8 @@
 
     $breadcrumbItems = [
         ['label' => 'Home', 'url' => '/'],
-        ['label' => 'Cookbook', 'url' => '/cookbook'],
-        ['label' => $blog->title, 'url' => '/cookbook/' . $blog->id],
+        ['label' => 'Cookbook', 'url' => '/blogs'],
+        ['label' => $blog->title, 'url' => '/blogs/' . $blog->id],
     ];
 @endphp
 

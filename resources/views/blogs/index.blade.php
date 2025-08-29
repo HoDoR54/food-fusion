@@ -4,7 +4,7 @@
 
     $breadcrumbItems = [
         ['label' => 'Home', 'url' => '/'],
-        ['label' => 'Cookbook', 'url' => '/cookbook']
+        ['label' => 'Cookbook', 'url' => '/blogs']
     ];
 
     $data = $res->getData();

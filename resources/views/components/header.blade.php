@@ -4,11 +4,11 @@
     use Illuminate\Support\Facades\Auth;
 
     $pages = [
-        'About Us' => '/about',
-        'Contact' => '/contact',
-        'Educational Resources' => '/educational-resources',
-        'Recipes' => '/recipes',
-        'Community Cookbook' => '/blogs',
+        'About Us' => 'about',
+        'Contact' => 'contact',
+        'Educational Resources' => 'home',
+        'Recipes' => 'recipes.index',
+        'Community Cookbook' => 'blogs.index',
   ];
 
     $authPages = [
@@ -22,7 +22,7 @@
 <header class="bg-primary/80 px-6 py-4 grid grid-cols-5 w-full border-b-2 border-dashed border-background">
   <nav class="flex gap-5 justify-start w-full items-center col-span-2">
     @foreach ($pages as $name => $url)
-        <a href="{{ url($url) }}" class="text-sm text-center text-white hover:text-secondary transition duration-300 ease-in-out hover:underline">
+        <a href="{{ route($url) }}" class="text-sm text-center text-white hover:text-secondary transition duration-300 ease-in-out hover:underline">
             {{ $name }}
         </a>
     @endforeach
