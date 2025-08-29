@@ -7,10 +7,10 @@ import {
     createGridColumn,
     createTimeInputWrapper,
     reinitializeLucideIcons,
-} from "../utils/components.js";
-import { ImageUploadHandler } from "../interactivity/image-upload.js";
+} from "../../utils/components.js";
+import { ImageUploadHandler } from "../../interactivity/image-upload.js";
 
-class RecipeUploadManager {
+export class RecipeUploadManager {
     constructor() {
         this.stepCounter = 0;
         this.ingredientCounter = 0;
@@ -258,7 +258,3 @@ class RecipeUploadManager {
         this.addTag();
     }
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    new RecipeUploadManager();
-});

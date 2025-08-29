@@ -1,12 +1,13 @@
 import "./bootstrap";
+
+import "./resources/recipe/index";
+import "./resources/blog/index";
+
 import "./utils/carousel";
 import "./utils/toast";
 import "./utils/laravel-toast";
 import "./utils/consent";
-import "./resources/recipe-search";
-import "./resources/recipe-upload";
 import "./utils/pagination";
-import "./resources/recipe-save";
 import "./interactivity/pop-up";
 import "./interactivity/image-upload";
-import "./resources/blog";
+import "./interactivity/on-page-load";

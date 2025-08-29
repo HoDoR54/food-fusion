@@ -1,6 +1,6 @@
-import { toastSuccess, toastError } from "../utils/toast";
+import { toastSuccess, toastError } from "../../utils/toast.js";
 
-class SavedRecipesManager {
+export class SavedRecipesManager {
     constructor() {
         this.attachEventListeners();
     }
@@ -167,7 +167,3 @@ class SavedRecipesManager {
         }
     }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-    const savedRecipesManager = new SavedRecipesManager();
-});
