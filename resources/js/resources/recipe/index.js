@@ -3,19 +3,22 @@ import { RecipeUploadManager } from "./recipe-upload-manager";
 import { SavedRecipesManager } from "./saved-recipe-manager";
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Recipe Manager loaded");
-    currentPageUrl = document.URL;
-    if (currentPageUrl.endsWith("/recipes/new-recipe")) {
+    const path = window.location.pathname;
+
+    if (path.endsWith("/recipes/new-recipe")) {
+        console.log("Initializing Recipe Upload Manager");
         new RecipeUploadManager();
     }
     if (
-        currentPageUrl.endsWith("/recipes") ||
-        currentPageUrl.includes("/recipes?") ||
-        currentPageUrl.includes("/recipes/")
+        path.endsWith("/recipes") ||
+        path.includes("/recipes?") ||
+        path.includes("/recipes/")
     ) {
+        console.log("Initializing Saved Recipes Manager");
         new SavedRecipesManager();
     }
-    if (currentPageUrl.endsWith("/recipes")) {
+    if (path.endsWith("/recipes")) {
+        console.log("Initializing Recipe Search Manager");
         new RecipeSearchManager([
             "difficulty_level",
             "dietary_preference",
