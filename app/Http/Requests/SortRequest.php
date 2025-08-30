@@ -14,7 +14,7 @@ class SortRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sort_by' => 'nullable|string|in:name,created_at,updated_at,difficulty,servings,popularity',
+            'sort_by' => 'nullable|string|in:name,created_at,updated_at,difficulty,servings,popularity,start_time,end_time',
             'sort_direction' => 'nullable|string|in:asc,desc',
         ];
     }

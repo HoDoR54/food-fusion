@@ -7,6 +7,22 @@ export function formatTimeAgo(dateString) {
         Math.floor(diff / 86400) > 1 ? "s" : ""
     } ago`;
 }
+
+export function formatDateWithOrdinal(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    let ordinal = "th";
+
+    if (day % 10 === 1 && day !== 11) ordinal = "st";
+    else if (day % 10 === 2 && day !== 12) ordinal = "nd";
+    else if (day % 10 === 3 && day !== 13) ordinal = "rd";
+
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
+
+    return `${month} ${day}${ordinal}, ${year}`;
+}
+
 export function getHeaders() {
     const token = document
         .querySelector('meta[name="csrf-token"]')

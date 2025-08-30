@@ -40,16 +40,16 @@
                 <div class="flex flex-col gap-3 p-4 items-center justify-center">
                     <h2 class="text-2xl font-bold text-primary">Next Gathering</h2>
                     <h3 class="text-lg font-medium">
-                        <span class="font-semibold">Monthly Kitchen Time</span>
+                        <span class="font-semibold" id="next-gathering-title">Monthly Kitchen Time</span>
                         <span class="text-text font-extrabold text-2xl">.</span> 
                         <span class="text-text">Since January 2023</span>
                     </h3>
                     <p class="text-text/60">
-                        <span>West Yangon General Hospital</span>
+                        <span id="next-gathering-location-or-platform">West Yangon General Hospital</span>
                         <span class="font-extrabold text-2xl text-primary/30">.</span>
-                        <span>April 5th, 8:30 AM</span>
+                        <span id="next-gathering-date">April 5th, 8:30 AM</span>
                     </p>
-                    <p class="text-text/60 text-sm">
+                    <p class="text-text/60 text-sm" id="next-gathering-description">
                         There'll be fun activities and discussions around food, cooking, and community building.
                     </p>
                     <x-button :variant="ButtonVariant::Primary" :size="ButtonSize::Large" :text="'I\'ll be there'" class="mt-4 px-5" :icon="'<i data-lucide=\'calendar-plus\'></i>'" />
@@ -106,7 +106,7 @@
         </section>
 
         {{-- Previous Events Monumentals --}}
-        <section class="flex items-center justify-center w-full min-h-screen bg-secondary/5 px-6 py-12">
+        <section id="previous-events" class="lazy-load flex items-center justify-center w-full min-h-screen bg-secondary/5 px-6 py-12">
             <x-carousel 
                 :title="'Events Organized by FoodFusion This Year'"
                 :description="'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae cupiditate esse odio? Reiciendis.'"
@@ -129,9 +129,7 @@
         </section>
         
 
-        {{-- Upcoming Skill-sharing Sessions Later This Month
-        TO-DO: fetch real events from the database --}}
-        <section class="flex flex-col items-center justify-center min-h-screen px-6 py-12">
+        <section id="upcoming-skill-sharing" class="lazy-load flex flex-col items-center justify-center min-h-screen px-6 py-12">
             <h2 class="text-3xl font-semibold text-center mb-6">Upcoming Skill-Sharing Sessions</h2>
             <p class="text-text/60 text-lg text-center max-w-2xl mb-12">
                 Learn from your neighbours
@@ -157,7 +155,7 @@
             
         </section> 
 
-        <section class="flex flex-col items-center justify-center min-h-screen bg-secondary/5 px-6 py-12">
+        <section id="top-blogs" class="lazy-load flex flex-col items-center justify-center min-h-screen bg-secondary/5 px-6 py-12">
             <h2 class="text-3xl font-semibold text-center mb-6">Most Liked Blogs</h2>
             <p class="text-text/60 text-lg text-center max-w-2xl mb-12">
                 မင်္ဂလာပါတောသားတွေ

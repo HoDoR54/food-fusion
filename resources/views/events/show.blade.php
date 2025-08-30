@@ -1,6 +1,8 @@
 @php
     use App\Enums\VenueType;
 
+
+
     $breadcrumbItems = [
         ['label' => 'Home', 'url' => '/'],
         ['label' => 'Events', 'url' => '/events'],
