@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             BlogSeeder::class,
             CommentSeeder::class,
             RecipeAttemptsSeeder::class,
+            EventSeeder::class,
         ]);
 
         $this->command->info('All seeders completed successfully!');

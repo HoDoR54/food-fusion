@@ -26,6 +26,7 @@ class RecipesController extends Controller
 
     public function index(PaginationRequest $pagination, RecipeSearchRequest $search, SortRequest $sort) {
         $res = $this->_recipeService->getApprovedRecipes($pagination, $search, $sort);
+        Log::info('Response:' . json_encode($res));
 
         if (!$res->isSuccess()) {
             session()->flash('toastMessage', $res->getMessage());

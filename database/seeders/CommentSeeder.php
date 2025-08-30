@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Blog;
 
 class CommentSeeder extends Seeder
 {
@@ -21,14 +22,7 @@ class CommentSeeder extends Seeder
             return;
         }
 
-        $blogIds = [
-            '0198cd86-81be-72d4-b1b1-3b9a0f007f7f',
-            '0198cd86-81c4-714e-b0b0-354f9dd23dab',
-            '0198cd86-81cb-716b-bc67-d0afc580ea5f',
-            '0198cd86-81ce-713f-9718-f0117d4bb4f9',
-            '0198cd86-81d3-711c-9054-6338ef803f95',
-            '0198cd86-81d6-738d-816d-17d78961b70f',
-        ];
+        $blogIds = Blog::inRandomOrder()->limit(5)->pluck('id');
 
         $sampleComments = [
             "This is such a great recipe! I tried it last weekend and it turned out amazing.",

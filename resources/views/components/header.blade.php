@@ -6,7 +6,7 @@
     $pages = [
         'About Us' => 'about',
         'Contact' => 'contact',
-        'Educational Resources' => 'home',
+        'Events' => 'events.index',
         'Recipes' => 'recipes.index',
         'Community Cookbook' => 'blogs.index',
   ];

@@ -34,9 +34,9 @@
                 <span class="text-primary">Together</span>
             </h1>
             <p class="text-text/60 text-lg text-center max-w-2xl">
-                Neighbours aren’t just next door — they’re the people stirring, chopping, and sharing recipes around the world.            </p>
-            {{-- TO-DO: fetch a real event from the database --}}
-            <div class="flex items-center w-[80vw] min-h-[40vh] justify-center bg-secondary/10 rounded-xl border-primary/30 border-3 border-dashed">
+                Neighbours aren’t just next door — they’re the people stirring, chopping, and sharing recipes around the world.
+            </p>                
+            <div id="next-gathering-display" class="lazy-load flex items-center w-[80vw] min-h-[40vh] justify-center bg-secondary/10 rounded-xl border-primary/30 border-3 border-dashed">
                 <div class="flex flex-col gap-3 p-4 items-center justify-center">
                     <h2 class="text-2xl font-bold text-primary">Next Gathering</h2>
                     <h3 class="text-lg font-medium">
