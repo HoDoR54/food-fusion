@@ -14,5 +14,6 @@ Route::middleware(GetUserOrPass::class)->prefix('blogs')->name('blogs.')->group(
     });
 
     Route::get('/', [BlogsController::class, 'index'])->name('index');
+    Route::get('/all', [BlogsController::class, 'getAll'])->name('all');
     Route::get('/{id}', [BlogsController::class, 'show'])->name('show');
 });

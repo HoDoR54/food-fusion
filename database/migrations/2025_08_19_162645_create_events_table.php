@@ -17,15 +17,16 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->timestamp('start_time');
             $table->timestamp('end_time');
+            $table->string('image_url')->nullable();
             $table->enum('status', ['scheduled', 'ongoing', 'completed', 'cancelled'])->default('scheduled');
             $table->enum('type', ['skill-sharing', 'gathering']);
             $table->enum('venue_type', ['online', 'offline']);
             $table->string('platform')->nullable();
             $table->string('location')->nullable();
-            $table->uuid('organizer');
+            $table->uuid('organizer_id');
             $table->timestamps();
 
-            $table->foreign('organizer')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('organizer_id')->references('id')->on('users')->onDelete('cascade');
         });
 
         Schema::create('event_attendees', function (Blueprint $table) {

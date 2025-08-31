@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Event;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\EventSearchRequest;
 use App\Http\Requests\PaginationRequest;
@@ -18,6 +17,7 @@ class EventsController extends Controller
         $this->_eventService = $eventService;
     }
 
+    // Page view
     public function index(EventSearchRequest $search, PaginationRequest $pagination, SortRequest $sort) {
         $serviceRes = $this->_eventService->getEvents($search, $pagination, $sort);
 
@@ -28,13 +28,16 @@ class EventsController extends Controller
             ]);
         }
 
+        $resData = $serviceRes->getData();
+
         return view('events.index', [
-            'res' => $serviceRes,
+            'events' => $resData['data'] ?? [],
+            'pagination' => $resData['pagination'] ?? [],
             'title' => 'Events',
         ]);
     }
 
-    // for AJAX
+    // AJAX response
     public function getEvents(EventSearchRequest $search, PaginationRequest $pagination, SortRequest $sort) 
     {
         Log::info('getEvents hit');
@@ -44,14 +47,19 @@ class EventsController extends Controller
             Log::info('getEvents failed: ' . $serviceRes->getMessage());
             return response()->json([
                 'message' => $serviceRes->getMessage(),
-                'data' => null
+                'data' => null,
+                'pagination' => null
             ], $serviceRes->getStatusCode());
         }
 
-        Log::info('getEvents successful' . json_encode($serviceRes->getData()));
+        $resData = $serviceRes->getData();
+
+        Log::info('getEvents successful', $resData);
+
         return response()->json([
-            'message' => 'Events fetched successfully',
-            'data' => $serviceRes->getData()
+            'message' => $serviceRes->getMessage(),
+            'data' => $resData['data'] ?? [],
+            'pagination' => $resData['pagination'] ?? []
         ]);
     }
 

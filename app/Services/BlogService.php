@@ -7,18 +7,21 @@ use App\Models\User;
 use App\DTO\Responses\BaseResponse;
 use App\DTO\Responses\PaginatedResponse;
 use App\Http\Requests\PaginationRequest;
+use App\Http\Requests\BlogSearchRequest;
+use App\Http\Requests\SortRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
 class BlogService
 {
-    public function getPaginatedBlogs(PaginationRequest $pagination): BaseResponse {
+    public function getBlogs(PaginationRequest $pagination, BlogSearchRequest $search, SortRequest $sort): BaseResponse {
         try {
             $query = Blog::query();
             
-            $query->with('author');
-            
-            $query->orderBy('created_at', 'desc');
+            $query->with(['author', 'tags', 'votes']);      
+            $this->attachSearchQuery($query, $search);
+            $this->attachSortQuery($query, $sort);
 
             $paginator = $query->paginate(
                 $pagination->input('size', 12), 
@@ -26,13 +29,16 @@ class BlogService
                 'page', 
                 $pagination->input('page', 1)
             );
-            
-            $resData = $paginator->getCollection()->map(function (Blog $blog) {
-                return ['blog' => $blog];
-            })->toArray();
 
-            $paginatedRes = PaginatedResponse::fromPaginator($paginator, $resData);
-            return new BaseResponse(true, 'Blogs retrieved successfully', 200, $paginatedRes);
+            $resData['data'] = $paginator->getCollection()->toArray();
+            $resData['pagination'] = [
+                'current_page' => $paginator->currentPage(),
+                'last_page' => $paginator->lastPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+            ];
+
+            return new BaseResponse(true, 'Blogs retrieved successfully', 200, $resData);
         } catch (\Exception $e) {
             Log::error('Error retrieving paginated blogs: ' . $e->getMessage());
             return new BaseResponse(false, 'Failed to retrieve blogs', 500);
@@ -255,5 +261,28 @@ class BlogService
             Log::error('Get vote status error: ' . $e->getMessage());
             return new BaseResponse(false, 'Failed to retrieve vote status', 500);
         }
+    }
+
+    public function attachSortQuery(Builder $query, SortRequest $sort): void {
+        $allowedSortBy = ['created_at', 'updated_at', 'popularity'];
+
+        $sortBy = $sort['sort_by'];
+        $sortDirection = $sort['sort_direction'];
+
+        if ($sortBy && $sortDirection && in_array($sortBy, $allowedSortBy)) {
+            switch ($sortBy) {
+                case 'popularity':
+                    $query->withCount(['upvotes', 'downvotes'])
+                          ->orderByRaw('(upvotes_count - downvotes_count) ' . $sortDirection);
+                    break;
+                default:
+                    $query->orderBy($sortBy, $sortDirection);
+                    break;
+            }
+        }
+    }
+
+    public function attachSearchQuery (Builder $query, BlogSearchRequest $search): void {
+        // TO-DO
     }
 }

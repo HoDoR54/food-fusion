@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Enums\EventType;
 
-class EventSearchRequest extends FormRequest
+class BlogSearchRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +22,7 @@ class EventSearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start_time' => 'nullable|date',
-            'end_time' => 'nullable|date|after_or_equal:start_time',
-            'location' => 'nullable|string|max:255',
-            'type' => 'nullable|string',
-            'status' => 'nullable|in:scheduled,completed,cancelled,ongoing'
+            // TO-DO
         ];
     }
 }

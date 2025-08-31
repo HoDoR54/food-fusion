@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BlogCommentCreateRequest;
 use App\Http\Requests\PaginationRequest;
+use App\Http\Requests\BlogSearchRequest;
+use App\Http\Requests\SortRequest;
 use App\Services\BlogService;
 use Illuminate\Support\Facades\Log;
-
 
 class BlogsController extends Controller
 {
@@ -18,21 +19,43 @@ class BlogsController extends Controller
         $this->_blogService = $blogService;
     }
 
-    public function index(PaginationRequest $pagination)
+    public function index(PaginationRequest $pagination, BlogSearchRequest $search, SortRequest $sort)
     {
-        $response = $this->_blogService->getPaginatedBlogs($pagination);
-        
+        $response = $this->_blogService->getBlogs($pagination, $search, $sort);
+
         if (!$response->isSuccess()) {
+            // Flash error message
             session()->flash('toastMessage', $response->getMessage());
             session()->flash('toastType', 'error');
-            return redirect()->route('home');
+
+            // Optional: redirect back instead of home, depending on UX
+            return redirect()->back();
         }
 
+        // Extract data from BaseResponse for cleaner view usage
+        $resData = $response->getData() ?? [];
+        $blogs = $resData['data'] ?? [];
+        $pagination = $resData['pagination'] ?? [];
+
         return view('blogs.index', [
-            'res' => $response,
+            'blogs' => $blogs,
+            'pagination' => $pagination,
             'title' => 'Community Cookbook',
         ]);
     }
+
+    // For AJAX
+    public function getAll(PaginationRequest $pagination, BlogSearchRequest $search, SortRequest $sort) {
+        $response = $this->_blogService->getBlogs($pagination, $search, $sort);
+
+        if (!$response->isSuccess()) {
+            return response()->json(['success' => false, 'message' => $response->getMessage()], $response->getStatusCode());
+        }
+
+        $data = $response->getData();
+        return response()->json(['success' => true, 'data' => $data], 200);
+    }
+
 
     public function show($id)
     {

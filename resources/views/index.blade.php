@@ -40,19 +40,19 @@
                 <div class="flex flex-col gap-3 p-4 items-center justify-center">
                     <h2 class="text-2xl font-bold text-primary">Next Gathering</h2>
                     <h3 class="text-lg font-medium">
-                        <span class="font-semibold" id="next-gathering-title">Monthly Kitchen Time</span>
+                        <span class="font-semibold" id="next-gathering-title">...</span>
                         <span class="text-text font-extrabold text-2xl">.</span> 
                         <span class="text-text">Since January 2023</span>
                     </h3>
                     <p class="text-text/60">
-                        <span id="next-gathering-location-or-platform">West Yangon General Hospital</span>
+                        <span id="next-gathering-location-or-platform">...</span>
                         <span class="font-extrabold text-2xl text-primary/30">.</span>
-                        <span id="next-gathering-date">April 5th, 8:30 AM</span>
+                        <span id="next-gathering-date">...</span>
                     </p>
                     <p class="text-text/60 text-sm" id="next-gathering-description">
-                        There'll be fun activities and discussions around food, cooking, and community building.
+                        ...
                     </p>
-                    <x-button :variant="ButtonVariant::Primary" :size="ButtonSize::Large" :text="'I\'ll be there'" class="mt-4 px-5" :icon="'<i data-lucide=\'calendar-plus\'></i>'" />
+                    <x-button id="next-event-register" :variant="ButtonVariant::Primary" :size="ButtonSize::Large" :text="'I\'ll be there'" class="mt-4 px-5" :icon="'<i data-lucide=\'calendar-plus\'></i>'" />
                 </div>
             </div>
         </section>
@@ -106,8 +106,8 @@
         </section>
 
         {{-- Previous Events Monumentals --}}
-        <section id="previous-events" class="lazy-load flex items-center justify-center w-full min-h-screen bg-secondary/5 px-6 py-12">
-            <x-carousel 
+        <section class="flex items-center justify-center w-full min-h-screen bg-secondary/5 px-6 py-12">
+            <x-carousel
                 :title="'Events Organized by FoodFusion This Year'"
                 :description="'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Beatae cupiditate esse odio? Reiciendis.'"
                 :items="[
@@ -126,29 +126,29 @@
                 :autoPlay="true"
                 :autoPlayInterval="3000"
             />
-        </section>
-        
+        </section>      
 
         <section id="upcoming-skill-sharing" class="lazy-load flex flex-col items-center justify-center min-h-screen px-6 py-12">
             <h2 class="text-3xl font-semibold text-center mb-6">Upcoming Skill-Sharing Sessions</h2>
             <p class="text-text/60 text-lg text-center max-w-2xl mb-12">
                 Learn from your neighbours
             </p>
-            <div class="flex items-center justify-center h-[40vh]">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4">
-                    {{-- TO-DO: show a maximum of six and add see more at the sixth block --}}
-                    @for ($i = 1; $i <= 5; $i++)
-                        <div class="bg-secondary/10 min-w-[350px] border-2 border-dashed border-primary/10 rounded-lg px-5 py-4">
-                            <h3 class="text-lg font-semibold mb-2">Skill Session {{ $i }}</h3>
-                            <p class="text-text/60 text-sm">with User {{ $i }}</p>
-                            <p class="text-secondary text-xs">on {{ now()->addDays($i)->format('F j, Y') }}</p>
-                            {{-- <x-button :variant="ButtonVariant::Primary" :size="ButtonSize::Small" :text="'Join Now'" class="w-full" /> --}}
+            <div class="flex justify-center px-4">
+                <div id="upcoming-skill-sharing-sessions" 
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full auto-rows-fr">
+                    @for ($i = 1; $i <= 6; $i++)
+                        <div class="bg-secondary/10 border-2 border-dashed border-primary/10 rounded-lg p-5 flex flex-col justify-between h-full">
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">...</h3>
+                                <p class="text-text/60 text-sm">...</p>
+                            </div>
+                            <p class="text-secondary text-xs mt-4">...</p>
                         </div>
                     @endfor
                 </div>
             </div>
 
-            <div class="flex flex-col items-center justify-center gap-4">
+            <div class="flex flex-col items-center justify-center gap-4 py-4">
                 <p class="text-text/60 text-base">Want to share something you know?</p>
                 <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Host Your Own Session'" :icon="'<i data-lucide=\'users-round\'></i>'"/>
             </div>
@@ -158,30 +158,33 @@
         <section id="top-blogs" class="lazy-load flex flex-col items-center justify-center min-h-screen bg-secondary/5 px-6 py-12">
             <h2 class="text-3xl font-semibold text-center mb-6">Most Liked Blogs</h2>
             <p class="text-text/60 text-lg text-center max-w-2xl mb-12">
-                မင်္ဂလာပါတောသားတွေ
+                See what your neighbours are cooking (literally)
             </p>
-            <div class="flex flex-col w-full gap-3 max-w-[80vw]">
-                @for ($i = 0; $i < 3; $i++)
-                    <div class="border-l-8 border-dashed border-primary/10 pl-6 pr-4 py-4 bg-white/40 rounded-r-lg">
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-4">
-                                <img
-                                    src="{{ asset('images/default-profile.webp') }}"
-                                    alt="Story {{ $i + 1 }}"
-                                    class="w-16 h-16 rounded-full object-cover opacity-90 cursor-pointer border-2 border-dashed border-primary/20"
-                                />
-                                <div class="flex-1">
-                                    <h3 class="text-lg font-semibold text-foreground cursor-pointer hover:underline">Blog Name {{ $i + 1 }}</h3>
-                                    <p class="text-primary/70 max-w-[70%] line-clamp-1">Brief Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero similique illum, nostrum at a quae.</p>
-                                    <p class="text-text/60 text-sm">April 12th, 2024</p>
+            
+            <div class="flex flex-col items-center justify-center w-full max-w-[80vw]">
+                <div id="top-blogs-list" class="flex flex-col w-full gap-3">
+                    @for ($i = 0; $i < 3; $i++)
+                        <div class="border-l-8 border-dashed border-primary/10 pl-6 pr-4 py-4 bg-white/40 rounded-r-lg">
+                            <div class="flex justify-between items-center w-full">
+                                <div class="flex items-center gap-4 w-full">
+                                    <img
+                                        src="{{ asset('images/default-profile.webp') }}"
+                                        alt="Story {{ $i + 1 }}"
+                                        class="w-16 h-16 rounded-full object-cover opacity-90 cursor-pointer border-2 border-dashed border-primary/20"
+                                    />
+                                    <div class="flex-1">
+                                        <h3 class="text-lg font-semibold text-foreground cursor-pointer hover:underline">...</h3>
+                                        <p class="text-primary/70 max-w-[70%] line-clamp-1">...</p>
+                                        <p class="text-text/60 text-sm">...</p>
+                                    </div>
+                                </div>
+                                <div class="text-right font-medium text-primary">
+                                    ...
                                 </div>
                             </div>
-                            <div class="text-right font-medium text-primary">
-                                12.34K Likes
-                            </div>
                         </div>
-                    </div>
-                @endfor
+                    @endfor
+                </div>
                 <div class="flex items-center justify-center flex-col gap-4 py-4">
                     <p class="text-text/60 text-base">Cooking something? Let us know!</p>
                     <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Share What You Are Making'" :icon="'<i data-lucide=\'camera\'></i>'"/>

@@ -25,9 +25,13 @@ class EventService
                 $pagination->input('page', 1)
             );
 
-            $resData = $paginator->getCollection()->map(function (Event $event) {
-                return ['event' => $event];
-            })->toArray();
+            $resData['data'] = $paginator->getCollection()->toArray();
+            $resData['pagination'] = [
+                'current_page' => $paginator->currentPage(),
+                'last_page' => $paginator->lastPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+            ];
 
             return new BaseResponse(
                 true,
@@ -62,15 +66,9 @@ class EventService
             $query->whereDate('end_time', '<=', $search->input('end_time'));
         }
 
-        if ($search->filled('condition')) {
-            $now = now();
-            if ($search->input('condition') === 'upcoming') {
-                $query->where('start_time', '>=', $now);
-            } elseif ($search->input('condition') === 'past') {
-                $query->where('end_time', '<', $now);
-            }
+        if ($search->filled('status')) {
+            $query->where('status', $search->input('status'));
         }
-
 
         return $query;
     }
