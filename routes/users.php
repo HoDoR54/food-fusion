@@ -11,7 +11,6 @@ Route::middleware(GetUserOrPass::class)->name('users.')->group(function () {
     });
 
     Route::get('/{username}', function ($username) {
-        // Find the user by username
         $profileUser = User::where('username', $username)->first();
         
         if (!$profileUser) {
@@ -19,8 +18,8 @@ Route::middleware(GetUserOrPass::class)->name('users.')->group(function () {
         }
         
         return view('users.show', [
-            'user' => Auth::user(), // Current authenticated user
-            'profileUser' => $profileUser, // The user whose profile we're viewing
+            'user' => Auth::user(),
+            'profileUser' => $profileUser,
         ]);
     })->name('show');
 });

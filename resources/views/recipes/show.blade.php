@@ -208,4 +208,14 @@
             </div>
         </section>
     </section>
+
+    @if(auth()->check())
+        <script>
+            window.currentUser = {
+                name: @json(auth()->user()->name),
+                username: @json(auth()->user()->username ?? ''),
+                id: @json(auth()->user()->id)
+            };
+        </script>
+    @endif
 @endsection

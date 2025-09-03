@@ -216,6 +216,7 @@ class RecipesController extends Controller
         return redirect()->route('recipes.show', ['id' => $id]);
     }
 
+    // AJAX
     public function storeAttempt(Request $request)
     {
         $userId = auth()->id();
@@ -223,25 +224,44 @@ class RecipesController extends Controller
         $imageUrl = null;
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            Log::info('Processing image upload for recipe attempt', [
+                'file_name' => $request->file('image')->getClientOriginalName(),
+                'file_size' => $request->file('image')->getSize(),
+                'mime_type' => $request->file('image')->getMimeType()
+            ]);
+            
             $result = $this->_cloudinaryService->uploadImage($request->file('image'), 'recipe_attempts');
             if (!$result->isSuccess()) {
-                session()->flash('toastMessage', $result->getMessage());
-                session()->flash('toastType', 'error');
-                return redirect()->route('recipes.show', ['id' => $request->input('recipe_id')]);
+                Log::error('Cloudinary upload failed for recipe attempt', [
+                    'error' => $result->getMessage(),
+                    'user_id' => $userId,
+                    'recipe_id' => $request->input('recipe_id')
+                ]);
+                return response()->json([
+                    'success' => false,
+                    'message' => $result->getMessage()
+                ], 422);
             }
             $imageUrl = $result->getData()->secure_url;
+            Log::info('Cloudinary upload successful', ['image_url' => $imageUrl]);
+        } else {
+            Log::info('No image file provided for recipe attempt');
         }
 
         $res = $this->_recipeService->storeRecipeAttempt($request, $userId, $imageUrl);
 
         if ($res->isSuccess()) {
-            session()->flash('toastMessage', $res->getMessage());
-            session()->flash('toastType', 'success');
+            return response()->json([
+                'success' => true,
+                'message' => $res->getMessage(),
+                'data' => $res->getData()
+            ], $res->getStatusCode());
         } else {
-            session()->flash('toastMessage', $res->getMessage());
-            session()->flash('toastType', 'error');
+            return response()->json([
+                'success' => false,
+                'data' => $res->getData(),
+                'message' => $res->getMessage()
+            ], $res->getStatusCode());
         }
-
-        return redirect()->route('recipes.show', ['id' => $request->input('recipe_id')]);
     }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('recipe_id');
             $table->uuid('user_id');
-            $table->string('image_url');
+            $table->string('image_url')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
 

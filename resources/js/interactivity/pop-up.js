@@ -381,9 +381,7 @@ class PopUpManager {
         container.appendChild(header);
 
         const form = document.createElement("form");
-        form.action = "/recipes/attempt";
-        form.method = "POST";
-        form.enctype = "multipart/form-data";
+        form.id = "recipe-attempt-form";
         form.className = "p-4 flex flex-col gap-4 w-full";
 
         const csrfToken =
