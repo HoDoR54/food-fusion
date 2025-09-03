@@ -52,7 +52,7 @@ class Event extends Model
 
     public function isUpcoming(): bool
     {
-        return $this->start_time->isFuture() && $this->status === EventStatus::SCHEDULED;
+        return $this->end_time->isFuture() && $this->status === EventStatus::SCHEDULED;
     }
 
     public function isOngoing(): bool

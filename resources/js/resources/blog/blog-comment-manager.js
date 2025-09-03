@@ -70,6 +70,11 @@ export class BlogCommentManager {
                 body: JSON.stringify({ content: commentContent }),
             });
 
+            if (response.status === 401) {
+                window.location.href = "/login";
+                return;
+            }
+
             if (!response.ok) {
                 const errorText = await response.text();
                 throw new Error(errorText);

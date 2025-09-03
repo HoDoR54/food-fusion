@@ -33,6 +33,31 @@
         </p>
         <p><strong>Attendees:</strong> {{ $event->attendees_count }}</p>
 
+        @auth
+            @if(!$event->attendees->contains(auth()->user()))
+                <div class="mt-6">
+                    <form id="event-registration-form" class="inline-block">
+                        @csrf
+                        <input type="hidden" name="eventId" value="{{ $event->id }}">
+                        <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                            Register for Event
+                        </button>
+                    </form>
+                </div>
+            @else
+                <div class="mt-6">
+                    <p class="text-green-600 font-semibold">✓ You are already registered for this event</p>
+                </div>
+            @endif
+        @else
+            <div class="mt-6">
+                <p class="text-gray-600">
+                    <a href="{{ route('auth.login.show') }}" class="text-primary hover:underline">Login</a> 
+                    to register for this event
+                </p>
+            </div>
+        @endauth
+
 
     </div>
 @endsection

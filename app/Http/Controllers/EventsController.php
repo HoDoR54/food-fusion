@@ -67,4 +67,40 @@ class EventsController extends Controller
         $event = $this->_eventService->getEventById($id);
         return view('events.show', ['event' => $event]);
     }
+
+    public function getById($id) {
+        $serviceRes = $this->_eventService->getEventById($id);
+
+        if (!$serviceRes->isSuccess()) {
+            return response()->json([
+                'message' => $serviceRes->getMessage(),
+                'data' => null
+            ], $serviceRes->getStatusCode());
+        }
+
+        return response()->json([
+            'message' => $serviceRes->getMessage(),
+            'data' => $serviceRes->getData()
+        ]);
+    }
+
+    public function register($id) {
+        Log::info('register hit');
+        $serviceRes = $this->_eventService->registerUserToEvent($id);
+
+        if (!$serviceRes->isSuccess()) {
+            Log::info('register failed: ' . $serviceRes->getMessage());
+            return response()->json([
+                'message' => $serviceRes->getMessage(),
+                'data' => null
+            ], $serviceRes->getStatusCode());
+        }
+
+        
+
+        return response()->json([
+            'message' => $serviceRes->getMessage(),
+            'data' => $serviceRes->getData()
+        ]);
+    }
 }

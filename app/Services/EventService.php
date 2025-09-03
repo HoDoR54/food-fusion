@@ -44,6 +44,61 @@ class EventService
         }
     }
 
+    public function getEventById (string $id): BaseResponse
+    {
+        try {
+            $event = Event::findOrFail($id);
+            return new BaseResponse(
+                true,
+                'Event fetched successfully',
+                200,
+                $event
+            );
+        } catch (\Exception $e) {
+            return new BaseResponse(false, $e->getMessage(), 500);
+        }
+    }
+
+    public function registerUserToEvent(string $eventId): BaseResponse
+    {
+        try {
+            $event = Event::findOrFail($eventId);
+            $user = auth()->user();
+
+            if (!$user) {
+                return new BaseResponse(false, 'User not authenticated', 401);
+            }
+
+            // TO-DO: add real validation
+            // if (!$event->canUserAttend($user)) {
+            //     if ($event->attendees->contains($user)) {
+            //         return new BaseResponse(false, 'You are already registered for this event', 400);
+            //     }
+                
+            //     if ($event->end_time->isPast()) {
+            //         return new BaseResponse(false, 'This event has already ended', 400);
+            //     }
+                
+            //     if ($event->status !== \App\Enums\EventStatus::SCHEDULED) {
+            //         return new BaseResponse(false, 'This event is not available for registration', 400);
+            //     }
+                
+            //     return new BaseResponse(false, 'Cannot register for this event', 400);
+            // }
+
+            $event->attendees()->attach($user->id);
+
+            return new BaseResponse(
+                true,
+                'Successfully registered for event',
+                200,
+                $event->load('attendees')
+            );
+        } catch (\Exception $e) {
+            return new BaseResponse(false, $e->getMessage(), 500);
+        }
+    }
+
     private function attachSearchQuery($query, EventSearchRequest $search)
     {
         if ($search->filled('title')) {

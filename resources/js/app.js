@@ -4,6 +4,7 @@ import "./resources/landing/index";
 import "./resources/recipe/index";
 import "./resources/blog/index";
 import "./resources/contact-form-submissions/index";
+import "./resources/event/index";
 
 import "./utils/carousel";
 import "./utils/toast";

@@ -35,7 +35,7 @@
                     <p class="text-text/60 text-sm" id="next-gathering-description">
                         ...
                     </p>
-                    <x-button id="next-event-register" :variant="ButtonVariant::Primary" :size="ButtonSize::Large" :text="'I\'ll be there'" class="mt-4 px-5" :icon="'<i data-lucide=\'calendar-plus\'></i>'" />
+                    <x-button data-action="show-event-registration-popup" data-event-id="next-event-register" id="next-event-register" :variant="ButtonVariant::Primary" :size="ButtonSize::Large" :text="'I\'ll be there'" class="mt-4 px-5" :icon="'<i data-lucide=\'calendar-plus\'></i>'" />
                 </div>
             </div>
         </section>
