@@ -1,4 +1,5 @@
 import { toastSuccess, toastError } from "../../utils/toast.js";
+import { isAuthenticated } from "../../utils/general.js";
 
 export class SavedRecipesManager {
     constructor() {
@@ -8,12 +9,25 @@ export class SavedRecipesManager {
     async attachEventListeners() {
         const saveButtons = document.querySelectorAll(".recipe-save-button");
 
+        const userIsAuthenticated = await isAuthenticated();
+
         for (const button of saveButtons) {
             const recipeId = button.getAttribute("data-recipe-id");
-            const isSaved = await this.isRecipeSaved(recipeId);
-            this.toggleIcon(saveButtons, recipeId, isSaved);
+
+            if (userIsAuthenticated) {
+                const isSaved = await this.isRecipeSaved(recipeId);
+                this.toggleIcon(saveButtons, recipeId, isSaved);
+            } else {
+                this.toggleIcon(saveButtons, recipeId, false);
+            }
 
             button.addEventListener("click", async () => {
+                const currentlyAuthenticated = await isAuthenticated();
+                if (!currentlyAuthenticated) {
+                    toastError("Please log in to save recipes");
+                    return;
+                }
+
                 const currentIsSaved = await this.isRecipeSaved(recipeId);
                 if (currentIsSaved) {
                     await this.unsaveRecipe(recipeId);
@@ -71,7 +85,6 @@ export class SavedRecipesManager {
                 console.log("Failed to save recipe");
                 toastError(data.message);
 
-                // If unauthorized, redirect to login
                 if (response.status === 401) {
                     window.location.href = "/auth/login";
                 }
@@ -158,6 +171,10 @@ export class SavedRecipesManager {
                     Accept: "application/json",
                 },
             });
+
+            if (response.status === 401) {
+                return false;
+            }
 
             const data = await response.json();
             return data.success && data.data?.is_saved === true;

@@ -15,10 +15,6 @@
 
 @section('title', $recipe->name)
 
-@section('pop-up')
-    @include('recipes.recipe-attempt-form')
-@endsection
-
 @section('content')
     <section id="recipe-details" data-recipe-id="{{ $recipe->id }}" class="flex items-center justify-center pb-16">
         <section class="flex flex-col min-w-[50vw] lg:max-w-[60vw] gap-5">
@@ -205,7 +201,7 @@
                         :size="ButtonSize::Large" 
                         :text="'Share your attempt'" 
                         :icon="'<i data-lucide=\'camera\'></i>'"
-                        data-action="show-popup"
+                        data-action="show-recipe-attempt-popup"
                         class="cursor-pointer"
                     />
                 </div>

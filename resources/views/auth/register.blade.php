@@ -59,5 +59,5 @@
 @endsection
 
 @section('right')
-    <livewire:register-form />
+    <x-forms.register-form :isPopUp="false" :showPopupSwitcher="false" />
 @endsection

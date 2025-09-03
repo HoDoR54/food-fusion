@@ -1,31 +1,14 @@
-@php
-    use Illuminate\Support\Facades\Auth;
-    use App\Enums\ButtonVariant;
-    use App\Enums\ButtonSize;
-
-    $user = Auth::user();
-    $sessionValue = session('isPopUpConsent', true);
-    
-    if ($sessionValue === 'false' || $sessionValue === false || $sessionValue === 0) {
-        $isPopUpConsent = false;
-    } elseif ($sessionValue === 'true' || $sessionValue === true || $sessionValue === 1) {
-        $isPopUpConsent = true;
-    } else {
-        $isPopUpConsent = (bool) $sessionValue;
-    }
-@endphp
-
 @extends('layout.index')
 
 @section('title', 'Food Fusion')
 
-@if (!$user && $isPopUpConsent)
-    @section('pop-up')
-        <livewire:register-form :isPopUp="true"/>
-    @endsection
-@endif
-
 @section('content')
+    @php
+        use Illuminate\Support\Facades\Auth;
+        use App\Enums\ButtonVariant;
+        use App\Enums\ButtonSize;
+    @endphp
+    
     <section class="w-full flex flex-col gap-5 relative">
         {{-- Landing Page First Section --}}
         <section class="flex flex-col items-center justify-center gap-8 min-h-[90vh] bg-secondary/5 px-6 py-12">

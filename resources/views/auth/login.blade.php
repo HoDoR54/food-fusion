@@ -1,7 +1,7 @@
 @extends('layout.auth')
 @section('title', 'Log In To Your Account')
 @section('left')
-    <livewire:login-form />     
+    <x-forms.login-form :isPopUp="false" :showPopupSwitcher="false" />
 @endsection
 
 @section('right')

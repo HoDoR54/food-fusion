@@ -84,36 +84,6 @@ export function createHiddenInput(name, value) {
     return input;
 }
 
-export function createLabel(text) {
-    const label = document.createElement("label");
-    label.className = "text-text/60 text-sm";
-    label.textContent = text;
-    return label;
-}
-
-export function createItemHeader(title, removeClassName) {
-    const header = document.createElement("div");
-    header.className = "flex items-center justify-between mb-3";
-
-    const titleElement = document.createElement("h4");
-    titleElement.className = "font-semibold text-gray-700";
-    titleElement.textContent = title;
-
-    const removeButton = document.createElement("button");
-    removeButton.type = "button";
-    removeButton.className = `${removeClassName} text-red-500 hover:text-red-700`;
-
-    const icon = document.createElement("i");
-    icon.setAttribute("data-lucide", "trash-2");
-    icon.className = "w-4 h-4";
-
-    removeButton.appendChild(icon);
-    header.appendChild(titleElement);
-    header.appendChild(removeButton);
-
-    return header;
-}
-
 export function createRemoveButton(className, iconName = "minus") {
     const removeButton = document.createElement("button");
     removeButton.type = "button";

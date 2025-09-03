@@ -43,11 +43,20 @@
           <img src="{{ $user->profilePicUrl ?? asset('images/default-profile.webp') }}" alt="Profile Picture" class="h-8 w-8 rounded-full cursor-pointer border-2 border-background border-dashed">
         </a>
       @else
-        @foreach ($authPages as $name => $url)
-          <a href="{{ url($url) }}" class="text-sm text-center text-white hover:text-secondary transition duration-300 ease-in-out hover:underline">
-            {{ $name }}
-          </a>
-        @endforeach
+        <a 
+          type="button" 
+          href="{{ route('auth.login.show') }}"
+          class="text-sm text-center text-white hover:text-secondary transition duration-300 ease-in-out hover:underline bg-transparent border-none cursor-pointer"
+        >
+          Login
+        </a>
+        <a 
+          type="button" 
+          href="{{ route('auth.register.show') }}"
+          class="text-sm text-center text-white hover:text-secondary transition duration-300 ease-in-out hover:underline bg-transparent border-none cursor-pointer"
+        >
+          Register
+        </a>
       @endif
     </div>
     <a href="{{ route('recipes.create.show') }}">

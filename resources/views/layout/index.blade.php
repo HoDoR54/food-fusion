@@ -21,16 +21,12 @@
     @include('components.header')
 
     {{-- overlay --}}
-    @if(trim($__env->yieldContent('pop-up')))
-        <div id="pop-up-overlay" class="fixed hidden top-0 left-0 right-0 bottom-0 bg-black/50 z-40"></div>
-    @endif
+    <div id="pop-up-overlay" class="fixed hidden top-0 left-0 right-0 bottom-0 bg-black/50 z-40"></div>
 
     {{-- pop-up --}}
     <div id="pop-up-container" 
-         class="fixed hidden top-0 left-0 right-0 bottom-0 z-50 items-center justify-center"
-         @if(trim($__env->yieldContent('pop-up')) && !auth()->check() && session('isPopUpConsent', true)) data-auto-show @endif>
+         class="fixed hidden top-0 left-0 right-0 bottom-0 z-50 items-center justify-center">
         <div class="pointer-events-auto">
-            @yield('pop-up')
         </div>
     </div>
 
@@ -90,24 +86,6 @@
             window.laravelToastData = @json($toastData);
         </script>
     @endif
-
-    <script>
-        function handleDoNotShowAgain(checked) {
-            if (checked) {
-                // Send AJAX request to set session
-                fetch('{{ route('home') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        isPopUpConsent: false
-                    })
-                });
-            }
-        }
-    </script>
 </body>
 
 <script>

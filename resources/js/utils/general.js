@@ -1,11 +1,21 @@
-export function formatTimeAgo(dateString) {
-    const diff = Math.floor((Date.now() - new Date(dateString)) / 1000);
-    if (diff < 60) return `${diff} sec ago`;
-    if (diff < 3600) return `${Math.floor(diff / 60)} min ago`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)} hr ago`;
-    return `${Math.floor(diff / 86400)} day${
-        Math.floor(diff / 86400) > 1 ? "s" : ""
-    } ago`;
+export async function setSession(key, value) {
+    try {
+        const res = await axios.post(
+            "/sessions/set",
+            {
+                key,
+                value,
+            },
+            {
+                headers: getHeaders(),
+                credentials: "include",
+            }
+        );
+        return res.data;
+    } catch (error) {
+        console.error("Error setting session:", error);
+        throw error;
+    }
 }
 
 export function formatDateWithOrdinal(dateString) {
@@ -41,4 +51,17 @@ export function getHeaders() {
         "X-CSRF-TOKEN": token,
         "X-Requested-With": "XMLHttpRequest",
     };
+}
+
+export async function isAuthenticated() {
+    try {
+        const response = await axios.post("/auth/check", {
+            headers: getHeaders(),
+            credentials: "include",
+        });
+        return response.data.authenticated;
+    } catch (error) {
+        console.error("Error checking authentication:", error);
+        return false;
+    }
 }

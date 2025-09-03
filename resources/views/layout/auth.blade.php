@@ -9,7 +9,6 @@
     <link rel="icon" href="{{ asset('logo/logo-dark.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
     <script src="https://unpkg.com/lucide@latest"></script>
-    @livewireStyles
     <title>@yield('title', 'Food Fusion')</title>
 </head>
 <body class="flex min-h-screen m-0 p-0 box-border bg-background text-text">
@@ -22,7 +21,6 @@
         </section>
         @yield('content')
     </main>
-    @livewireScripts
     
     <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
 
