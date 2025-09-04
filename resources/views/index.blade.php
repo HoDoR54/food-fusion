@@ -42,14 +42,14 @@
 
         {{-- What You Can Do With Us Section --}}
         <section class="w-full flex flex-col items-center justify-center min-h-screen px-6 py-12">
-            <h2 class="text-3xl font-semibold text-center mb-6">What You Can Do With Us</h2>
-            <p class="text-text/60 text-lg text-center max-w-2xl mb-12">
+            <h2 class="text-3xl font-semibold text-center mb-6 animate-fade-in-up">What You Can Do With Us</h2>
+            <p class="text-text/60 text-lg text-center max-w-2xl mb-12 animate-fade-in-up" style="animation-delay: 0.1s;">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia similique fugiat incidunt nihil?
             </p>
 
             <div class="flex flex-col sm:flex-row items-center justify-between w-full max-w-6xl px-6 gap-12">
                 <!-- Step 1 -->
-                <div class="flex flex-col items-center text-center gap-3 flex-1">
+                <div class="flex flex-col items-center text-center gap-3 flex-1 animate-fade-in-up" style="animation-delay: 0.2s;">
                     <i data-lucide="book-open" class="w-10 h-10 text-primary mb-2"></i>
                     <span class="text-lg font-semibold">Learn Recipes</span>
                     <p class="text-text/60 text-sm">Discover new dishes and cooking techniques from around the world.</p>
@@ -58,7 +58,7 @@
                 <div class="hidden sm:block w-12 border-t-2 border-primary/30 rotate-0"></div>
 
                 <!-- Step 2 -->
-                <div class="flex flex-col items-center text-center gap-3 flex-1">
+                <div class="flex flex-col items-center text-center gap-3 flex-1 animate-fade-in-up" style="animation-delay: 0.4s;">
                     <i data-lucide="users" class="w-10 h-10 text-primary mb-2"></i>
                     <span class="text-lg font-semibold">Share Skills</span>
                     <p class="text-text/60 text-sm">Host a session or post your recipes to inspire fellow cooks.</p>
@@ -67,7 +67,7 @@
                 <div class="hidden sm:block w-12 border-t-2 border-primary/30 rotate-0"></div>
 
                 <!-- Step 3 -->
-                <div class="flex flex-col items-center text-center gap-3 flex-1">
+                <div class="flex flex-col items-center text-center gap-3 flex-1 animate-fade-in-up" style="animation-delay: 0.6s;">
                     <i data-lucide="heart-handshake" class="w-10 h-10 text-primary mb-2"></i>
                     <span class="text-lg font-semibold">Connect</span>
                     <p class="text-text/60 text-sm">Meet fellow hobbyists, exchange tips, and share your kitchen adventures.</p>
@@ -76,7 +76,7 @@
                 <div class="hidden sm:block w-12 border-t-2 border-primary/30 rotate-0"></div>
 
                 <!-- Step 4 -->
-                <div class="flex flex-col items-center text-center gap-3 flex-1">
+                <div class="flex flex-col items-center text-center gap-3 flex-1 animate-fade-in-up" style="animation-delay: 0.8s;">
                     <i data-lucide="calendar" class="w-10 h-10 text-primary mb-2"></i>
                     <span class="text-lg font-semibold">Join Events</span>
                     <p class="text-text/60 text-sm">Participate in skill-sharing sessions, challenges, and monthly gatherings.</p>

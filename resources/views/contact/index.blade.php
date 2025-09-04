@@ -12,10 +12,10 @@
 
 @section('content')
     <section class="flex w-full gap-5 p-5 pb-12">
-        <div class="w-[60%] px-5">
+        <div class="w-[60%] px-5 animate-fade-in-left">
             @include('contact.contact-form')
         </div>
-        <div class="flex flex-col w-[40%]" id="contact-form-section">
+        <div class="flex flex-col w-[40%] animate-fade-in-right" id="contact-form-section" style="animation-delay: 0.2s;">
             <div class="rounded-lg p-6 bg-primary/5 border border-dashed border-primary/20">
                 <div class="mb-6">
                     <h1 class="text-lg font-bold text-primary flex items-center gap-2 mb-4">

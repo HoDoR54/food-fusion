@@ -30,15 +30,10 @@ class BlogService
                 $pagination->input('page', 1)
             );
 
-            $resData['data'] = $paginator->getCollection()->toArray();
-            $resData['pagination'] = [
-                'current_page' => $paginator->currentPage(),
-                'last_page' => $paginator->lastPage(),
-                'per_page' => $paginator->perPage(),
-                'total' => $paginator->total(),
-            ];
+            $resData = $paginator->getCollection()->toArray();
+            $paginatedRes = PaginatedResponse::fromPaginator($paginator, $resData);
 
-            return new BaseResponse(true, 'Blogs retrieved successfully', 200, $resData);
+            return new BaseResponse(true, 'Blogs retrieved successfully', 200, $paginatedRes);
         } catch (\Exception $e) {
             Log::error('Error retrieving paginated blogs: ' . $e->getMessage());
             return new BaseResponse(false, 'Failed to retrieve blogs', 500);

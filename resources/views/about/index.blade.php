@@ -14,32 +14,32 @@
     <section class="w-full max-w-4xl mx-auto px-6 py-8">
         {{-- Simple header --}}
         <div class="mb-12">
-            <h1 class="text-3xl font-semibold text-primary mb-4">
+            <h1 class="text-3xl font-semibold text-primary mb-4 animate-fade-in-up">
                 About Food Fusion
             </h1>
-            <p class="text-text/70 leading-relaxed">
+            <p class="text-text/70 leading-relaxed animate-fade-in-up" style="animation-delay: 0.1s;">
                 A community of food lovers sharing recipes and connecting over great meals. Simple, honest, and focused on what matters.
             </p>
         </div>
 
         {{-- The story --}}
         <div class="mb-12">
-            <h2 class="text-xl font-medium text-primary mb-6">How it all started</h2>
+            <h2 class="text-xl font-medium text-primary mb-6 animate-fade-in-up" style="animation-delay: 0.2s;">How it all started</h2>
             <div class="space-y-4 text-text/80 leading-relaxed">
-                <p>
+                <p class="animate-fade-in-up" style="animation-delay: 0.3s;">
                     We got tired of recipe websites cluttered with ads and endless stories about someone's childhood. 
                     All we wanted was a clean place where people could share actual recipes without the noise.
                 </p>
-                <p>
+                <p class="animate-fade-in-up" style="animation-delay: 0.4s;">
                     It started small—a few friends sharing their favorite dishes. Word spread, more people joined, 
                     and now we have home cooks from different countries sharing their family recipes and discoveries.
                 </p>
-                <p>
+                <p class="animate-fade-in-up" style="animation-delay: 0.5s;">
                     We're not trying to be perfect. We're focused on being genuine. Real people, real food, real connections.
                 </p>
             </div>
             
-            <div class="mt-8 p-4 bg-primary/5 border-l-4 border-secondary">
+            <div class="mt-8 p-4 bg-primary/5 border-l-4 border-secondary animate-fade-in-up" style="animation-delay: 0.6s;">
                 <p class="text-sm text-text/70 italic">
                     "The best communities grow naturally around shared passions" - and ours happened to be good food
                 </p>

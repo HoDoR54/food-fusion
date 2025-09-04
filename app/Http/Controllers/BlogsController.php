@@ -32,10 +32,9 @@ class BlogsController extends Controller
             return redirect()->back();
         }
 
-        // Extract data from BaseResponse for cleaner view usage
-        $resData = $response->getData() ?? [];
-        $blogs = $resData['data'] ?? [];
-        $pagination = $resData['pagination'] ?? [];
+        $data = $response->getData();
+        $blogs = $data->getItems();
+        $pagination = $data->getPagination();
 
         return view('blogs.index', [
             'blogs' => $blogs,
@@ -53,7 +52,7 @@ class BlogsController extends Controller
         }
 
         $data = $response->getData();
-        return response()->json(['success' => true, 'data' => $data], 200);
+        return response()->json(['success' => true, 'data' => $data->toArray()], 200);
     }
 
 

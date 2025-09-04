@@ -13,4 +13,3 @@ import "./utils/pagination";
 import "./interactivity/pop-up";
 import "./interactivity/auto-popup";
 import "./interactivity/image-upload";
-import "./interactivity/on-page-load";

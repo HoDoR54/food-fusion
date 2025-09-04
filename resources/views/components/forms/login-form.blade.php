@@ -6,14 +6,15 @@
 <form 
     action="{{ route('auth.login') }}" 
     method="POST"
-    class="flex flex-col md:min-w-[450px] items-center justify-center gap-4 p-6 bg-white rounded-xl border-2 border-primary border-dashed"
+    class="flex flex-col md:min-w-[450px] items-center justify-center gap-4 p-6 bg-white rounded-xl border-2 border-primary border-dashed animate-fade-in-up"
 >
     @csrf
     
     @if($isPopUp ?? true)
         <span 
-            class="w-full flex items-center justify-start gap-2 text-primary hover:text-secondary cursor-pointer mb-4" 
+            class="w-full flex items-center justify-start gap-2 text-primary hover:text-secondary cursor-pointer mb-4 animate-fade-in-up" 
             data-action="close-popup"
+            style="animation-delay: 0.1s;"
         >
             <i data-lucide="arrow-left" class="stroke-2 w-[1.5rem] h-[1.5rem]"></i>
             Back to Home
@@ -21,20 +22,21 @@
     @else
         <a 
             href="{{ route('home') }}" 
-            class="w-full flex items-center justify-start gap-2 text-primary hover:text-secondary cursor-pointer mb-4" 
+            class="w-full flex items-center justify-start gap-2 text-primary hover:text-secondary cursor-pointer mb-4 animate-fade-in-up" 
+            style="animation-delay: 0.1s;"
         >
             <i data-lucide="arrow-left" class="stroke-2 w-[1.5rem] h-[1.5rem]"></i>
             Back to Home
         </a>
     @endif
 
-    <div class="flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center animate-fade-in-up" style="animation-delay: 0.2s;">
         <img src="{{ asset('logo/logo-light.png') }}" alt="Food Fusion Logo" class="w-16 h-16">
         <h2 class="text-primary font-bold text-3xl">Welcome Back</h2>
         <p class="text-text/60 text-base my-3">Sign in to your FoodFusion account</p>
     </div>
 
-    <div class="flex flex-col gap-4 w-full">
+    <div class="flex flex-col gap-4 w-full animate-fade-in-up" style="animation-delay: 0.3s;">
         <div class="flex flex-col gap-2">
             <label for="identifier" class="text-text/60 text-sm">Email or Username</label>
             <input 
@@ -71,7 +73,7 @@
         </div>
     </div>
 
-    <div class="w-full flex flex-col items-center justify-center gap-4 mt-4">
+    <div class="w-full flex flex-col items-center justify-center gap-4 mt-4 animate-fade-in-up" style="animation-delay: 0.4s;">
         <x-button 
             type="submit" 
             :variant="ButtonVariant::Primary" 

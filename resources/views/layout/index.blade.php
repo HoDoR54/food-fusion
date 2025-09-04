@@ -13,7 +13,7 @@
     <link rel="icon" href="{{ asset('logo/logo-dark.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    @livewireStyles
+    @stack('styles')
     <title>@yield('title', 'Food Fusion')</title>
 </head>
 <body class="flex flex-col min-h-[1000px] m-0 p-0 box-border bg-background text-text relative">
@@ -38,7 +38,7 @@
     </main>
 
     @include('components.footer')
-    @livewireScripts
+    @stack('scripts')
 
     {{-- toaster --}}
     <div id="toast-container" class="fixed top-8 right-4 z-50 space-y-2"></div>

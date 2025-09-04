@@ -28,12 +28,9 @@
             <x-recipe-filters />
             @if (count($items) > 0)
                     <ul class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                        @foreach ($items as $item)
-                            <li>
-                                <livewire:recipe-card 
-                                    :recipe-id="$item['recipe']->id"
-                                    wire:key="recipe-card-{{ $item['recipe']->id }}"
-                                />
+                        @foreach ($items as $index => $item)
+                            <li class="animate-fade-in-up" style="animation-delay: {{ $index * 0.1 }}s;">
+                                <x-recipe-card :recipe="$item" />
                             </li>
                         @endforeach
                     </ul>

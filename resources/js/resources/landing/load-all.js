@@ -196,15 +196,17 @@ export class LandingLoader {
             });
 
             const responseObj = response.data;
+            console.log(responseObj);
             if (
                 !responseObj ||
                 !responseObj.data ||
-                responseObj.data.length === 0
+                responseObj.data.items === 0
             ) {
                 throw new Error("No top blogs found");
             }
+            console.log(responseObj.data.items);
 
-            this.renderTopBlogs(responseObj.data?.data ?? []);
+            this.renderTopBlogs(responseObj.data.items);
         } catch (error) {
             toastError("Error fetching top blogs", error.message);
             console.error("Error fetching top blogs:", error);
@@ -215,7 +217,7 @@ export class LandingLoader {
         const container = document.getElementById("top-blogs-list");
         if (!container) return;
 
-        container.innerHTML = ""; // clear placeholders
+        container.innerHTML = "";
 
         topBlogs.forEach((blog) => {
             console.log(blog.votes);

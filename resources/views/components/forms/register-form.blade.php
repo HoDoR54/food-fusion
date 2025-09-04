@@ -6,14 +6,15 @@
 <form
     method="POST"
     action="{{ route('auth.register') }}"
-    class="flex flex-col md:min-w-[450px] gap-4 p-6 items-center justify-center bg-white rounded-xl border-2 border-primary border-dashed"
+    class="flex flex-col md:min-w-[450px] gap-4 p-6 items-center justify-center bg-white rounded-xl border-2 border-primary border-dashed animate-fade-in-up"
 >
     @csrf
 
     @if($isPopUp ?? true)
         <span 
-            class="w-full flex items-center justify-start gap-2 text-primary hover:text-secondary cursor-pointer mb-4" 
+            class="w-full flex items-center justify-start gap-2 text-primary hover:text-secondary cursor-pointer mb-4 animate-fade-in-up" 
             data-action="close-popup"
+            style="animation-delay: 0.1s;"
         >
             <i data-lucide="arrow-left" class="stroke-2 w-[1.5rem] h-[1.5rem]"></i>
             Back to Home
@@ -21,7 +22,8 @@
     @else
         <a 
             href="{{ route('home') }}" 
-            class="w-full flex items-center justify-start gap-2 text-primary hover:text-secondary cursor-pointer mb-4" 
+            class="w-full flex items-center justify-start gap-2 text-primary hover:text-secondary cursor-pointer mb-4 animate-fade-in-up" 
+            style="animation-delay: 0.1s;"
         >
             <i data-lucide="arrow-left" class="stroke-2 w-[1.5rem] h-[1.5rem]"></i>
             Back to Home
@@ -29,14 +31,14 @@
     @endif
 
     <!-- Labels -->
-    <div class="flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center animate-fade-in-up" style="animation-delay: 0.2s;">
         <img src="{{ asset('logo/logo-light.png') }}" alt="Food Fusion Logo" class="w-16 h-16">
         <h2 class="text-primary font-bold text-2xl">Join Us</h2>
         <p class="text-gray-600 text-sm my-3">Create your account and start your culinary journey with us!</p>
     </div>
 
     <!-- Inputs -->
-    <div class="flex flex-col gap-3 w-full">
+    <div class="flex flex-col gap-3 w-full animate-fade-in-up" style="animation-delay: 0.3s;">
         <div class="flex flex-col md:flex-row gap-3">
             <div class="flex flex-col gap-2 w-full">
                 <label for="firstName" class="text-gray-600 text-sm">First Name</label>
@@ -165,7 +167,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="w-full flex flex-col items-center justify-center gap-4 mt-4">
+    <div class="w-full flex flex-col items-center justify-center gap-4 mt-4 animate-fade-in-up" style="animation-delay: 0.4s;">
         <x-button 
             type="submit" 
             :variant="ButtonVariant::Primary" 

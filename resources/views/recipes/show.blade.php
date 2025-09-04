@@ -19,7 +19,7 @@
     <section id="recipe-details" data-recipe-id="{{ $recipe->id }}" class="flex items-center justify-center pb-16">
         <section class="flex flex-col min-w-[50vw] lg:max-w-[60vw] gap-5">
             {{-- overall section --}}
-            <div class="w-full grid grid-cols-3">
+            <div class="w-full grid grid-cols-3 animate-fade-in-up">
                 <div class="flex flex-col p-3 justify-start items-start gap-2 md:col-span-2 relative">
                     <div class="absolute top-3 right-3 p-1 rounded-full flex gap-2">
                         {{-- TO-DO: implement these --}}
@@ -58,7 +58,7 @@
             </div>
 
             {{-- description section --}}
-            <div class="flex flex-col gap-3 py-5 px-8 bg-primary/10 rounded-2xl border-dashed border-2 border-primary/20">
+            <div class="flex flex-col gap-3 py-5 px-8 bg-primary/10 rounded-2xl border-dashed border-2 border-primary/20 animate-fade-in-up" style="animation-delay: 0.1s;">
                 <h2 class="text-primary text-xl font-semibold">About this recipe</h2>
                 <p class="text-text/60">
                     {{ $recipe->description }}
@@ -67,22 +67,22 @@
 
             {{-- attributes section --}}
             <div class="grid md:grid-cols-4 grid-cols-2 gap-3 min-h-32">
-                <div class="flex items-center justify-center flex-col bg-white/30 rounded-2xl border-2 border-primary/20 border-dashed">
+                <div class="flex items-center justify-center flex-col bg-white/30 rounded-2xl border-2 border-primary/20 border-dashed animate-fade-in-up" style="animation-delay: 0.2s;">
                     <i data-lucide="users" class="text-secondary mb-3"></i>
                     <span class="text-text/60">Servings</span>
                     <span class="text-text font-semibold text-xl">{{ $recipe->servings ?? 'N/A' }}</span>
                 </div>
-                <div class="flex items-center justify-center flex-col bg-white/30 rounded-2xl border-2 border-primary/20 border-dashed">
+                <div class="flex items-center justify-center flex-col bg-white/30 rounded-2xl border-2 border-primary/20 border-dashed animate-fade-in-up" style="animation-delay: 0.3s;">
                     <i data-lucide="clock" class="text-secondary mb-3"></i>
                     <span class="text-text/60">Prep</span>
                     <span class="text-text font-semibold text-xl">{{ $recipe->getPreparationMinutes() }} min</span>
                 </div>
-                <div class="flex items-center justify-center flex-col bg-white/30 rounded-2xl border-2 border-primary/20 border-dashed">
+                <div class="flex items-center justify-center flex-col bg-white/30 rounded-2xl border-2 border-primary/20 border-dashed animate-fade-in-up" style="animation-delay: 0.4s;">
                     <i data-lucide="chef-hat" class="text-secondary mb-3"></i>
                     <span class="text-text/60">Cook</span>
                     <span class="text-text font-semibold text-xl">{{ $recipe->getTotalCookingMinutes() }} min</span>
                 </div>
-                <div class="flex items-center justify-center flex-col bg-white/30 rounded-2xl border-2 border-primary/20 border-dashed">
+                <div class="flex items-center justify-center flex-col bg-white/30 rounded-2xl border-2 border-primary/20 border-dashed animate-fade-in-up" style="animation-delay: 0.5s;">
                     <i data-lucide="flame" class="text-secondary mb-3"></i>
                     <span class="text-text/60">Difficulty</span>
                     <span class="text-text font-semibold text-xl">{{ $recipe->difficulty->label() }}</span>
