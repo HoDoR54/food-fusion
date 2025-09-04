@@ -53,6 +53,24 @@ export function getHeaders() {
     };
 }
 
+export function getFileUploadHeaders() {
+    const token = document
+        .querySelector('meta[name="csrf-token"]')
+        ?.getAttribute("content");
+    if (!token) {
+        console.error("❌ CSRF token missing");
+        return {
+            Accept: "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+        };
+    }
+    return {
+        Accept: "application/json",
+        "X-CSRF-TOKEN": token,
+        "X-Requested-With": "XMLHttpRequest",
+    };
+}
+
 export async function isAuthenticated() {
     try {
         const response = await axios.post("/auth/check", {

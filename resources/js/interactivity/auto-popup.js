@@ -152,7 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.handleDoNotShowAgain = async function (checked) {
     try {
-        const { setSession } = await import("../utils/general");
         await setSession("isPopUpConsent", !checked);
         console.log(`Popup consent set to: ${!checked}`);
     } catch (error) {

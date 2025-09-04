@@ -6,6 +6,15 @@
         ['label' => 'Home', 'url' => '/'],
         ['label' => 'Cookbook', 'url' => '/blogs']
     ];
+
+    function getDelayTime($index) {
+        switch($index % 3) {
+            case 0: return "0.1";
+            case 1: return "0.2";
+            case 2: return "0.3";
+            default: return "0.1";
+        }
+    }
 @endphp
 
 @extends('layout.index')
@@ -47,7 +56,7 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
                 @foreach ($blogs as $index => $blog)
-                    <div class="animate-on-scroll" data-delay="{{ ($index * 0.1) + 0.3 }}s">
+                    <div class="animate-on-scroll" data-delay="{{ getDelayTime($index) }}s">
                         <x-blog-card :blog="$blog" />
                     </div>
                 @endforeach

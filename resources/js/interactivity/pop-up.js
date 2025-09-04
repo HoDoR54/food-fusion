@@ -383,6 +383,7 @@ class PopUpManager {
         const form = document.createElement("form");
         form.id = "recipe-attempt-form";
         form.className = "p-4 flex flex-col gap-4 w-full";
+        form.enctype = "multipart/form-data";
 
         const csrfToken =
             document

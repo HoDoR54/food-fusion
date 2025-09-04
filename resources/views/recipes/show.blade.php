@@ -154,7 +154,7 @@
                     </a>
                 </div>
 
-                <div class="grid md:grid-cols-4 gap-3">
+                <div id="recipe-attempts-grid" class="grid md:grid-cols-4 gap-3">
                     @forelse($recipe->attempts->take(4) as $attempt)
                         <div class="border-2 border-dashed border-primary/20 rounded-lg overflow-hidden bg-white/30 flex flex-col">
                             <div class="w-full py-5 flex items-center justify-center">
@@ -185,7 +185,7 @@
                             </div>
                         </div>
                     @empty
-                        <div class="md:col-span-4 col-span-2">
+                        <div id="no-attempts-message" class="md:col-span-4 col-span-2">
                             <div class="rounded-lg p-8 text-center">
                                 <i data-lucide="chef-hat" class="w-12 h-12 text-secondary/60 mx-auto mb-3"></i>
                                 <p class="text-text/60">No one has tried this recipe yet!</p>

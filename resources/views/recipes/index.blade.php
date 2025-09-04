@@ -7,6 +7,15 @@
     $data = $res->getData();
     $items = $data->getItems();
     $pagination = $data->getPagination();
+
+    function getDelayTime($index) {
+        switch($index % 3) {
+            case 0: return "0.1";
+            case 1: return "0.2";
+            case 2: return "0.3";
+            default: return "0.1";
+        }
+    }
 @endphp
 
 @extends('layout.index')
@@ -31,7 +40,7 @@
             @if (count($items) > 0)
                     <ul class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                         @foreach ($items as $index => $item)
-                            <li class="animate-on-scroll" data-delay="{{ ($index * 0.1) + 0.4 }}s">
+                            <li class="animate-on-scroll" data-delay="{{ getDelayTime($index) }}s">
                                 <x-recipe-card :recipe="$item" />
                             </li>
                         @endforeach

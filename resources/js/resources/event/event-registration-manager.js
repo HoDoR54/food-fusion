@@ -1,3 +1,4 @@
+import axios from "axios";
 import { toastError, toastSuccess } from "../../utils/toast";
 
 export class EventRegistrationManager {
