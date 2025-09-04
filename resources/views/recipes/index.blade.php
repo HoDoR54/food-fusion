@@ -19,22 +19,24 @@
         <x-recipe-search-bar />
     </section>
     <section class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        <div  class="flex flex-col gap-3">
+        <div class="flex flex-col gap-3" data-delay="0.2s">
             <div class="w-full h-[500px] rounded-2xl bg-primary/20 text-text flex items-center justify-center">
                 Something Cool Here
             </div>
         </div>
         <div class="md:col-span-2 lg:col-span-3 flex flex-col pl-3 gap-3">
-            <x-recipe-filters />
+            <div>
+                <x-recipe-filters />
+            </div>
             @if (count($items) > 0)
                     <ul class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                         @foreach ($items as $index => $item)
-                            <li class="animate-fade-in-up" style="animation-delay: {{ $index * 0.1 }}s;">
+                            <li class="animate-on-scroll" data-delay="{{ ($index * 0.1) + 0.4 }}s">
                                 <x-recipe-card :recipe="$item" />
                             </li>
                         @endforeach
                     </ul>
-                    <div class="flex flex-col w-full gap-3">
+                    <div class="animate-on-scroll flex flex-col w-full gap-3" data-delay="0.5s">
                         <p class="text-sm text-text/60 w-full flex items-center justify-center text-center">
                             Showing {{ $pagination['current_page'] }} of {{ $pagination['total_pages'] }} pages
                         </p>

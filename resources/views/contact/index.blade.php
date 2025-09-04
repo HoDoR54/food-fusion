@@ -12,10 +12,10 @@
 
 @section('content')
     <section class="flex w-full gap-5 p-5 pb-12">
-        <div class="w-[60%] px-5 animate-fade-in-left">
+        <div class="animate-fade-in-left w-[60%] px-5" data-delay="0.1s">
             @include('contact.contact-form')
         </div>
-        <div class="flex flex-col w-[40%] animate-fade-in-right" id="contact-form-section" style="animation-delay: 0.2s;">
+        <div class="animate-fade-in-right flex flex-col w-[40%]" id="contact-form-section" data-delay="0.2s">
             <div class="rounded-lg p-6 bg-primary/5 border border-dashed border-primary/20">
                 <div class="mb-6">
                     <h1 class="text-lg font-bold text-primary flex items-center gap-2 mb-4">
@@ -30,7 +30,7 @@
                     </p>
 
                     <div class="grid md:grid-cols-3 gap-4">
-                        <div class="text-center p-4 border border-dashed border-secondary/40 rounded-lg bg-secondary/10">
+                        <div class="animate-on-scroll text-center p-4 border border-dashed border-secondary/40 rounded-lg bg-secondary/10" data-delay="0.3s">
                             <div class="w-8 h-8 bg-secondary text-white rounded-full flex items-center justify-center mx-auto mb-2 font-semibold">
                                 1
                             </div>
@@ -40,7 +40,7 @@
                             </p>
                         </div>
 
-                        <div class="text-center p-4 border border-dashed border-primary/40 rounded-lg bg-primary/10">
+                        <div class="animate-on-scroll text-center p-4 border border-dashed border-primary/40 rounded-lg bg-primary/10" data-delay="0.4s">
                             <div class="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center mx-auto mb-2 font-semibold">
                                 2
                             </div>
@@ -50,7 +50,7 @@
                             </p>
                         </div>
 
-                        <div class="text-center p-4 border border-dashed border-secondary/40 rounded-lg bg-secondary/10">
+                        <div class="animate-on-scroll text-center p-4 border border-dashed border-secondary/40 rounded-lg bg-secondary/10" data-delay="0.5s">
                             <div class="w-8 h-8 bg-secondary text-white rounded-full flex items-center justify-center mx-auto mb-2 font-semibold">
                                 3
                             </div>
@@ -61,7 +61,7 @@
                         </div>
                     </div>
 
-                    <div class="bg-primary/5 p-4 rounded-lg border border-dashed border-primary/20">
+                    <div class="animate-on-scroll bg-primary/5 p-4 rounded-lg border border-dashed border-primary/20" data-delay="0.6s">
                         <p class="text-xs text-text/60">
                             <strong>Note:</strong> Response times vary, but we usually reply within 2–5 business days. Anonymous submissions are recorded but may not receive direct replies.
                         </p>

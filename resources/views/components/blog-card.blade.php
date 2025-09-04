@@ -1,8 +1,8 @@
 @php
-    $readTime = ceil(str_word_count(strip_tags($blog->content)) / 200); // Approximate reading time
+    $readTime = ceil(str_word_count(strip_tags($blog->content)) / 200);
 @endphp
 
-<a href="{{ route('blogs.show', ['id' => $blog->id]) }}" class="block group bg-white rounded-2xl border border-primary/20 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+<a href="{{ route('blogs.show', ['id' => $blog->id]) }}" class="block group bg-secondary/10 border-dashed rounded-2xl border-2 border-primary/20 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
     <div class="relative aspect-[4/3] overflow-hidden">
         @if($blog->image_url)
             <img src="{{ $blog->image_url }}" 

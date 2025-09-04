@@ -10,7 +10,7 @@
     $difficultyColor = $difficultyColors[$recipe->difficulty->value] ?? 'bg-gray-100 text-gray-800 border-gray-200';
 @endphp
 
-<a href="{{ route('recipes.show', ['id' => $recipe->id]) }}" class="block group bg-white rounded-2xl border border-primary/20 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+<a href="{{ route('recipes.show', ['id' => $recipe->id]) }}" class="block group bg-secondary/10 border-dashed border-2 rounded-2xl border-primary/20 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
     <div class="relative aspect-[4/3] overflow-hidden">
         @if($recipe->image_url)
             <img src="{{ $recipe->image_url }}" 
@@ -28,7 +28,6 @@
             </span>
         </div>
 
-        {{-- Servings Badge --}}
         @if($recipe->servings)
             <div class="absolute top-3 left-3">
                 <span class="px-2 py-1 rounded-full text-xs font-medium bg-black/50 text-white backdrop-blur-sm">
@@ -38,21 +37,17 @@
         @endif
     </div>
 
-    {{-- Card Content --}}
     <div class="p-4">
-        {{-- Recipe Title --}}
         <h3 class="text-lg font-semibold text-text mb-2 line-clamp-2 group-hover:text-primary transition-colors duration-300">
             {{ $recipe->name }}
         </h3>
 
-        {{-- Recipe Description --}}
         @if($recipe->description)
-            <p class="text-sm text-text/70 mb-3 line-clamp-3 leading-relaxed">
+            <p class="text-sm text-text/70 mb-3 line-clamp-1 leading-relaxed">
                 {{ $recipe->description }}
             </p>
         @endif
 
-        {{-- Recipe Tags/Categories (if available) --}}
         @if($recipe->relationLoaded('tags') && $recipe->tags && $recipe->tags->count() > 0)
             <div class="flex flex-wrap gap-1 mb-3">
                 @foreach($recipe->tags->take(3) as $tag)
@@ -68,7 +63,6 @@
             </div>
         @endif
 
-        {{-- Recipe Meta Info --}}
         <div class="flex items-center justify-between pt-3 border-t border-primary/10">
             <div class="flex items-center gap-2 text-xs text-text/60">
                 <div class="flex items-center gap-1">
@@ -80,19 +74,10 @@
                     <span>{{ $recipe->created_at->diffForHumans() }}</span>
                 @endif
             </div>
-            
-            {{-- Vote Score (if available) --}}
-            @if(method_exists($recipe, 'getVoteScoreAttribute'))
-                <div class="flex items-center gap-1 text-xs">
-                    <i class="fa-solid fa-heart text-red-500"></i>
-                    <span class="text-text/70 font-medium">{{ $recipe->vote_score ?? 0 }}</span>
-                </div>
-            @endif
         </div>
     </div>
 
-    {{-- Hover Action Overlay --}}
-    <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+    <div class="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
         <div class="bg-white/90 backdrop-blur-sm rounded-full p-3 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
             <i class="fa-solid fa-arrow-right text-primary"></i>
         </div>

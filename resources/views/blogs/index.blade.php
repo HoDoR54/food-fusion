@@ -13,7 +13,7 @@
 
 @section('content')
 <section class="w-full flex flex-col p-5 mb-16">
-    <section class="w-full mb-6">
+    <section class="animate-on-scroll w-full mb-6" data-delay="0.1s">
         
         <div class="max-w-2xl mx-auto mb-6">
             <div class="relative">
@@ -39,7 +39,7 @@
     
     <section class="w-full">
         @if (count($blogs) > 0)
-            <div class="mb-6 text-center">
+            <div class="animate-on-scroll mb-6 text-center" data-delay="0.2s">
                 <p class="text-sm text-text/60">
                     Found {{ $pagination['total_items'] }} blog {{ $pagination['total_items'] === 1 ? 'post' : 'posts' }}
                 </p>
@@ -47,13 +47,13 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
                 @foreach ($blogs as $index => $blog)
-                    <div class="animate-fade-in-up" style="animation-delay: {{ $index * 0.1 }}s;">
+                    <div class="animate-on-scroll" data-delay="{{ ($index * 0.1) + 0.3 }}s">
                         <x-blog-card :blog="$blog" />
                     </div>
                 @endforeach
             </div>
 
-            <div class="flex flex-col w-full gap-4 bg-secondary/5 rounded-xl p-6 border border-primary/10">
+            <div class="animate-on-scroll flex flex-col w-full gap-4 bg-secondary/5 rounded-xl p-6 border border-primary/10" data-delay="0.5s">
                 <p class="text-sm text-text/60 w-full flex items-center justify-center text-center font-medium">
                     Showing page {{ $pagination['current_page'] }} of {{ $pagination['total_pages'] }}
                     <span class="mx-2">•</span>

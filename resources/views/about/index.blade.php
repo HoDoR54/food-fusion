@@ -14,32 +14,32 @@
     <section class="w-full max-w-4xl mx-auto px-6 py-8">
         {{-- Simple header --}}
         <div class="mb-12">
-            <h1 class="text-3xl font-semibold text-primary mb-4 animate-fade-in-up">
+            <h1 class="animate-on-scroll text-3xl font-semibold text-primary mb-4" data-delay="0.1s">
                 About Food Fusion
             </h1>
-            <p class="text-text/70 leading-relaxed animate-fade-in-up" style="animation-delay: 0.1s;">
+            <p class="animate-on-scroll text-text/70 leading-relaxed" data-delay="0.2s">
                 A community of food lovers sharing recipes and connecting over great meals. Simple, honest, and focused on what matters.
             </p>
         </div>
 
         {{-- The story --}}
         <div class="mb-12">
-            <h2 class="text-xl font-medium text-primary mb-6 animate-fade-in-up" style="animation-delay: 0.2s;">How it all started</h2>
+            <h2 class="animate-on-scroll text-xl font-medium text-primary mb-6" data-delay="0.1s">How it all started</h2>
             <div class="space-y-4 text-text/80 leading-relaxed">
-                <p class="animate-fade-in-up" style="animation-delay: 0.3s;">
+                <p class="animate-on-scroll" data-delay="0.2s">
                     We got tired of recipe websites cluttered with ads and endless stories about someone's childhood. 
                     All we wanted was a clean place where people could share actual recipes without the noise.
                 </p>
-                <p class="animate-fade-in-up" style="animation-delay: 0.4s;">
+                <p class="animate-on-scroll" data-delay="0.3s">
                     It started small—a few friends sharing their favorite dishes. Word spread, more people joined, 
                     and now we have home cooks from different countries sharing their family recipes and discoveries.
                 </p>
-                <p class="animate-fade-in-up" style="animation-delay: 0.5s;">
+                <p class="animate-on-scroll" data-delay="0.4s">
                     We're not trying to be perfect. We're focused on being genuine. Real people, real food, real connections.
                 </p>
             </div>
             
-            <div class="mt-8 p-4 bg-primary/5 border-l-4 border-secondary animate-fade-in-up" style="animation-delay: 0.6s;">
+            <div class="animate-on-scroll mt-8 p-4 bg-primary/5 border-l-4 border-secondary" data-delay="0.5s">
                 <p class="text-sm text-text/70 italic">
                     "The best communities grow naturally around shared passions" - and ours happened to be good food
                 </p>
@@ -48,24 +48,24 @@
 
         {{-- What we're about --}}
         <div class="mb-12">
-            <h2 class="text-xl font-medium text-primary mb-6">What we believe in</h2>
+            <h2 class="animate-on-scroll text-xl font-medium text-primary mb-6" data-delay="0.1s">What we believe in</h2>
             
             <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-primary/5 p-4 rounded border border-dashed border-primary/20">
+                <div class="animate-on-scroll bg-primary/5 p-4 rounded border border-dashed border-primary/20" data-delay="0.2s">
                     <h3 class="text-base font-medium text-primary mb-3">Keep it authentic</h3>
                     <p class="text-sm text-text/70">
                         No fake reviews or sponsored posts. Real people sharing recipes they actually make and love.
                     </p>
                 </div>
                 
-                <div class="bg-primary/5 p-4 rounded border border-dashed border-primary/20">
+                <div class="animate-on-scroll bg-primary/5 p-4 rounded border border-dashed border-primary/20" data-delay="0.3s">
                     <h3 class="text-base font-medium text-primary mb-3">Everyone belongs</h3>
                     <p class="text-sm text-text/70">
                         Whether you're just learning to cook or you're a seasoned chef, there's a place for you here.
                     </p>
                 </div>
                 
-                <div class="bg-primary/5 p-4 rounded border border-dashed border-primary/20">
+                <div class="animate-on-scroll bg-primary/5 p-4 rounded border border-dashed border-primary/20" data-delay="0.4s">
                     <h3 class="text-base font-medium text-primary mb-3">Learn and grow</h3>
                     <p class="text-sm text-text/70">
                         Share tips, discover new techniques, and help each other become better cooks along the way.
@@ -76,13 +76,13 @@
 
         {{-- The people --}}
         <div class="mb-12">
-            <h2 class="text-xl font-medium text-primary mb-6">Members</h2>
-            <p class="text-text/70 mb-8">
+            <h2 class="animate-on-scroll text-xl font-medium text-primary mb-6" data-delay="0.1s">Members</h2>
+            <p class="animate-on-scroll text-text/70 mb-8" data-delay="0.2s">
                 A small team passionate about food and community. We're learning as we go and always listening to feedback.
             </p>
             
             <div class="grid md:grid-cols-2 gap-6">
-                <div class="flex gap-4 p-4 bg-white/50 rounded border border-dashed border-primary/20">
+                <div class="animate-on-scroll flex gap-4 p-4 bg-white/50 rounded border border-dashed border-primary/20" data-delay="0.3s">
                     <img src="{{ asset('images/users/hpone-tauk-nyi.jpg') }}" 
                          alt="Hpone Tauk Nyi" 
                          class="w-16 h-16 rounded object-cover flex-shrink-0">
@@ -95,7 +95,7 @@
                     </div>
                 </div>
                 
-                <div class="flex gap-4 p-4 bg-white/50 rounded border border-dashed border-primary/20">
+                <div class="animate-on-scroll flex gap-4 p-4 bg-white/50 rounded border border-dashed border-primary/20" data-delay="0.4s">
                     <img src="{{ asset('images/users/cooler-hpone-tauk-nyi.jpg') }}" 
                          alt="Cooler Hpone Tauk Nyi" 
                          class="w-16 h-16 rounded object-cover flex-shrink-0">
@@ -108,7 +108,7 @@
                     </div>
                 </div>
                 
-                <div class="flex gap-4 p-4 bg-white/50 rounded border border-dashed border-primary/20">
+                <div class="animate-on-scroll flex gap-4 p-4 bg-white/50 rounded border border-dashed border-primary/20" data-delay="0.5s">
                     <img src="{{ asset('images/users/bald-hpone-tauk-nyi.jpg') }}" 
                          alt="Bald Hpone Tauk Nyi" 
                          class="w-16 h-16 rounded object-cover flex-shrink-0">
@@ -121,7 +121,7 @@
                     </div>
                 </div>
                 
-                <div class="flex gap-4 p-4 bg-white/50 rounded border border-dashed border-primary/20">
+                <div class="animate-on-scroll flex gap-4 p-4 bg-white/50 rounded border border-dashed border-primary/20" data-delay="0.6s">
                     <img src="{{ asset('images/users/mastauche-hpone-tauk-nyi.jpg') }}" 
                          alt="Mustache Hpone Tauk Nyi" 
                          class="w-16 h-16 rounded object-cover flex-shrink-0">
@@ -138,22 +138,22 @@
 
         {{-- Some numbers --}}
         <div class="mb-12">
-            <h2 class="text-xl font-medium text-primary mb-6">Where we're at</h2>
+            <h2 class="animate-on-scroll text-xl font-medium text-primary mb-6" data-delay="0.1s">Where we're at</h2>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="text-center p-4 border border-dashed border-primary/30 rounded">
+                <div class="animate-on-scroll text-center p-4 border border-dashed border-primary/30 rounded" data-delay="0.2s">
                     <div class="text-lg font-semibold text-primary">400+</div>
                     <div class="text-xs text-text/60">Members</div>
                 </div>
-                <div class="text-center p-4 border border-dashed border-primary/30 rounded">
+                <div class="animate-on-scroll text-center p-4 border border-dashed border-primary/30 rounded" data-delay="0.3s">
                     <div class="text-lg font-semibold text-primary">200+</div>
                     <div class="text-xs text-text/60">Recipes</div>
                 </div>
-                <div class="text-center p-4 border border-dashed border-primary/30 rounded">
+                <div class="animate-on-scroll text-center p-4 border border-dashed border-primary/30 rounded" data-delay="0.4s">
                     <div class="text-lg font-semibold text-primary">12</div>
                     <div class="text-xs text-text/60">Events</div>
                 </div>
-                <div class="text-center p-4 border border-dashed border-primary/30 rounded">
+                <div class="animate-on-scroll text-center p-4 border border-dashed border-primary/30 rounded" data-delay="0.5s">
                     <div class="text-lg font-semibold text-primary">15+</div>
                     <div class="text-xs text-text/60">Countries</div>
                 </div>
@@ -162,7 +162,7 @@
 
         {{-- That's it --}}
         <div class="text-center">
-            <div class="p-8 bg-primary/5 rounded border border-dashed border-primary/20">
+            <div class="animate-on-scroll p-8 bg-primary/5 rounded border border-dashed border-primary/20" data-delay="0.1s">
                 <p class="text-text/70 leading-relaxed mb-4">
                     That's our story so far. We're building something simple but meaningful—a place where people can share great food 
                     and connect with others who love cooking. If you have a recipe worth sharing, we'd love to have you join us.
