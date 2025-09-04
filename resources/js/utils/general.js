@@ -70,16 +70,3 @@ export function getFileUploadHeaders() {
         "X-Requested-With": "XMLHttpRequest",
     };
 }
-
-export async function isAuthenticated() {
-    try {
-        const response = await axios.post("/auth/check", {
-            headers: getHeaders(),
-            credentials: "include",
-        });
-        return response.data.authenticated;
-    } catch (error) {
-        console.error("Error checking authentication:", error);
-        return false;
-    }
-}

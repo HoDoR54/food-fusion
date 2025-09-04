@@ -24,14 +24,6 @@ class AutoPopupManager {
 
     async shouldShowPopup() {
         try {
-            const authCheckRes = await axios.post("/auth/check", {
-                headers: getHeaders(),
-                credentials: "include",
-            });
-            if (authCheckRes.data.authenticated) {
-                return false;
-            }
-
             const hasConsentRes = await axios.get(
                 "/sessions/isPopUpConsent/get",
                 {
@@ -39,9 +31,7 @@ class AutoPopupManager {
                     credentials: "include",
                 }
             );
-            const shouldShow =
-                hasConsentRes.data.value === true &&
-                authCheckRes.data.authenticated === false;
+            const shouldShow = hasConsentRes.data.value === true;
 
             return shouldShow;
         } catch (error) {

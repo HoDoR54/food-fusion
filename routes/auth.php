@@ -3,15 +3,11 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckFailedLoginAttempts;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('auth.login.show');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('auth.register.show');
-Route::post('auth/check', function () {
-    return response()->json([
-        'authenticated' => auth()->check(),
-    ]);
-});
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])

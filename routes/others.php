@@ -7,6 +7,7 @@ use App\Http\Controllers\GeneralController;
 Route::middleware(GetUserOrPass::class)->group(function () {
     // Main Pages
     Route::get('/', fn() => view('index'))->name('home');
+    Route::view('/admin', 'admin')->name('admin.index');
 
     Route::prefix('info')->group(function () {
         // Route::view('/terms', 'info.terms')->name('terms');

@@ -1,0 +1,55 @@
+.no-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scroll {
+    scrollbar-width: none;
+}
+
+.no-scroll {
+    -ms-overflow-style: none;
+}
+
+.scroll-hidden {
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scroll-hidden::-webkit-scrollbar {
+    display: none;
+}
+
+.no-main-scroll {
+    overflow: hidden;
+}
+
+.overflow-scroll-hidden {
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.overflow-scroll-hidden::-webkit-scrollbar {
+    display: none;
+}
+
+.overflow-y-scroll-hidden {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.overflow-y-scroll-hidden::-webkit-scrollbar {
+    display: none;
+}
+
+.overflow-x-scroll-hidden {
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.overflow-x-scroll-hidden::-webkit-scrollbar {
+    display: none;
+}

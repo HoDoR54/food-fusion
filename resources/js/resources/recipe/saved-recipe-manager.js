@@ -1,5 +1,4 @@
 import { toastSuccess, toastError } from "../../utils/toast.js";
-import { isAuthenticated } from "../../utils/general.js";
 
 export class SavedRecipesManager {
     constructor() {
@@ -9,32 +8,20 @@ export class SavedRecipesManager {
     async attachEventListeners() {
         const saveButtons = document.querySelectorAll(".recipe-save-button");
 
-        const userIsAuthenticated = await isAuthenticated();
-
         for (const button of saveButtons) {
             const recipeId = button.getAttribute("data-recipe-id");
 
-            if (userIsAuthenticated) {
-                const isSaved = await this.isRecipeSaved(recipeId);
-                this.toggleIcon(saveButtons, recipeId, isSaved);
-            } else {
-                this.toggleIcon(saveButtons, recipeId, false);
-            }
+            const isSaved = await this.isRecipeSaved(recipeId);
+            this.toggleIcon(saveButtons, recipeId, isSaved);
+            this.toggleIcon(saveButtons, recipeId, false);
 
             button.addEventListener("click", async () => {
-                const currentlyAuthenticated = await isAuthenticated();
-                if (!currentlyAuthenticated) {
-                    toastError("Please log in to save recipes");
-                    return;
-                }
-
                 const currentIsSaved = await this.isRecipeSaved(recipeId);
                 if (currentIsSaved) {
                     await this.unsaveRecipe(recipeId);
                 } else {
                     await this.saveRecipe(recipeId);
                 }
-                // Update icon after save/unsave
                 const newIsSaved = await this.isRecipeSaved(recipeId);
                 this.toggleIcon(saveButtons, recipeId, newIsSaved);
             });

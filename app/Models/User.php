@@ -76,6 +76,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function isAdmin(): bool
+    {
+        return $this->role?->name === 'Admin';
+    }
+
     public function recipeAttempts(): HasMany
     {
         return $this->hasMany(RecipeAttempt::class);
