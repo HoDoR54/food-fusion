@@ -11,6 +11,11 @@
                     A community-driven platform where food lovers share recipes, learn together, and celebrate diverse
                     culinary traditions.
                 </p>
+                <div class="mb-3">
+                    <a href="{{ route('about') }}" class="text-primary hover:text-secondary hover:underline text-sm font-medium">
+                        Learn More About Us →
+                    </a>
+                </div>
                 <div class="bg-secondary/10 p-3 border border-dashed border-secondary/30">
                     <p class="text-xs text-primary/70">
                         <strong>3</strong> community members
@@ -124,7 +129,7 @@
                     <a href="{{ route('about') }}" class="text-white/80 hover:text-secondary hover:underline">
                         About Us
                     </a>
-                    <a href="{{ route('contact') }}" class="text-white/80 hover:text-secondary hover:underline">
+                    <a href="{{ route('contact.index') }}" class="text-white/80 hover:text-secondary hover:underline">
                         Contact
                     </a>
                     <a href="{{ route('home') }}" class="text-white/80 hover:text-secondary hover:underline">

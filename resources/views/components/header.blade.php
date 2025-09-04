@@ -5,7 +5,7 @@
 
     $pages = [
         'About Us' => 'about',
-        'Contact' => 'contact',
+        'Contact' => 'contact.index',
         'Events' => 'events.index',
         'Recipes' => 'recipes.index',
         'Community Cookbook' => 'blogs.index',
