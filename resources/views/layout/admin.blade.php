@@ -16,7 +16,7 @@
     @stack('styles')
     <title>@yield('title', 'Food Fusion')</title>
 </head>
-<body class="flex flex-col min-h-[1000px] m-0 p-0 box-border bg-background text-text relative">
+<body class="flex m-0 p-0 box-border bg-background text-text relative">
     {{-- overlay --}}
     <div id="pop-up-overlay" class="fixed hidden top-0 left-0 right-0 bottom-0 bg-black/50 z-40"></div>
 
@@ -27,7 +27,9 @@
         </div>
     </div>
 
-    <main class="flex-grow container mx-auto">
+    <x-dashboard-side-bar />
+
+    <main class="flex-grow container">
         @if (isset($breadcrumbItems))
             <x-breadcrumb :items="$breadcrumbItems" />
         @endif

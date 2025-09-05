@@ -40,6 +40,22 @@ class RecipesController extends Controller
         ]);
     }
 
+    public function pendingRecipes(PaginationRequest $pagination, RecipeSearchRequest $search, SortRequest $sort) {
+        $res = $this->_recipeService->getPendingRecipes($pagination, $search, $sort);
+        Log::info('Response:' . json_encode($res->getData()->getItems()));
+
+        if (!$res->isSuccess()) {
+            session()->flash('toastMessage', $res->getMessage());
+            session()->flash('toastType', 'error');
+            return redirect()->route('admin.index');
+        }
+
+        return view('recipes.pending-recipes', [
+            'res' => $res,
+            'title' => 'Pending Recipes',
+        ]);
+    }
+
     public function show($id)
     {
         $res = $this->_recipeService->getRecipeDetailsById($id);

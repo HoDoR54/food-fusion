@@ -14,6 +14,7 @@ use App\DTO\Responses\PaginatedResponse;
 use App\Models\Recipe;
 use App\Models\RecipeAttempt;
 use App\Enums\TagType;
+use App\Enums\RecipePostStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -24,7 +25,7 @@ class RecipeService
         $query = Recipe::query();
         $this->applyFilters($query, $search);
         $this->applySorting($query, $sort);
-        $query->where('status', 'approved');
+        $query->where('status', RecipePostStatus::APPROVED);
 
         $paginator = $query->paginate(
             $pagination->input('size', 12), 
@@ -39,6 +40,28 @@ class RecipeService
 
         $paginatedRes = PaginatedResponse::fromPaginator($paginator, $resData);
         return new BaseResponse(true, 'Recipes retrieved successfully', 200, $paginatedRes);
+    }
+
+    public function getPendingRecipes(PaginationRequest $pagination, RecipeSearchRequest $search, SortRequest $sort): BaseResponse {
+        $query = Recipe::query();
+        $this->applyFilters($query, $search);
+        $this->applySorting($query, $sort);
+        $query->where('status', RecipePostStatus::PENDING)->with(['postedBy', 'tags', 'ingredients']);
+
+        $paginator = $query->paginate(
+            $pagination->input('size', 12), 
+            ['*'], 
+            'page', 
+            $pagination->input('page', 1)
+        );
+        
+        $resData = $paginator->getCollection()->map(function (Recipe $recipe) {
+            return ['recipe' => $recipe];
+        })->toArray();
+
+        $paginatedRes = PaginatedResponse::fromPaginator($paginator, $resData);
+        Log::info('Pending Recipes Data:', $paginatedRes->toArray());
+        return new BaseResponse(true, 'Pending recipes retrieved successfully', 200, $paginatedRes);
     }
 
     public function getRecipeDetailsById(string $id): BaseResponse {
