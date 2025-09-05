@@ -39,10 +39,6 @@
                     </button>
                 </div>
             </div>
-            <p class="text-xs text-text/50 mt-2 text-center">
-                <i class="fa-solid fa-info-circle mr-1"></i>
-                Search functionality coming soon!
-            </p>
         </div>
     </section>
     
@@ -62,7 +58,7 @@
                 @endforeach
             </div>
 
-            <div class="animate-on-scroll flex flex-col w-full gap-4 bg-secondary/5 rounded-xl p-6 border border-primary/10" data-delay="0.5s">
+            <div class="flex flex-col w-full gap-4">
                 <p class="text-sm text-text/60 w-full flex items-center justify-center text-center font-medium">
                     Showing page {{ $pagination['current_page'] }} of {{ $pagination['total_pages'] }}
                     <span class="mx-2">•</span>

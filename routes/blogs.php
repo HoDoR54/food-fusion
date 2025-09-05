@@ -7,7 +7,8 @@ use App\Http\Controllers\BlogsController;
 
 Route::middleware(GetUserOrPass::class)->prefix('blogs')->name('blogs.')->group(function () {
     Route::middleware(RequireLogin::class)->group(function () {
-        Route::get('/new-post', fn() => view('blogs.create'))->name('create');
+        Route::get('/new-post', [BlogsController::class, 'create'])->name('create');
+        Route::post('/new-post', [BlogsController::class, 'store'])->name('store');
         Route::post('/{id}/comments/create', [BlogsController::class, 'createComment'])->name('comments.create');
         Route::post('/{id}/upvote', [BlogsController::class, 'upvote'])->name('upvote');
         Route::post('/{id}/downvote', [BlogsController::class, 'downvote'])->name('downvote');

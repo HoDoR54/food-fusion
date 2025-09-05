@@ -5,18 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BlogCommentCreateRequest;
+use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\PaginationRequest;
 use App\Http\Requests\BlogSearchRequest;
 use App\Http\Requests\SortRequest;
 use App\Services\BlogService;
+use App\Services\CloudinaryService;
 use Illuminate\Support\Facades\Log;
 
 class BlogsController extends Controller
 {
     protected BlogService $_blogService;
+    protected CloudinaryService $_cloudinaryService;
 
-    public function __construct(BlogService $blogService) {
+    public function __construct(BlogService $blogService, CloudinaryService $cloudinaryService) {
         $this->_blogService = $blogService;
+        $this->_cloudinaryService = $cloudinaryService;
     }
 
     public function index(PaginationRequest $pagination, BlogSearchRequest $search, SortRequest $sort)
@@ -69,6 +73,50 @@ class BlogsController extends Controller
         
         $blog = $response->getData();
         return view('blogs.show', compact('blog'));
+    }
+
+    public function create()
+    {
+        return view('blogs.create', [
+            'title' => 'Create New Blog Post',
+        ]);
+    }
+
+    public function store(StoreBlogRequest $request)
+    {
+        $userId = auth()->id();
+        $imageUrl = null;
+        
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $result = $this->_cloudinaryService->uploadImage($request->file('image'), 'blogs');
+            if (!$result->isSuccess()) {
+                Log::warning('Blog image upload failed', [
+                    'user_id' => $userId,
+                    'error' => $result->getMessage(),
+                    'file_name' => $request->file('image')->getClientOriginalName()
+                ]);
+                session()->flash('toastMessage', $result->getMessage());
+                session()->flash('toastType', 'error');
+                return back()->withInput();
+            }
+            $imageUrl = $result->getData()->secure_url;
+            Log::info('Blog image uploaded successfully', [
+                'user_id' => $userId,
+                'image_url' => $imageUrl
+            ]);
+        }
+
+        $res = $this->_blogService->storeBlog($request, $userId, $imageUrl);
+
+        if ($res->isSuccess()) {
+            session()->flash('toastMessage', $res->getMessage());
+            session()->flash('toastType', 'success');
+            return redirect()->route('blogs.index');
+        } else {
+            session()->flash('toastMessage', $res->getMessage());
+            session()->flash('toastType', 'error');
+            return back()->withInput();
+        }
     }
 
     public function createComment(BlogCommentCreateRequest $request, $blogId)

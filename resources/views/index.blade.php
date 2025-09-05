@@ -168,7 +168,9 @@
                 </div>
                 <div class="animate-on-scroll flex items-center justify-center flex-col gap-4 py-4" data-delay="0.4s">
                     <p class="text-text/60 text-base">Cooking something? Let us know!</p>
-                    <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Share What You Are Making'" :icon="'<i data-lucide=\'camera\'></i>'"/>
+                    <a href="{{ route('blogs.create') }}">
+                        <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Share What You Are Making'" :icon="'<i data-lucide=\'camera\'></i>'"/>
+                    </a>
                 </div>
             </div>
         </section>

@@ -9,6 +9,8 @@ enum TagType: string
     case Course = 'course';
     case CookingMethod = 'method';
     case Occasion = 'occasion';
+    case BlogCategory = 'blog_category';
+    case BlogTopic = 'blog_topic';
 
     public static function labels(): array
     {
@@ -23,6 +25,8 @@ enum TagType: string
             self::Course => 'Course',
             self::CookingMethod => 'Cooking Method',
             self::Occasion => 'Occasion',
+            self::BlogCategory => 'Blog Category',
+            self::BlogTopic => 'Blog Topic',
         };
     }
 

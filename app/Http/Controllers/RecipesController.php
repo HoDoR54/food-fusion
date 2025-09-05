@@ -70,11 +70,20 @@ class RecipesController extends Controller
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $result = $this->_cloudinaryService->uploadImage($request->file('image'), 'recipes');
             if (!$result->isSuccess()) {
+                Log::warning('Recipe image upload failed', [
+                    'user_id' => $userId,
+                    'error' => $result->getMessage(),
+                    'file_name' => $request->file('image')->getClientOriginalName()
+                ]);
                 session()->flash('toastMessage', $result->getMessage());
                 session()->flash('toastType', 'error');
                 return back()->withInput();
             }
             $imageUrl = $result->getData()->secure_url;
+            Log::info('Recipe image uploaded successfully', [
+                'user_id' => $userId,
+                'image_url' => $imageUrl
+            ]);
         }
 
         $res = $this->_recipeService->storeRecipe($request, $userId, $imageUrl);

@@ -23,7 +23,7 @@
 @section('content')
 <section class="flex flex-col w-full pb-10 p-5">
     <section class="w-full grid md:grid-cols-4">
-        <div class="h-screen flex flex-col items-center">
+        <div class="h-screen p-5 flex flex-col items-center">
             {{-- TO-DO: Image Upload and Edit Profile --}}
             <div class="flex items-center justify-center">
                 <div class="relative border-dashed mt-10">
@@ -99,7 +99,7 @@
             </div>
         </div>
         <div class="h-screen md:col-span-3 p-5 overflow-y-auto no-scroll">
-            <div class="animate-on-scroll w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+            <div class="animate-on-scroll w-full bg-primary/10 rounded-2xl border border-primary/20 border-dashed p-6 mb-6">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-xl font-semibold text-gray-800">Recent Activity</h3>
                     <div class="flex gap-2">
@@ -113,7 +113,7 @@
                     @for ($i = 0; $i < 3; $i++)
                         <div class="flex gap-4 p-4 bg-gray-50/50 rounded-xl border border-gray-100/50">
                             <div class="flex-shrink-0">
-                                <div class="w-12 h-12 bg-green-200 bg-gray-100 rounded-xl flex items-center justify-center">
+                                <div class="w-12 h-12 bg-gray-300 rounded-xl flex items-center justify-center">
                                     <i data-lucide="chef-hat" class="w-6 h-6 text-gray-600"></i>
                                 </div>
                             </div>
@@ -142,9 +142,9 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-4 mb-6">
-                <div class="animate-on-scroll bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div class="animate-on-scroll bg-primary/10 border border-primary/20 border-dashed rounded-xl p-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div class="w-10 h-10 bg-gray-50/50 rounded-lg flex items-center justify-center">
                             <i data-lucide="chef-hat" class="w-5 h-5 text-gray-600"></i>
                         </div>
                         <div>
@@ -153,9 +153,9 @@
                         </div>
                     </div>
                 </div>
-                <div style="animation-delay: 0.1s;"  class="animate-on-scroll bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div style="animation-delay: 0.1s;"  class="animate-on-scroll bg-primary/10 border border-primary/20 border-dashed rounded-xl p-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div class="w-10 h-10 bg-gray-50/50 rounded-lg flex items-center justify-center">
                             <i data-lucide="edit-3" class="w-5 h-5 text-gray-600"></i>
                         </div>
                         <div>
@@ -164,9 +164,9 @@
                         </div>
                     </div>
                 </div>
-                <div style="animation-delay: 0.2s;"  class="animate-on-scroll bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                <div style="animation-delay: 0.2s;"  class="animate-on-scroll bg-primary/10 border border-primary/20 border-dashed rounded-xl p-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div class="w-10 h-10 bg-gray-50/50 rounded-lg flex items-center justify-center">
                             <i data-lucide="calendar-check" class="w-5 h-5 text-gray-600"></i>
                         </div>
                         <div>
@@ -177,7 +177,7 @@
                 </div>
             </div>
 
-            <div class="animate-on-scroll w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+            <div class="animate-on-scroll w-full bg-primary/10 rounded-2xl shadow-sm border border-primary/20 border-dashed p-6 mb-6">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-xl font-semibold text-gray-800">Popular Content</h3>
                     <button class="text-sm text-gray-600 hover:text-gray-800 transition">View all</button>
@@ -188,7 +188,7 @@
                         <div
                             class="bg-gray-50/50 cursor-pointer rounded-xl p-4 border border-gray-100/50 hover:shadow-md transition">
                             <div class="flex gap-3">
-                                <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+                                <div class="w-16 h-16 bg-gray-300 rounded-lg flex items-center justify-center">
                                     <i data-lucide="chef-hat" class="w-8 h-8 text-gray-600"></i>
                                 </div>
                                 <div class="flex-grow">
@@ -216,7 +216,7 @@
                 </div>
             </div>
 
-            <div class="animate-on-scroll w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div class="animate-on-scroll w-full bg-primary/10 rounded-2xl shadow-sm border border-primary/20 border-dashed p-6">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-xl font-semibold text-gray-800">Achievements</h3>
                     <button class="text-sm text-gray-600 hover:text-gray-800 transition">View all</button>
@@ -224,8 +224,8 @@
                 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     @for ($i = 0; $i < 4; $i++)
-                        <div class="flex flex-col items-center p-4 bg-gray-50 rounded-xl border border-gray-100">
-                            <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mb-2">
+                        <div class="flex flex-col items-center p-4 bg-gray-50/50 rounded-xl border border-gray-100">
+                            <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center mb-2">
                                 <i data-lucide="trophy" class="w-6 h-6 text-gray-600"></i>
                             </div>
                             <h4 class="text-sm font-semibold text-gray-700 text-center">Placeholder</h4>

@@ -4,11 +4,14 @@ namespace App\Services;
 
 use App\Models\Blog;
 use App\Models\User;
+use App\Models\Tag;
 use App\DTO\Responses\BaseResponse;
 use App\DTO\Responses\PaginatedResponse;
 use App\Http\Requests\PaginationRequest;
 use App\Http\Requests\BlogSearchRequest;
 use App\Http\Requests\SortRequest;
+use App\Http\Requests\StoreBlogRequest;
+use App\Enums\TagType;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
@@ -279,5 +282,74 @@ class BlogService
 
     public function attachSearchQuery (Builder $query, BlogSearchRequest $search): void {
         // TO-DO
+    }
+
+    public function storeBlog(StoreBlogRequest $request, ?string $userId = null, ?string $imageUrl = null): BaseResponse
+    {
+        try {
+            DB::beginTransaction();
+
+            $newBlog = Blog::create([
+                'author_id' => $userId,
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'image_url' => $imageUrl,
+            ]);
+
+            // Attach tags if provided
+            if ($request->has('tags')) {
+                $this->attachTags($newBlog, $request->input('tags'));
+            }
+
+            DB::commit();
+
+            return new BaseResponse(true, 'Blog post created successfully!', 201, $newBlog);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Error creating blog: ' . $e->getMessage(), [
+                'request_data' => $request->validated()
+            ]);
+            return new BaseResponse(false, 'Failed to create blog post. Please try again.', 500);
+        }
+    }
+
+    // Support Methods
+    public function getBlogCategories(): array
+    {
+        return Tag::where('type', TagType::BlogCategory->value)
+            ->distinct()
+            ->pluck('name')
+            ->toArray();
+    }
+
+    public function getBlogTopics(): array
+    {
+        return Tag::where('type', TagType::BlogTopic->value)
+            ->distinct()
+            ->pluck('name')
+            ->toArray();
+    }
+
+    // Helper Methods
+    private function attachTags(Blog $blog, array $tags): void
+    {
+        $tagIds = [];
+        
+        foreach ($tags as $tagData) {
+            if (empty($tagData['name'])) {
+                continue;
+            }
+
+            $tag = Tag::firstOrCreate(
+                [
+                    'name' => $tagData['name'],
+                    'type' => $tagData['type'] ?? TagType::BlogTopic->value
+                ]
+            );
+
+            $tagIds[] = $tag->id;
+        }
+
+        $blog->tags()->attach($tagIds);
     }
 }
