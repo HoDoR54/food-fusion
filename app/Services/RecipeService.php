@@ -244,6 +244,62 @@ class RecipeService
         }
     }
 
+    public function approveRecipe(string $recipeId, string $approvedBy): BaseResponse
+    {
+        try {
+            \DB::beginTransaction();
+
+            $recipe = Recipe::find($recipeId);
+            if (!$recipe) {
+                return new BaseResponse(false, 'Recipe not found', 404);
+            }
+
+            if ($recipe->status === RecipePostStatus::APPROVED) {
+                return new BaseResponse(false, 'Recipe is already approved', 400);
+            }
+
+            $recipe->status = RecipePostStatus::APPROVED;
+            $recipe->approved_by = $approvedBy;
+            $recipe->approved_at = now();
+            $recipe->save();
+
+            \DB::commit();
+            Log::info("Recipe approved successfully", ['recipe_id' => $recipeId, 'approved_by' => $approvedBy]);
+            return new BaseResponse(true, 'Recipe approved successfully', 200);
+        } catch (\Exception $e) {
+            \DB::rollback();
+            Log::error("Failed to approve recipe", ['recipe_id' => $recipeId, 'error' => $e->getMessage()]);
+            return new BaseResponse(false, 'Failed to approve recipe', 500);
+        }
+    }
+
+    public function rejectRecipe(string $recipeId): BaseResponse
+    {
+        try {
+            \DB::beginTransaction();
+
+            $recipe = Recipe::find($recipeId);
+            if (!$recipe) {
+                return new BaseResponse(false, 'Recipe not found', 404);
+            }
+
+            if ($recipe->status === RecipePostStatus::REJECTED) {
+                return new BaseResponse(false, 'Recipe is already rejected', 400);
+            }
+
+            $recipe->status = RecipePostStatus::REJECTED;
+            $recipe->save();
+
+            \DB::commit();
+            Log::info("Recipe rejected successfully", ['recipe_id' => $recipeId]);
+            return new BaseResponse(true, 'Recipe rejected successfully', 200);
+        } catch (\Exception $e) {
+            \DB::rollback();
+            Log::error("Failed to reject recipe", ['recipe_id' => $recipeId, 'error' => $e->getMessage()]);
+            return new BaseResponse(false, 'Failed to reject recipe', 500);
+        }
+    }
+
     // Support Methods
     public function getDietaryPreferences(): array
     {

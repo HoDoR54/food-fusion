@@ -15,6 +15,7 @@ class RecipePostStatus
             self::DRAFT,
             self::APPROVED,
             self::PENDING,
+            self::REJECTED,
         ];
     }
 

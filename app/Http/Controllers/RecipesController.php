@@ -289,4 +289,38 @@ class RecipesController extends Controller
             ], $res->getStatusCode());
         }
     }
+
+    public function approve(Request $request, string $id)
+    {
+        Log::info("Recipe approval initiated", ['recipe_id' => $id, 'user_id' => auth()->id()]);
+        $res = $this->_recipeService->approveRecipe($id, auth()->id());
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => $res->isSuccess(),
+                'message' => $res->getMessage()
+            ], $res->isSuccess() ? 200 : 400);
+        }
+
+        session()->flash('toastMessage', $res->getMessage());
+        session()->flash('toastType', $res->isSuccess() ? 'success' : 'error');
+        return redirect()->route('admin.pending-recipes');
+    }
+
+    public function reject(Request $request, string $id)
+    {
+        Log::info("Recipe rejection initiated", ['recipe_id' => $id, 'user_id' => auth()->id()]);
+        $res = $this->_recipeService->rejectRecipe($id);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => $res->isSuccess(),
+                'message' => $res->getMessage()
+            ], $res->isSuccess() ? 200 : 400);
+        }
+
+        session()->flash('toastMessage', $res->getMessage());
+        session()->flash('toastType', $res->isSuccess() ? 'success' : 'error');
+        return redirect()->route('admin.pending-recipes');
+    }
 }
