@@ -26,9 +26,9 @@
                         <button data-recipe-id="{{ $recipe->id }}" class="recipe-save-button border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
                             <i data-lucide="bookmark" class="w-4 h-4 save-icon"></i>
                         </button>
-                        <button data-recipe-id="{{ $recipe->id }}" class="recipe-download-button border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
+                        <a href="{{ route('recipes.download', ['id' => $recipe->id]) }}" class="recipe-download-button border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
                             <i data-lucide="download" class="w-4 h-4"></i>
-                        </button>
+                        </a>
                     </div>
 
                     
@@ -47,7 +47,7 @@
                     </div>
                     <h3 class="text-primary text-sm">By <a class="font-medium hover:underline hover:text-secondary cursor-pointer">{{ $recipe->author_name }}</a></h3>
                     @if($recipe->approved_at)
-                        <p class="text-text/60 text-xs">Approved by FoodFusion QA Team — {{ $recipe->approved_at->format('H:i, F j, Y') }}</p>
+                        <p class="text-text/60 text-xs">Approved by FoodFusion QA Team — {{ $recipe->approved_at }}</p>
                     @else
                         <p class="text-text/60 text-xs">Pending approval</p>
                     @endif

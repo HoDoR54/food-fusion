@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Services\CloudinaryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use PDF;
 
 class RecipesController extends Controller
 {
@@ -322,5 +323,26 @@ class RecipesController extends Controller
         session()->flash('toastMessage', $res->getMessage());
         session()->flash('toastType', $res->isSuccess() ? 'success' : 'error');
         return redirect()->route('admin.pending-recipes');
+    }
+
+    public function download($id)
+    {
+        $res = $this->_recipeService->getRecipeDetailsById($id);
+
+        if (!$res->isSuccess()) {
+            session()->flash('toastMessage', $res->getMessage());
+            session()->flash('toastType', 'error');
+            return redirect()->route('recipes.index');
+        }
+
+        $recipe = $res->getData();
+
+        $pdf = PDF::loadView('recipes.pdf', ['recipe' => $recipe]);
+
+        $filename = preg_replace('/[^A-Za-z0-9\-_]/', '_', $recipe->name);
+        $filename = preg_replace('/_+/', '_', $filename);
+        $filename = trim($filename, '_');
+
+        return $pdf->download($filename . '.pdf');
     }
 }
