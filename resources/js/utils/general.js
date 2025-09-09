@@ -18,6 +18,19 @@ export async function setSession(key, value) {
     }
 }
 
+export async function getSession(key) {
+    try {
+        const res = await axios.get(`/api/sessions/get/${key}`, {
+            headers: getHeaders(),
+            credentials: "include",
+        });
+        return res.data.value;
+    } catch (error) {
+        console.error("Error getting session:", error);
+        throw error;
+    }
+}
+
 export function formatDateWithOrdinal(dateString) {
     const date = new Date(dateString);
     const day = date.getDate();

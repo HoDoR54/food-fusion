@@ -30,6 +30,25 @@
         </div>
     </div>
 
+    {{-- cookies consent --}}
+    <div class="fade-in-right fixed bottom-5 right-5 z-50 hidden" id="cookie-consent-banner">
+        <div class="bg-white border border-gray-300 rounded-lg shadow-lg px-4 py-8 max-w-sm w-full relative">
+            <i data-lucide="x" class="w-5 h-5 absolute top-3 right-4 hover:text-secondary text-primary cursor-pointer" id="close-cookie-banner-btn"></i>
+            <div class="flex items-center gap-4">
+                <div class="flex-grow text-sm text-gray-700">
+                    We use cookies to improve your experience on our site. By using our site, you agree to our <a href="/privacy-and-cookies-policies" class="text-blue-500 underline">Privacy Policy</a>.
+                </div>
+                <x-button 
+                    id="accept-cookies-btn"
+                    :variant="\App\Enums\ButtonVariant::Primary"
+                    :size="\App\Enums\ButtonSize::Small"
+                    :text="'Accept'"
+                    :icon="'<i data-lucide=\'cookie\' class=\'w-4 h-4\'></i>'"
+                />
+            </div>
+        </div>
+    </div>
+
     <main class="flex-grow container mx-auto">
         @if (isset($breadcrumbItems))
             <x-breadcrumb :items="$breadcrumbItems" />

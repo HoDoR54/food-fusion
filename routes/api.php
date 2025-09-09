@@ -16,6 +16,7 @@ Route::middleware(GetUserOrPass::class)->group(function () {
             $key = $request->input('key');
             $value = $request->input('value');
             session([$key => $value]);
+            return response()->json(['success' => true]);
         })->name('set');
         Route::get('/{key}/get', function ($key) {
             return response()->json([
