@@ -25,6 +25,7 @@ class BlogsController extends Controller
 
     public function index(PaginationRequest $pagination, BlogSearchRequest $search, SortRequest $sort)
     {
+        Log::info('controller index called');
         $response = $this->_blogService->getBlogs($pagination, $search, $sort);
 
         if (!$response->isSuccess()) {

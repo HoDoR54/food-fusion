@@ -10,6 +10,7 @@ use App\Http\Controllers\EventsController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+Route::pattern('uuid', '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}');
 
 // public routes
 Route::middleware(GetUserOrPass::class)->group(function () {
@@ -35,48 +36,34 @@ Route::middleware(GetUserOrPass::class)->group(function () {
     });
 
     // RESOURCE-BASED ROUTES
-    // Users
-    Route::name('users.')->group(function () {
-        Route::prefix('users')->group(function () {
-            // other user routes apart from .show
-        });
-
-        Route::get('/{username}', function ($username) {
-            $profileUser = User::where('username', $username)->first();
-            
-            if (!$profileUser) {
-                abort(404, 'User not found');
-            }
-            
-            return view('users.show', [
-                'user' => Auth::user(),
-                'profileUser' => $profileUser,
-            ]);
-        })->name('show');
-    });
-
     // Recipes
     Route::prefix('recipes')->name('recipes.')->group(function () {
         Route::get('/', [RecipesController::class, 'index'])->name('index');
-        Route::get('/{id}', [RecipesController::class, 'show'])->name('show');
-        Route::get('/{id}/download', [RecipesController::class, 'download'])->name('download');
+        Route::get('/{uuid}', [RecipesController::class, 'show'])->name('show');
+        Route::get('/{uuid}/download', [RecipesController::class, 'download'])->name('download');
     });
 
     // Blogs
     Route::prefix('blogs')->name('blogs.')->group(function () {
         Route::get('/', [BlogsController::class, 'index'])->name('index');
-        Route::get('/{id}', [BlogsController::class, 'show'])->name('show');
+        Route::get('/{uuid}', [BlogsController::class, 'show'])->name('show');
     });
 
     // Events
     Route::prefix('events')->name('events.')->group(function () {
         Route::get('/', [EventsController::class, 'index'])->name('index');
-        Route::get('/{id}', [EventsController::class, 'show'])->name('show');
+        Route::get('/{uuid}', [EventsController::class, 'show'])->name('show');
     });
+
 
     // Contact Routes
     Route::prefix('contact')->name('contact.')->group(function () {
         Route::view('/', 'contact.index')->name('index');
+    });
+
+    // Users
+    Route::name('users.')->prefix('users')->group(function () {
+        //
     });
 });
 
@@ -84,7 +71,7 @@ Route::middleware(GetUserOrPass::class)->group(function () {
 Route::middleware([GetUserOrPass::class, RequireLogin::class])->group(function () {
     // Recipes
     Route::prefix('recipes')->name('recipes.')->group(function () {
-        Route::get('/new-recipe', [RecipesController::class, 'showStore'])->name('create.show');
+        Route::view('/new-recipe', 'recipes.create')->name('create.show');
         Route::post('/new-recipe', [RecipesController::class, 'store'])->name('store');
     });
 
@@ -101,3 +88,17 @@ Route::middleware([GetUserOrPass::class, RequireLogin::class])->prefix('admin')-
     Route::get('/pending-recipes', [RecipesController::class, 'pendingRecipes'])->name('pending-recipes');
 });
 
+// putting this at the end to avoid conflicts
+// user profile route uses username as a slug in the URL
+Route::get('/{username}', function ($username) {
+    $profileUser = User::where('username', $username)->first();
+    
+    if (!$profileUser) {
+        abort(404, 'User not found');
+    }
+    
+    return view('users.show', [
+        'user' => Auth::user(),
+        'profileUser' => $profileUser,
+    ]);
+})->name('users.show');

@@ -20,7 +20,7 @@
                 @endphp
                 <li class="flex gap-3 items-center justify-between border-b border-gray-300 py-2 px-3">
                     <strong>{{ $recipe->name }}</strong> - 
-                    <a href="{{ route('recipes.show', ['id' => $recipe->id]) }}">View Recipe</a>
+                    <a href="{{ route('recipes.show', ['uuid' => $recipe->id]) }}">View Recipe</a>
                     <div class="flex gap-2">
                         <form id="reject-{{ $recipe->id }}">
                             @csrf

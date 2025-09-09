@@ -26,7 +26,8 @@
                         <button data-recipe-id="{{ $recipe->id }}" class="recipe-save-button border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
                             <i data-lucide="bookmark" class="w-4 h-4 save-icon"></i>
                         </button>
-                        <a href="{{ route('recipes.download', ['id' => $recipe->id]) }}" class="recipe-download-button border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
+                       <a href="{{ route('recipes.download', ['uuid' => $recipe->id]) }}" 
+                        class="recipe-download-button border-text/60 text-text/60 p-1 rounded border cursor-pointer hover:border-secondary hover:text-secondary">
                             <i data-lucide="download" class="w-4 h-4"></i>
                         </a>
                     </div>

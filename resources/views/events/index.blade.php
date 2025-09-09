@@ -17,7 +17,7 @@
         <ul class="flex flex-col gap-3 py-3 px-5">
             @foreach ($events as $event)
                 <li class="animate-on-scroll text-blue-500 hover:underline" data-delay="{{ ($loop->index * 0.1) + 0.2 }}s">
-                    <a href="{{ route('events.show', ['id' => $event['id']]) }}">{{ $event['name'] }}</a>
+                    <a href="{{ route('events.show', ['uuid' => $event['id']]) }}">{{ $event['name'] }}</a>
                 </li>
             @endforeach
         </ul>

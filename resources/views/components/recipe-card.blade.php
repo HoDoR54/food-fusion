@@ -10,7 +10,7 @@
     $difficultyColor = $difficultyColors[$recipe->difficulty->value] ?? 'bg-gray-100 text-gray-800 border-gray-200';
 @endphp
 
-<a href="{{ route('recipes.show', ['id' => $recipe->id]) }}" class="block group bg-secondary/10 border-dashed border-2 rounded-2xl border-primary/20 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+<a href="{{ route('recipes.show', ['uuid' => $recipe->id]) }}" class="block group bg-secondary/10 border-dashed border-2 rounded-2xl border-primary/20 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
     <div class="relative aspect-[4/3] overflow-hidden">
         @if($recipe->image_url)
             <img src="{{ $recipe->image_url }}" 
