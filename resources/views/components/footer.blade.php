@@ -49,7 +49,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('edu.index') }}" class="text-primary/80 hover:text-secondary hover:underline">
+                        <a href="{{ route('edu') }}" class="text-primary/80 hover:text-secondary hover:underline">
                             Educational Resources
                         </a>
                     </li>
@@ -68,17 +68,17 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('home') }}" class="text-primary/80 hover:text-secondary hover:underline">
+                        <a href="{{ route('volunteer') }}" class="text-primary/80 hover:text-secondary hover:underline">
                             Volunteer Opportunities
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('home') }}" class="text-primary/80 hover:text-secondary hover:underline">
+                        <a class="text-primary/80 hover:text-secondary hover:underline">
                             Host an Event
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('blogs.create') }}" class="text-primary/80 hover:text-secondary hover:underline">
+                        <a href="{{ route('recipes.create.show') }}" class="text-primary/80 hover:text-secondary hover:underline">
                             Share Your Recipe
                         </a>
                     </li>
@@ -132,7 +132,7 @@
                     <a href="{{ route('contact.index') }}" class="text-white/80 hover:text-secondary hover:underline">
                         Contact
                     </a>
-                    <a href="{{ route('home') }}" class="text-white/80 hover:text-secondary hover:underline">
+                    <a href="{{ route('support') }}" class="text-white/80 hover:text-secondary hover:underline">
                         Support
                     </a>
                 </div>
@@ -140,13 +140,13 @@
 
             <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm">
                 <div class="flex space-x-4">
-                    <a href="{{ route('home') }}" class="text-white/80 hover:text-secondary hover:underline">
+                    <a href="{{ route('policies') }}" class="text-white/80 hover:text-secondary hover:underline">
                         Privacy Policy
                     </a>
-                    <a href="{{ route('home') }}" class="text-white/80 hover:text-secondary hover:underline">
+                    <a href="{{ route('terms') }}" class="text-white/80 hover:text-secondary hover:underline">
                         Terms of Use
                     </a>
-                    <a href="{{ route('home') }}" class="text-white/80 hover:text-secondary hover:underline">
+                    <a href="{{ route('policies') }}" class="text-white/80 hover:text-secondary hover:underline">
                         Cookie Policy
                     </a>
                 </div>

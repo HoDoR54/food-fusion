@@ -16,12 +16,12 @@ Route::pattern('uuid', '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]
 Route::middleware(GetUserOrPass::class)->group(function () {
     // Static Routes
     Route::view('/', 'index')->name('home');
-    Route::view('/about-us', 'about.index')->name('about');
-    
-    // Info Pages
-    Route::prefix('info')->group(function () {
-        Route::view('/educational-resources', 'edu.index')->name('edu.index');
-    });
+    Route::view('/about-us', 'static.about')->name('about');
+    Route::view('/educational-resources', 'static.edu')->name('edu');
+    Route::view('/privacy-and-cookies-policies', 'static.policies')->name('policies');
+    Route::view('/terms-and-conditions', 'static.terms')->name('terms');
+    Route::view('/volunteer-opportunities', 'static.volunteer')->name('volunteer');
+    Route::view('/support', 'static.support')->name('support');
 
     // authentication routes
     Route::get('/login', [AuthController::class, 'showLogin'])->name('auth.login.show');
