@@ -1,7 +1,7 @@
 export async function setSession(key, value) {
     try {
         const res = await axios.post(
-            "/sessions/set",
+            "/api/sessions/set",
             {
                 key,
                 value,

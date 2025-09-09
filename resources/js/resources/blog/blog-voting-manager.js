@@ -34,7 +34,7 @@ export class BlogVotingManager {
     async upvoteBlog(blogId) {
         console.log(`🔼 Attempting to upvote blogId: ${blogId}`);
         try {
-            const response = await fetch(`/blogs/${blogId}/upvote`, {
+            const response = await fetch(`/api/blogs/${blogId}/upvote`, {
                 method: "POST",
                 headers: getHeaders(),
             });
@@ -64,7 +64,7 @@ export class BlogVotingManager {
     async downvoteBlog(blogId) {
         console.log(`🔽 Attempting to downvote blogId: ${blogId}`);
         try {
-            const response = await fetch(`/blogs/${blogId}/downvote`, {
+            const response = await fetch(`/api/blogs/${blogId}/downvote`, {
                 method: "POST",
                 headers: getHeaders(),
             });

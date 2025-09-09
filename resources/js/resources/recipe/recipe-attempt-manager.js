@@ -31,7 +31,7 @@ export class RecipeAttemptManager {
 
         try {
             const response = await axios.post(
-                `/recipes/attempts/create`,
+                `/api/recipes/attempts/create`,
                 formData,
                 {
                     headers: getFileUploadHeaders(),

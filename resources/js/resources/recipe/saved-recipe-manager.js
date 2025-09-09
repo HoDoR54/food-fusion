@@ -50,7 +50,7 @@ export class SavedRecipesManager {
         console.log("Saving recipe with ID:", recipeId);
 
         try {
-            const response = await fetch("/recipes/" + recipeId + "/save", {
+            const response = await fetch("/api/recipes/" + recipeId + "/save", {
                 method: "POST",
                 headers: {
                     "X-CSRF-TOKEN": document.querySelector(
@@ -88,17 +88,20 @@ export class SavedRecipesManager {
         console.log("Unsaving recipe with ID:", recipeId);
 
         try {
-            const response = await fetch("/recipes/" + recipeId + "/unsave", {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": document.querySelector(
-                        'meta[name="csrf-token"]'
-                    ).content,
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                body: JSON.stringify({ id: recipeId }),
-            });
+            const response = await fetch(
+                "/api/recipes/" + recipeId + "/unsave",
+                {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector(
+                            'meta[name="csrf-token"]'
+                        ).content,
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({ id: recipeId }),
+                }
+            );
 
             const data = await response.json();
 
@@ -148,16 +151,19 @@ export class SavedRecipesManager {
 
     async isRecipeSaved(recipeId) {
         try {
-            const response = await fetch("/recipes/" + recipeId + "/is-saved", {
-                method: "GET",
-                headers: {
-                    "X-CSRF-TOKEN": document.querySelector(
-                        'meta[name="csrf-token"]'
-                    ).content,
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-            });
+            const response = await fetch(
+                "/api/recipes/" + recipeId + "/is-saved",
+                {
+                    method: "GET",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector(
+                            'meta[name="csrf-token"]'
+                        ).content,
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                }
+            );
 
             if (response.status === 401) {
                 return false;

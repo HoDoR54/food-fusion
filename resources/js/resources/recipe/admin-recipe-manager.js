@@ -28,7 +28,7 @@ export class AdminRecipeManager {
             console.log(`Approving recipe: ${recipeId}`);
 
             const response = await axios.patch(
-                `/admin/recipes/${recipeId}/approve`,
+                `/api/admin/recipes/${recipeId}/approve`,
                 {},
                 {
                     headers: getHeaders(),
@@ -55,7 +55,7 @@ export class AdminRecipeManager {
             console.log(`Rejecting recipe: ${recipeId}`);
 
             const response = await axios.patch(
-                `/admin/recipes/${recipeId}/reject`,
+                `/api/admin/recipes/${recipeId}/reject`,
                 {},
                 {
                     headers: getHeaders(),

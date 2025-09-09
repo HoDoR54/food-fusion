@@ -46,7 +46,7 @@ export class LandingLoader {
     async getNextGathering() {
         console.log("Fetching next gathering...");
         try {
-            const response = await axios.get("/events/all", {
+            const response = await axios.get("/api/events/all", {
                 params: {
                     page: 1,
                     size: 1,
@@ -107,7 +107,7 @@ export class LandingLoader {
 
     async getUpcomingSkillSharingSessions() {
         try {
-            const response = await axios.get("/events/all", {
+            const response = await axios.get("/api/events/all", {
                 params: {
                     page: 1,
                     size: 5,
@@ -185,7 +185,7 @@ export class LandingLoader {
     async getTopBlogs() {
         console.log("Fetching top blogs...");
         try {
-            const response = await axios.get("/blogs/all", {
+            const response = await axios.get("/api/blogs/all", {
                 params: {
                     page: 1,
                     size: 3,

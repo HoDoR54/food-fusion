@@ -25,7 +25,7 @@ class AutoPopupManager {
     async shouldShowPopup() {
         try {
             const hasConsentRes = await axios.get(
-                "/sessions/isPopUpConsent/get",
+                "/api/sessions/isPopUpConsent/get",
                 {
                     headers: getHeaders(),
                     credentials: "include",
@@ -125,10 +125,13 @@ class AutoPopupManager {
             console.log(`Setting popup consent to: ${!checked}`);
             await setSession("isPopUpConsent", !checked);
             console.log(`Popup consent set to: ${!checked}`);
-            const sessionSet = await axios.get("/sessions/isPopUpConsent/get", {
-                headers: getHeaders(),
-                credentials: "include",
-            });
+            const sessionSet = await axios.get(
+                "/api/sessions/isPopUpConsent/get",
+                {
+                    headers: getHeaders(),
+                    credentials: "include",
+                }
+            );
             console.log("session set: ", sessionSet.data.value);
         } catch (error) {
             console.error("Error setting popup consent:", error);

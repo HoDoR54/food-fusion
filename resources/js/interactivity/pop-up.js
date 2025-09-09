@@ -502,10 +502,13 @@ class PopUpManager {
     async showEventRegistrationPopUp(eventId) {
         try {
             console.log("Fetching event data for ID:", eventId);
-            const eventData = await axios.get("/events/get-by-id/" + eventId, {
-                headers: getHeaders(),
-                withCredentials: true,
-            });
+            const eventData = await axios.get(
+                "/api/events/get-by-id/" + eventId,
+                {
+                    headers: getHeaders(),
+                    withCredentials: true,
+                }
+            );
             console.log(eventData);
 
             if (eventData.status !== 200) {

@@ -64,11 +64,14 @@ export class BlogCommentManager {
     async addComment(blogId, commentContent) {
         console.log(`✍️ Adding comment for blogId: ${blogId}`, commentContent);
         try {
-            const response = await fetch(`/blogs/${blogId}/comments/create`, {
-                method: "POST",
-                headers: getHeaders(),
-                body: JSON.stringify({ content: commentContent }),
-            });
+            const response = await fetch(
+                `/api/blogs/${blogId}/comments/create`,
+                {
+                    method: "POST",
+                    headers: getHeaders(),
+                    body: JSON.stringify({ content: commentContent }),
+                }
+            );
 
             if (response.status === 401) {
                 window.location.href = "/login";

@@ -6,7 +6,7 @@ const submitContactForm = async (form) => {
         const formData = new FormData(form);
         const isAnonymous = formData.get("is_anonymous") === "on";
 
-        const res = await fetch("/contact", {
+        const res = await fetch("/api/contact", {
             method: "POST",
             headers: getHeaders(),
             body: JSON.stringify({

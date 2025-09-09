@@ -37,7 +37,9 @@ export class EventRegistrationManager {
         }
 
         try {
-            const response = await axios.post(`/events/${eventId}/register`);
+            const response = await axios.post(
+                `/api/events/${eventId}/register`
+            );
 
             if (response.status === 200 && response.data?.message) {
                 window.PopUpManager.closePopUp();
