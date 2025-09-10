@@ -122,7 +122,7 @@
 
         {{-- Contact --}}
         <div class="text-center">
-            <div class="animate-on-scroll p-6 bg-secondary/10 rounded border border-dashed border-secondary/20" data-delay="0.1s">
+            <div class="animate-on-scroll p-6 bg-secondary/10 rounded flex flex-col items-center justify-center border border-dashed border-secondary/20" data-delay="0.1s">
                 <h3 class="font-medium text-primary mb-3">Questions?</h3>
                 <p class="text-text/70 text-sm mb-4">
                     If anything here doesn't make sense or you have concerns about your privacy, 

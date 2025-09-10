@@ -7,18 +7,22 @@ use App\Http\Controllers\RecipesController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\GeneralController;
+use Illuminate\Support\Facades\Log;
 
 // For AJAX and API requests
 Route::middleware(GetUserOrPass::class)->group(function () {
     // Session routes
     Route::prefix('sessions')->name('sessions.')->group(function () {
         Route::post('/set', function (Illuminate\Http\Request $request) {
+            Log::info('set route hit');
             $key = $request->input('key');
             $value = $request->input('value');
             session([$key => $value]);
+            Log::info('session set:', ['key' => $key, 'value' => session($key)]);
             return response()->json(['success' => true]);
         })->name('set');
         Route::get('/{key}/get', function ($key) {
+            Log::info('get route hit');
             return response()->json([
                 'value' => session($key),
             ]);

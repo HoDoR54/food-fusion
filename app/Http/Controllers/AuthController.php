@@ -51,21 +51,6 @@ class AuthController extends Controller
             ->cookie('refresh_token', $tokens['refresh_token'], 10080, '/', null, false, true);
     }
 
-   public function setSession(Request $request)
-    {
-        foreach ($request->all() as $key => $value) {            
-            if ($key === 'isPopUpConsent' && $value === 'false') {
-                session([$key => false]);
-            } else {
-                session([$key => $value]);
-            }
-        }
-        return Response::json([
-            'success' => true,
-            'message' => 'Session updated successfully.',
-        ]);
-    }
-
     public function register(RegisterRequest $request)
     {
         [$response, $tokens] = $this->_authService->register($request);

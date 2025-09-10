@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export async function setSession(key, value) {
     try {
         const res = await axios.post(
@@ -24,11 +26,27 @@ export async function getSession(key) {
             headers: getHeaders(),
             credentials: "include",
         });
+        console.log(res);
+        console.log(`Session value for ${key}:`, res.data.value);
         return res.data.value;
     } catch (error) {
         console.error("Error getting session:", error);
         throw error;
     }
+}
+
+export function setCookie(name, value, days = 365) {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+}
+
+export function getCookie(name) {
+    const match = document.cookie.match(
+        new RegExp("(^| )" + name + "=([^;]+)")
+    );
+    if (match) return match[2];
+    return null;
 }
 
 export function formatDateWithOrdinal(dateString) {
