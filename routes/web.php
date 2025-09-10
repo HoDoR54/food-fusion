@@ -17,11 +17,17 @@ Route::middleware(GetUserOrPass::class)->group(function () {
     // Static Routes
     Route::view('/', 'index')->name('home');
     Route::view('/about-us', 'static.about')->name('about');
-    Route::view('/educational-resources', 'static.edu')->name('edu');
     Route::view('/privacy-and-cookies-policies', 'static.policies')->name('policies');
     Route::view('/terms-and-conditions', 'static.terms')->name('terms');
     Route::view('/volunteer-opportunities', 'static.volunteer')->name('volunteer');
     Route::view('/support', 'static.support')->name('support');
+    
+    // Culinary and Educational Resources
+    Route::prefix('resources')->name('resources.')->group(function () {
+        Route::view('/', 'resources.index')->name('index');
+        Route::view('/culinary-resources', 'resources.culinary')->name('culinary');
+        Route::view('/educational-resources', 'resources.edu')->name('edu');
+    });
 
     // authentication routes
     Route::get('/login', [AuthController::class, 'showLogin'])->name('auth.login.show');

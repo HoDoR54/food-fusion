@@ -10,6 +10,7 @@
         'Events' => 'events.index',
         'Recipes' => 'recipes.index',
         'Community Cookbook' => 'blogs.index',
+        'Resources' => 'resources.index',
   ];
 
     $authPages = [

@@ -49,7 +49,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('edu') }}" class="text-primary/80 hover:text-secondary hover:underline">
+                        <a href="{{ route('resources.edu') }}" class="text-primary/80 hover:text-secondary hover:underline">
                             Educational Resources
                         </a>
                     </li>
