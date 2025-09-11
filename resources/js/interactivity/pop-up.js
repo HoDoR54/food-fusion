@@ -11,7 +11,7 @@ import axios from "axios";
 import { EventRegistrationManager } from "../resources/event/event-registration-manager.js";
 class PopUpManager {
     constructor() {
-        console.log("PopUpManager initialized");
+        console.log("PopUpManager initialized Hehe");
         this.container = document.getElementById("pop-up-container");
         this.overlay = document.getElementById("pop-up-overlay");
         this.currentContent = null;
@@ -115,7 +115,7 @@ class PopUpManager {
         form.action = "/auth/login";
         form.method = "POST";
         form.className =
-            "flex flex-col md:min-w-[400px] items-center justify-center gap-3 p-4 bg-white rounded-xl border-2 border-primary border-dashed";
+            "flex flex-col md:min-w-[450px] max-h-[90vh] items-center justify-center gap-4 p-6 bg-white rounded-xl border-2 border-primary border-dashed";
 
         const csrfToken =
             document
@@ -124,66 +124,50 @@ class PopUpManager {
         const csrfInput = createHiddenInput("_token", csrfToken);
         form.appendChild(csrfInput);
 
-        const header = document.createElement("div");
-        header.className = "w-full flex items-center justify-between mb-2";
+        const backButton = document.createElement("span");
+        backButton.innerHTML =
+            '<i data-lucide="arrow-left" class="stroke-2 w-[1.5rem] h-[1.5rem]"></i> Back to Home';
+        backButton.className =
+            "w-full flex items-center justify-start gap-2 text-primary hover:text-secondary cursor-pointer mb-4";
+        backButton.dataset.action = "close-popup";
+        form.appendChild(backButton);
 
-        const backButton = createButton({
-            icon: "arrow-left",
-            text: "Back",
-            variant: ButtonVariant.SECONDARY,
-            dataAction: "close-popup",
-            className:
-                "flex items-center gap-2 text-primary hover:text-secondary cursor-pointer bg-transparent border-none",
-        });
-
-        const closeButton = createIconButton("x", {
-            variant: ButtonVariant.SECONDARY,
-            dataAction: "close-popup",
-            className:
-                "stroke-2 w-[1.2rem] h-[1.2rem] text-primary hover:text-secondary cursor-pointer bg-transparent border-none p-0",
-        });
-
-        header.appendChild(backButton);
-        header.appendChild(closeButton);
-        form.appendChild(header);
-
-        const logoSection = document.createElement("div");
-        logoSection.className =
-            "flex flex-col items-center justify-center mb-2";
-        logoSection.innerHTML = `
-            <img src="/logo/logo-light.png" alt="Food Fusion Logo" class="w-12 h-12">
-            <h2 class="text-primary font-bold text-xl">Welcome Back</h2>
-            <p class="text-text/60 text-sm">Sign in to your account</p>
+        const headerSection = document.createElement("div");
+        headerSection.className = "flex flex-col items-center justify-center";
+        headerSection.innerHTML = `
+            <img src="/logo/logo-light.png" alt="Food Fusion Logo" class="w-16 h-16">
+            <h2 class="text-primary font-bold text-3xl">Welcome Back</h2>
+            <p class="text-text/60 text-base my-3">Sign in to your FoodFusion account</p>
         `;
-        form.appendChild(logoSection);
+        form.appendChild(headerSection);
 
         const fieldsSection = document.createElement("div");
-        fieldsSection.className = "flex flex-col gap-3 w-full";
+        fieldsSection.className = "flex flex-col gap-4 w-full";
         fieldsSection.innerHTML = `
-            <div class="flex flex-col gap-1">
-                <label for="identifier" class="text-text/60 text-xs">Email or Username</label>
-                <input type="text" id="identifier" name="identifier" required placeholder="johnDoe123@gmail.com" class="bg-secondary/15 border border-gray-300 px-3 py-2 focus:outline-2 focus:outline-primary rounded w-full text-sm" />
+            <div class="flex flex-col gap-2">
+                <label for="identifier" class="text-text/60 text-sm">Email or Username</label>
+                <input type="text" id="identifier" name="identifier" required placeholder="johnDoe123@gmail.com or johndoe" class="bg-secondary/15 border px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full border-gray-300" />
             </div>
-            <div class="flex flex-col gap-1">
-                <label for="password" class="text-text/60 text-xs">Password</label>
-                <input type="password" id="password" name="password" required placeholder="password" class="bg-secondary/15 border border-gray-300 px-3 py-2 focus:outline-2 focus:outline-primary rounded w-full text-sm" />
+            <div class="flex flex-col gap-2">
+                <label for="password" class="text-text/60 text-sm">Password</label>
+                <input type="password" id="password" name="password" required placeholder="password" class="bg-secondary/15 border px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full border-gray-300" />
             </div>
             <div class="w-full">
-                <a href="/forgot-password" class="text-primary hover:text-secondary underline text-xs">Forgot Password?</a>
+                <a href="/forgot-password" class="text-primary hover:text-secondary underline text-sm">Forgot Password?</a>
             </div>
         `;
         form.appendChild(fieldsSection);
 
         const buttonsSection = document.createElement("div");
         buttonsSection.className =
-            "w-full flex flex-col items-center justify-center gap-3 mt-2";
+            "w-full flex flex-col items-center justify-center gap-4 mt-4";
 
         const loginButton = createSubmitButton("Login", {
             className: "w-full",
         });
 
         const registerText = document.createElement("span");
-        registerText.className = "text-xs text-text/60";
+        registerText.className = "text-base text-text/60";
         registerText.innerHTML = "Don't have an account? ";
 
         const registerButton = createButton({
@@ -191,7 +175,7 @@ class PopUpManager {
             type: "button",
             dataAction: "show-register-popup",
             className:
-                "text-primary hover:text-secondary underline text-xs bg-transparent border-none cursor-pointer",
+                "text-primary hover:text-secondary underline text-sm bg-transparent border-none cursor-pointer",
         });
 
         registerText.appendChild(registerButton);
@@ -208,7 +192,7 @@ class PopUpManager {
         form.method = "POST";
         form.action = "/auth/register";
         form.className =
-            "flex flex-col md:min-w-[450px] gap-3 p-4 items-center justify-center bg-white rounded-xl border-2 border-primary border-dashed";
+            "flex flex-col md:min-w-[450px] max-h-[85vh] gap-4 p-6 items-center justify-start bg-white rounded-xl border-2 border-primary border-dashed overflow-y-auto";
 
         const csrfToken =
             document
@@ -217,55 +201,40 @@ class PopUpManager {
         const csrfInput = createHiddenInput("_token", csrfToken);
         form.appendChild(csrfInput);
 
-        const header = document.createElement("div");
-        header.className = "w-full flex items-center justify-between mb-2";
+        const backButton = document.createElement("span");
+        backButton.innerHTML =
+            '<i data-lucide="arrow-left" class="stroke-2 w-[1.5rem] h-[1.5rem]"></i> Back to Home';
+        backButton.className =
+            "w-full flex items-center justify-start gap-2 text-primary hover:text-secondary cursor-pointer mb-4";
+        backButton.dataset.action = "close-popup";
+        form.appendChild(backButton);
 
-        const backButton = createButton({
-            icon: "arrow-left",
-            text: "Back",
-            variant: ButtonVariant.SECONDARY,
-            dataAction: "close-popup",
-            className:
-                "flex items-center gap-2 text-primary hover:text-secondary cursor-pointer bg-transparent border-none",
-        });
-
-        const closeButton = createIconButton("x", {
-            variant: ButtonVariant.SECONDARY,
-            dataAction: "close-popup",
-            className:
-                "stroke-2 w-[1.2rem] h-[1.2rem] text-primary hover:text-secondary cursor-pointer bg-transparent border-none p-0",
-        });
-
-        header.appendChild(backButton);
-        header.appendChild(closeButton);
-        form.appendChild(header);
-
-        const logoSection = document.createElement("div");
-        logoSection.className =
-            "flex flex-col items-center justify-center mb-2";
-        logoSection.innerHTML = `
-            <img src="/logo/logo-light.png" alt="Food Fusion Logo" class="w-12 h-12">
-            <h2 class="text-primary font-bold text-xl">Join Us</h2>
-            <p class="text-gray-600 text-sm">Create your account</p>
+        const headerSection = document.createElement("div");
+        headerSection.className = "flex flex-col items-center justify-center";
+        headerSection.innerHTML = `
+            <img src="/logo/logo-light.png" alt="Food Fusion Logo" class="w-16 h-16">
+            <h2 class="text-primary font-bold text-2xl">Join Us</h2>
+            <p class="text-gray-600 text-sm my-3">Create your account and start your culinary journey with us!</p>
         `;
-        form.appendChild(logoSection);
+        form.appendChild(headerSection);
 
         const fieldsSection = document.createElement("div");
-        fieldsSection.className = "flex flex-col gap-2 w-full";
+        fieldsSection.className =
+            "flex flex-col gap-3 w-full flex-1 overflow-y-auto";
         fieldsSection.innerHTML = `
-            <div class="flex gap-2">
-                <div class="flex flex-col gap-1 w-full">
-                    <label for="firstName" class="text-gray-600 text-xs">First Name</label>
-                    <input type="text" id="firstName" name="firstName" required placeholder="John" class="bg-secondary/15 border border-gray-300 px-3 py-2 focus:outline-2 focus:outline-primary rounded w-full text-sm" />
+            <div class="flex flex-col md:flex-row gap-3">
+                <div class="flex flex-col gap-2 w-full">
+                    <label for="firstName" class="text-gray-600 text-sm">First Name</label>
+                    <input type="text" id="firstName" name="firstName" required placeholder="John" class="bg-secondary/15 border px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full border-gray-300" />
                 </div>
-                <div class="flex flex-col gap-1 w-full">
-                    <label for="lastName" class="text-gray-600 text-xs">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" required placeholder="Doe" class="bg-secondary/15 border border-gray-300 px-3 py-2 focus:outline-2 focus:outline-primary rounded w-full text-sm" />
+                <div class="flex flex-col gap-2 w-full">
+                    <label for="lastName" class="text-gray-600 text-sm">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" required placeholder="Doe" class="bg-secondary/15 border px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full border-gray-300" />
                 </div>
             </div>
 
-            <div class="flex flex-col gap-1">
-                <label for="username" class="text-gray-600 text-xs">Username</label>
+            <div class="flex flex-col gap-2">
+                <label for="username" class="text-gray-600 text-sm">Username</label>
                 <input 
                     type="text" 
                     id="username" 
@@ -275,44 +244,44 @@ class PopUpManager {
                     pattern="[a-zA-Z0-9_]+"
                     minlength="3"
                     title="Username must be at least 3 characters and contain only letters, numbers, and underscores"
-                    class="bg-secondary/15 border border-gray-300 px-3 py-2 focus:outline-2 focus:outline-primary rounded w-full text-sm" 
+                    class="bg-secondary/15 border px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full border-gray-300" 
                 />
             </div>
 
-            <div class="flex flex-col gap-1">
-                <label for="email" class="text-gray-600 text-xs">Email</label>
-                <input type="email" id="email" name="email" required placeholder="john.doe@example.com" class="bg-secondary/15 border border-gray-300 px-3 py-2 focus:outline-2 focus:outline-primary rounded w-full text-sm" />
+            <div class="flex flex-col gap-2">
+                <label for="email" class="text-gray-600 text-sm">Email</label>
+                <input type="email" id="email" name="email" required placeholder="john.doe@example.com" class="bg-secondary/15 border px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full border-gray-300" />
             </div>
 
-            <div class="flex flex-col gap-1">
-                <label for="phoneNumber" class="text-gray-600 text-xs">Phone</label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="+95 9 123456789" class="bg-secondary/15 border border-gray-300 px-3 py-2 focus:outline-2 focus:outline-primary rounded w-full text-sm" />
+            <div class="flex flex-col gap-2">
+                <label for="phoneNumber" class="text-gray-600 text-sm">Phone</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="+95 9 123456789" class="bg-secondary/15 border px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full border-gray-300" />
             </div>
 
-            <div class="flex flex-col gap-1">
-                <label for="mastery_level" class="text-gray-600 text-xs">Cooking Level</label>
+            <div class="flex flex-col gap-2">
+                <label for="mastery_level" class="text-gray-600 text-sm">Cooking Level</label>
                 <div class="relative">
                     <select
                         id="mastery_level"
                         name="mastery_level"
                         required
-                        class="bg-secondary/15 border border-gray-300 px-3 pr-8 py-2 focus:outline-2 focus:outline-primary rounded w-full appearance-none cursor-pointer text-gray-700 text-sm"
+                        class="bg-secondary/15 border px-4 pr-10 py-2 focus:outline-2 focus:outline-primary rounded-lg w-full appearance-none cursor-pointer text-gray-700 border-gray-300"
                     >
                         <option value="" class="text-gray-500" disabled selected>How cooked are you?</option>
                         <option value="beginner">🍳 Beginner</option>
                         <option value="intermediate">👨‍🍳 Intermediate</option>
                         <option value="advanced">🏆 Advanced</option>
                     </select>
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </div>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-1">
-                <label for="password" class="text-gray-600 text-xs">Password</label>
+            <div class="flex flex-col gap-2">
+                <label for="password" class="text-gray-600 text-sm">Password</label>
                 <input 
                     type="password" 
                     id="password" 
@@ -321,7 +290,7 @@ class PopUpManager {
                     placeholder="veryVerySecure123!@#" 
                     minlength="6"
                     title="Password must be at least 6 characters long"
-                    class="bg-secondary/15 border border-gray-300 px-3 py-2 focus:outline-2 focus:outline-primary rounded w-full text-sm" 
+                    class="bg-secondary/15 border px-4 py-2 focus:outline-2 focus:outline-primary rounded w-full border-gray-300" 
                 />
             </div>
         `;
@@ -329,14 +298,14 @@ class PopUpManager {
 
         const buttonsSection = document.createElement("div");
         buttonsSection.className =
-            "w-full flex flex-col items-center justify-center gap-3 mt-2";
+            "w-full flex flex-col items-center justify-center gap-4 mt-4 flex-shrink-0";
 
         const registerButton = createSubmitButton("Register", {
             className: "w-full",
         });
 
         const loginText = document.createElement("span");
-        loginText.className = "text-xs text-gray-600";
+        loginText.className = "text-sm text-gray-600";
         loginText.innerHTML = "Already have an account? ";
 
         const loginButton = createButton({
@@ -344,7 +313,7 @@ class PopUpManager {
             type: "button",
             dataAction: "show-login-popup",
             className:
-                "text-primary hover:text-secondary underline bg-transparent border-none cursor-pointer text-xs",
+                "text-primary hover:text-secondary underline bg-transparent border-none cursor-pointer",
         });
 
         loginText.appendChild(loginButton);
@@ -359,14 +328,14 @@ class PopUpManager {
     showRecipeAttemptPopUp(recipeId, recipeName) {
         const container = document.createElement("div");
         container.className =
-            "border-2 border-dashed border-primary/30 bg-white rounded-xl max-w-lg mx-auto min-w-[400px]";
+            "border-2 border-dashed border-primary/20 bg-white rounded-2xl max-w-lg mx-auto min-w-[450px] shadow-lg";
 
         const header = document.createElement("div");
         header.className =
-            "flex items-center justify-between border-b border-dashed border-primary/20 p-4";
+            "flex items-center justify-between border-b border-dashed border-primary/30 p-5 bg-primary/5 rounded-t-2xl";
 
         const title = document.createElement("h2");
-        title.className = "text-lg font-bold text-primary";
+        title.className = "text-xl font-bold text-primary";
         title.textContent = "Share Your Attempt";
 
         const closeButton = createIconButton("x", {
@@ -382,7 +351,7 @@ class PopUpManager {
 
         const form = document.createElement("form");
         form.id = "recipe-attempt-form";
-        form.className = "p-4 flex flex-col gap-4 w-full";
+        form.className = "p-5 flex flex-col gap-5 w-full";
         form.enctype = "multipart/form-data";
 
         const csrfToken =
@@ -396,38 +365,38 @@ class PopUpManager {
         form.appendChild(recipeIdInput);
 
         const contentSection = document.createElement("div");
-        contentSection.className = "flex flex-col gap-4 md:flex-row md:gap-4";
+        contentSection.className = "flex flex-col gap-5 md:flex-row md:gap-6";
         contentSection.innerHTML = `
             <!-- Photo Upload Section -->
-            <div class="flex flex-col gap-2 md:w-1/3">
-                <label class="block text-sm text-gray-600 font-medium">
-                    <i data-lucide="camera" class="w-4 h-4 inline mr-1"></i>
+            <div class="flex flex-col gap-3 md:w-1/3">
+                <label class="block text-sm text-text font-medium">
+                    <i data-lucide="camera" class="w-4 h-4 inline mr-2"></i>
                     Photo
                 </label>
                 
                 <div id="attempt-image-preview-container" class="hidden relative">
                     <img id="attempt-image-preview" src="#"
                         alt="Attempt Image Preview"
-                        class="w-full h-24 object-cover rounded-lg border border-dashed border-primary/30" />
+                        class="w-full h-28 object-cover rounded-xl border-2 border-dashed border-primary/20" />
                     <button type="button" id="remove-attempt-image" 
-                        class="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center transition cursor-pointer">
+                        class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center transition-all duration-200 cursor-pointer shadow-lg">
                         <i data-lucide="x" class="w-3 h-3"></i>
                     </button>
                 </div>
 
                 <label id="attempt-image-label" for="attempt-image"
-                    class="flex flex-col items-center justify-center gap-2 border border-dashed border-primary/30 rounded-lg bg-primary/10 hover:bg-primary/20 transition cursor-pointer w-full h-24">
-                    <i data-lucide="camera" class="w-6 h-6 text-gray-500"></i>
-                    <span class="text-xs text-gray-500">Upload photo</span>
+                    class="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-primary/20 rounded-xl bg-primary/5 hover:bg-primary/10 transition-all duration-200 cursor-pointer w-full h-28">
+                    <i data-lucide="camera" class="w-7 h-7 text-primary/60"></i>
+                    <span class="text-xs text-primary/60 font-medium">Upload photo</span>
                 </label>
 
                 <input type="file" id="attempt-image" name="image" accept="image/*" class="hidden" />
             </div>
 
             <!-- Notes Section -->
-            <div class="flex flex-col gap-2 md:w-2/3">
-                <label for="attempt-notes" class="block text-sm text-gray-600 font-medium">
-                    <i data-lucide="edit-3" class="w-4 h-4 inline mr-1"></i>
+            <div class="flex flex-col gap-3 md:w-2/3">
+                <label for="attempt-notes" class="block text-sm text-text font-medium">
+                    <i data-lucide="edit-3" class="w-4 h-4 inline mr-2"></i>
                     How did it go?
                 </label>
                 <textarea
@@ -435,18 +404,19 @@ class PopUpManager {
                     id="attempt-notes" 
                     name="notes" 
                     placeholder="Share your experience, modifications, or tips..."
-                    class="border border-dashed border-primary/30 bg-secondary/15 resize-none px-3 py-2 rounded-lg focus:outline-2 focus:outline-primary w-full h-40 text-sm"
+                    class="border-2 border-dashed border-primary/20 bg-background/50 resize-none px-4 py-3 rounded-xl focus:outline-none focus:border-primary/40 focus:bg-background/70 w-full h-40 text-sm transition-all duration-200"
                     rows="6"></textarea>
             </div>
         `;
         form.appendChild(contentSection);
 
         const buttonSection = document.createElement("div");
-        buttonSection.className = "flex gap-2 pt-2";
+        buttonSection.className =
+            "flex gap-3 pt-3 border-t border-dashed border-primary/20";
 
-        const shareButton = createSubmitButton("Share", {
+        const shareButton = createSubmitButton("Share Your Creation", {
             icon: "upload",
-            className: "flex-1 font-semibold",
+            className: "flex-1 font-semibold py-3",
         });
 
         buttonSection.appendChild(shareButton);
@@ -524,7 +494,7 @@ class PopUpManager {
 
             const container = document.createElement("div");
             container.className =
-                "flex flex-col md:min-w-[500px] items-center justify-center gap-4 p-6 bg-white rounded-xl border-2 border-primary border-dashed";
+                "flex flex-col md:min-w-[520px] items-center justify-center gap-5 p-6 bg-white rounded-2xl border-2 border-dashed border-primary/20 shadow-lg";
 
             const header = document.createElement("div");
             header.className = "w-full flex items-center justify-between mb-2";
@@ -563,7 +533,7 @@ class PopUpManager {
 
             const detailsSection = document.createElement("div");
             detailsSection.className =
-                "w-full bg-secondary/10 rounded-lg p-4 space-y-3";
+                "w-full bg-primary/5 rounded-xl p-5 space-y-4 border-2 border-dashed border-primary/15";
             detailsSection.innerHTML = `
                 <div class="flex items-center gap-3">
                     <i data-lucide="calendar" class="w-5 h-5 text-primary"></i>
@@ -619,11 +589,11 @@ class PopUpManager {
 
             const buttonSection = document.createElement("div");
             buttonSection.className =
-                "w-full flex flex-col items-center justify-center gap-3";
+                "w-full flex flex-col items-center justify-center gap-4 pt-4 border-t border-dashed border-primary/20";
 
             const registerButton = createSubmitButton("Register for Event", {
                 icon: "calendar-plus",
-                className: "w-full font-semibold",
+                className: "w-full font-semibold py-3",
             });
 
             const disclaimer = document.createElement("p");
@@ -643,7 +613,7 @@ class PopUpManager {
 
             const errorContainer = document.createElement("div");
             errorContainer.className =
-                "flex flex-col md:min-w-[400px] items-center justify-center gap-4 p-6 bg-white rounded-xl border-2 border-red-500 border-dashed";
+                "flex flex-col md:min-w-[420px] items-center justify-center gap-5 p-6 bg-white rounded-2xl border-2 border-dashed border-red-200 shadow-lg";
 
             const errorHeader = document.createElement("div");
             errorHeader.className = "w-full flex items-center justify-end mb-2";

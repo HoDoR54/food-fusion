@@ -3,7 +3,7 @@ import axios from "axios";
 export async function setSession(key, value) {
     try {
         const res = await axios.post(
-            "/api/sessions/set",
+            "/sessions/set",
             {
                 key,
                 value,
@@ -22,7 +22,7 @@ export async function setSession(key, value) {
 
 export async function getSession(key) {
     try {
-        const res = await axios.get(`/api/sessions/get/${key}`, {
+        const res = await axios.get(`/sessions/get/${key}`, {
             headers: getHeaders(),
             credentials: "include",
         });

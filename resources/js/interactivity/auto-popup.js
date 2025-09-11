@@ -25,13 +25,18 @@ class AutoPopupManager {
     async shouldShowPopup() {
         try {
             const hasConsentRes = await axios.get(
-                "/api/sessions/isPopUpConsent/get",
+                "/sessions/isPopUpConsent/get",
                 {
                     headers: getHeaders(),
                     credentials: "include",
                 }
             );
-            const shouldShow = hasConsentRes.data.value === true;
+            console.log("hasConsentRes:", hasConsentRes.data);
+            // If isPopUpConsent is true, it means user consents to see popup
+            // If null/undefined (first visit) or true, show popup
+            // If false, don't show popup (user checked "don't show again")
+            const shouldShow = hasConsentRes.data.value !== false;
+            console.log("should show popup:", shouldShow);
 
             return shouldShow;
         } catch (error) {
@@ -41,19 +46,20 @@ class AutoPopupManager {
     }
 
     showWelcomePopup() {
+        console.log("showing welcome popup");
         // Create main container
         const container = document.createElement("div");
         container.className =
-            "flex flex-col items-center justify-center gap-6 p-8 bg-white rounded-xl border-2 border-primary border-dashed max-w-md mx-4";
+            "flex flex-col items-center justify-center gap-6 p-8 bg-white rounded-2xl border-2 border-dashed border-primary/20 max-w-md mx-4 shadow-lg";
 
         // Header section
         const headerSection = document.createElement("div");
         headerSection.className =
             "flex flex-col items-center justify-center text-center";
         headerSection.innerHTML = `
-            <img src="/logo/logo-light.png" alt="Food Fusion Logo" class="w-20 h-20 mb-4">
-            <h2 class="text-primary font-bold text-2xl mb-2">Welcome to Food Fusion!</h2>
-            <p class="text-gray-600 text-base mb-4">
+            <img src="/logo/logo-light.png" alt="Food Fusion Logo" class="w-24 h-24 mb-4 rounded-full border-2 border-dashed border-primary/20 p-2 bg-primary/5">
+            <h2 class="text-primary font-bold text-2xl mb-3">Welcome to Food Fusion!</h2>
+            <p class="text-text/80 text-base mb-4 text-center leading-relaxed">
                 Join our community of food enthusiasts. Share recipes, learn new skills, and connect with fellow cooks from around the world.
             </p>
         `;
@@ -80,14 +86,14 @@ class AutoPopupManager {
         // Checkbox section
         const checkboxSection = document.createElement("div");
         checkboxSection.className =
-            "flex items-center gap-2 text-sm text-gray-500";
+            "flex items-center gap-3 text-sm text-text/70 bg-primary/5 px-4 py-3 rounded-xl border border-dashed border-primary/15";
         checkboxSection.innerHTML = `
             <input 
                 type="checkbox" 
                 id="dont-show-again" 
-                class="rounded border-gray-300 text-primary focus:ring-primary"
+                class="rounded border-primary/30 text-primary focus:ring-primary/20 focus:border-primary/50"
             >
-            <label for="dont-show-again" class="cursor-pointer">Don't show this again</label>
+            <label for="dont-show-again" class="cursor-pointer font-medium">Don't show this again</label>
         `;
         container.appendChild(checkboxSection);
 
@@ -97,16 +103,15 @@ class AutoPopupManager {
             dataAction: "close-popup",
             variant: ButtonVariant.SECONDARY,
             className:
-                "text-gray-400 hover:text-gray-600 text-sm underline bg-transparent border-none",
+                "text-text/60 hover:text-text/80 text-sm underline bg-transparent border-none px-2 py-1",
         });
 
         container.appendChild(maybeLaterButton);
 
         // Get the popup manager instance and show the welcome popup
-        if (window.popupManager) {
-            window.popupManager.showPopUp(container.outerHTML);
+        if (window.PopUpManager) {
+            window.PopUpManager.showPopUp(container.outerHTML);
 
-            // Reinitialize Lucide icons and add event listener for the "don't show again" checkbox
             setTimeout(() => {
                 reinitializeLucideIcons();
 
@@ -117,6 +122,8 @@ class AutoPopupManager {
                     });
                 }
             }, 100);
+        } else {
+            console.error("PopUpManager is not available on window.");
         }
     }
 
@@ -125,13 +132,10 @@ class AutoPopupManager {
             console.log(`Setting popup consent to: ${!checked}`);
             await setSession("isPopUpConsent", !checked);
             console.log(`Popup consent set to: ${!checked}`);
-            const sessionSet = await axios.get(
-                "/api/sessions/isPopUpConsent/get",
-                {
-                    headers: getHeaders(),
-                    credentials: "include",
-                }
-            );
+            const sessionSet = await axios.get("/sessions/isPopUpConsent/get", {
+                headers: getHeaders(),
+                credentials: "include",
+            });
             console.log("session set: ", sessionSet.data.value);
         } catch (error) {
             console.error("Error setting popup consent:", error);
