@@ -2,8 +2,8 @@
 
 namespace App\View\Components;
 
-use App\Services\RecipeService;
 use App\Enums\DifficultyLevel;
+use App\Services\RecipeService;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -14,10 +14,15 @@ class RecipeFilters extends Component
 
     // Public properties for Blade
     public array $difficultyLevels;
+
     public array $dietaryPreferences;
+
     public array $cuisineTypes;
+
     public array $courses;
+
     public array $cookingMethods;
+
     public array $occasions;
 
     public function __construct(RecipeService $recipeService)
@@ -38,6 +43,7 @@ class RecipeFilters extends Component
         foreach (DifficultyLevel::cases() as $level) {
             $levels[$level->value] = $level->label();
         }
+
         return $levels;
     }
 
@@ -46,13 +52,14 @@ class RecipeFilters extends Component
         $preferences = $this->_recipeService->getDietaryPreferences();
         $result = [];
         foreach ($preferences as $preference) {
-            if (!empty($preference)) {
+            if (! empty($preference)) {
                 $result[$preference] = ucfirst($preference);
             }
         }
+
         return $result;
     }
-    
+
     private function getCuisineTypes(): array
     {
         $cuisines = $this->_recipeService->getCuisineTypes();
@@ -60,6 +67,7 @@ class RecipeFilters extends Component
         foreach ($cuisines as $cuisine) {
             $result[$cuisine] = ucfirst($cuisine);
         }
+
         return $result;
     }
 
@@ -70,6 +78,7 @@ class RecipeFilters extends Component
         foreach ($courses as $course) {
             $result[$course] = ucfirst($course);
         }
+
         return $result;
     }
 
@@ -80,6 +89,7 @@ class RecipeFilters extends Component
         foreach ($methods as $method) {
             $result[$method] = ucfirst($method);
         }
+
         return $result;
     }
 
@@ -90,6 +100,7 @@ class RecipeFilters extends Component
         foreach ($occasions as $occasion) {
             $result[$occasion] = ucfirst($occasion);
         }
+
         return $result;
     }
 

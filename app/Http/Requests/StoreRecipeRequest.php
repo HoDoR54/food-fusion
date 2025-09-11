@@ -29,12 +29,12 @@ class StoreRecipeRequest extends FormRequest
             'steps.*.step_type' => ['required', Rule::enum(RecipeStepType::class)],
             'steps.*.estimated_time_taken' => 'required|integer|min:1|max:300',
             'steps.*.order' => 'required|integer|min:1',
-            
+
             'ingredients' => 'required|array|min:1',
             'ingredients.*.name' => 'required|string|max:255',
             'ingredients.*.amount' => 'required|string|max:50',
             'ingredients.*.unit' => 'required|string|max:50',
-            
+
             'tags' => 'nullable|array',
             'tags.*.name' => 'required_with:tags|string|max:255',
             'tags.*.type' => ['required_with:tags', Rule::enum(TagType::class)],
@@ -53,19 +53,19 @@ class StoreRecipeRequest extends FormRequest
             'image.image' => 'The uploaded file must be an image.',
             'image.mimes' => 'Image must be a PNG, JPG, or JPEG file.',
             'image.max' => 'Image size cannot exceed 5MB.',
-            
+
             'steps.required' => 'At least one cooking step is required.',
             'steps.*.description.required' => 'Step description is required.',
             'steps.*.step_type.required' => 'Step type is required.',
             'steps.*.estimated_time_taken.required' => 'Estimated time is required.',
             'steps.*.estimated_time_taken.min' => 'Estimated time must be at least 1 minute.',
             'steps.*.estimated_time_taken.max' => 'Estimated time cannot exceed 5 hours.',
-            
+
             'ingredients.required' => 'At least one ingredient is required.',
             'ingredients.*.name.required' => 'Ingredient name is required.',
             'ingredients.*.amount.required' => 'Ingredient amount is required.',
             'ingredients.*.unit.required' => 'Ingredient unit is required.',
-            
+
             'tags.*.name.required_with' => 'Tag name is required when adding tags.',
             'tags.*.type.required_with' => 'Tag type is required when adding tags.',
         ];
@@ -82,7 +82,7 @@ class StoreRecipeRequest extends FormRequest
                     'order' => (int) ($step['order'] ?? $index + 1),
                 ];
             })->toArray();
-            
+
             $this->merge(['steps' => $steps]);
         }
     }

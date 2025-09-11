@@ -47,7 +47,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function getId () {
+    public function getId()
+    {
         return $this->getKey();
     }
 
@@ -125,7 +126,7 @@ class User extends Authenticatable
     {
         // Remove existing vote if any
         $this->votes()->where('blog_id', $blog->id)->delete();
-        
+
         // Create new vote
         return $this->votes()->create([
             'blog_id' => $blog->id,
@@ -140,6 +141,6 @@ class User extends Authenticatable
 
     public function getNameAttribute(): string
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 }

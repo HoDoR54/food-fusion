@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::table('sessions', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
-            
+
             $table->uuid('user_id')->nullable()->change();
-            
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
@@ -27,9 +27,9 @@ return new class extends Migration
     {
         Schema::table('sessions', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
-            
+
             $table->uuid('user_id')->nullable(false)->change();
-            
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

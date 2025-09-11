@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\DTO\Responses;
 
@@ -7,11 +7,17 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 class PaginatedResponse
 {
     private array $items;
+
     private int $currentPage;
+
     private int $totalPages;
+
     private int $totalItems;
+
     private int $itemsPerPage;
+
     private bool $hasNextPage;
+
     private bool $hasPreviousPage;
 
     public function __construct(
@@ -41,13 +47,38 @@ class PaginatedResponse
         );
     }
 
-    public function getCurrentPage(): int { return $this->currentPage; }
-    public function getTotalPages(): int { return $this->totalPages; }
-    public function getTotalItems(): int { return $this->totalItems; }
-    public function getItemsPerPage(): int { return $this->itemsPerPage; }
-    public function getHasNextPage(): bool { return $this->hasNextPage; }
-    public function getHasPreviousPage(): bool { return $this->hasPreviousPage; }
-        public function getItems(): array {
+    public function getCurrentPage(): int
+    {
+        return $this->currentPage;
+    }
+
+    public function getTotalPages(): int
+    {
+        return $this->totalPages;
+    }
+
+    public function getTotalItems(): int
+    {
+        return $this->totalItems;
+    }
+
+    public function getItemsPerPage(): int
+    {
+        return $this->itemsPerPage;
+    }
+
+    public function getHasNextPage(): bool
+    {
+        return $this->hasNextPage;
+    }
+
+    public function getHasPreviousPage(): bool
+    {
+        return $this->hasPreviousPage;
+    }
+
+    public function getItems(): array
+    {
         return $this->items;
     }
 
@@ -66,10 +97,11 @@ class PaginatedResponse
     public function toArray(): array
     {
         return [
-            'items' => array_map(function($item) {
+            'items' => array_map(function ($item) {
                 if (is_object($item) && method_exists($item, 'toArray')) {
                     return $item->toArray();
                 }
+
                 return $item;
             }, $this->items),
             'pagination' => [

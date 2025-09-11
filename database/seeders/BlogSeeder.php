@@ -20,10 +20,11 @@ class BlogSeeder extends Seeder
 
         if ($users->isEmpty()) {
             $this->command->warn('No users found. Please run UserSeeder first.');
+
             return;
         }
 
-        $image_url = "https://res.cloudinary.com/dybgsw0ej/image/upload/v1756995981/WIN_20250111_11_11_15_Pro_baiv7j.jpg";
+        $image_url = 'https://res.cloudinary.com/dybgsw0ej/image/upload/v1756995981/WIN_20250111_11_11_15_Pro_baiv7j.jpg';
 
         $blogs = [
             [
@@ -36,7 +37,7 @@ class BlogSeeder extends Seeder
                 'title' => 'The Art of Meal Prep: Save Time and Eat Better',
                 'content' => 'Meal prepping is a game-changer for busy lifestyles. Learn how to plan, prep, and store meals for the week ahead. This comprehensive guide covers everything from choosing the right containers to batch cooking techniques.',
                 'author_id' => $users->skip(1)->first()->id,
-                'image_url' => $image_url, 
+                'image_url' => $image_url,
             ],
             [
                 'title' => 'Spice Up Your Life: A Guide to International Flavors',
@@ -71,7 +72,7 @@ class BlogSeeder extends Seeder
             );
 
             // Attach random tags if available
-            if ($tags->isNotEmpty() && !$blog->tags->count()) {
+            if ($tags->isNotEmpty() && ! $blog->tags->count()) {
                 $randomTags = $tags->random(min(3, $tags->count()));
                 $blog->tags()->attach($randomTags);
             }

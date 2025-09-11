@@ -27,7 +27,7 @@ enum ContactFormSubmissionType: string
     public static function labels(): array
     {
         return array_map(
-            fn(self $case) => $case->label(),
+            fn (self $case) => $case->label(),
             self::cases()
         );
     }
@@ -42,5 +42,4 @@ enum ContactFormSubmissionType: string
             default => throw new \InvalidArgumentException("Invalid contact form submission type: $value"),
         };
     }
-
 }

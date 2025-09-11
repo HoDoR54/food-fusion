@@ -2,14 +2,15 @@
 
 namespace App\Enums;
 
-enum MasteryLevel: string {
+enum MasteryLevel: string
+{
     case BEGINNER = 'beginner';
     case INTERMEDIATE = 'intermediate';
     case ADVANCED = 'advanced';
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::BEGINNER => 'Beginner',
             self::INTERMEDIATE => 'Intermediate',
             self::ADVANCED => 'Advanced',
@@ -24,7 +25,7 @@ enum MasteryLevel: string {
     public static function labels(): array
     {
         return array_map(
-            fn(self $case) => $case->label(),
+            fn (self $case) => $case->label(),
             self::cases()
         );
     }
@@ -36,9 +37,9 @@ enum MasteryLevel: string {
                 return $case;
             }
         }
+
         return null;
     }
-
 }
 ?>
 

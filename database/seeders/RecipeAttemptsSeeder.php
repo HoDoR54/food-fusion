@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\RecipeAttempt;
 use App\Models\Recipe;
+use App\Models\RecipeAttempt;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -16,12 +16,13 @@ class RecipeAttemptsSeeder extends Seeder
     {
         // Get all recipes and users (except admin and moderators for more realistic data)
         $recipes = Recipe::all();
-        $users = User::whereHas('role', function($query) {
+        $users = User::whereHas('role', function ($query) {
             $query->where('name', 'User');
         })->get();
 
         if ($recipes->isEmpty() || $users->isEmpty()) {
             $this->command->warn('No recipes or users found. Please run RecipesSeeder and UserSeeder first.');
+
             return;
         }
 

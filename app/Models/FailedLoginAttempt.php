@@ -37,5 +37,4 @@ class FailedLoginAttempt extends Model
     {
         return $this->ip_address;
     }
-
 }

@@ -32,7 +32,7 @@ class RolePermissionSeeder extends Seeder
                     ->orWhere('resource', 'blogs')->whereIn('action', ['read', 'create'])
                     ->orWhere('resource', 'ingredients')->whereIn('action', ['read', 'create'])
                     ->orWhere('resource', 'tags')->whereIn('action', ['read', 'create'])
-                    ->orWhere('resource', 'comments')->whereIn('action', ['create','read']);
+                    ->orWhere('resource', 'comments')->whereIn('action', ['create', 'read']);
             })->get();
 
             $user->permissions()->sync($userPermissions->pluck('id'));

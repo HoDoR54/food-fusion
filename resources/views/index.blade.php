@@ -19,24 +19,8 @@
             <p style="animation-delay: 0.2s;" class="animate-fade-in-up text-text/60 text-lg text-center max-w-2xl">
                 Neighbours aren’t just next door — they’re the people stirring, chopping, and sharing recipes around the world.
             </p>                
-            <div id="next-gathering-display" style="animation-delay: 0.4s;" class="animate-fade-in-up lazy-load flex items-center w-[80vw] min-h-[40vh] justify-center bg-secondary/10 rounded-xl border-primary/30 border-3 border-dashed">
-                <div class="flex flex-col gap-3 p-4 items-center justify-center">
-                    <h2 class="text-2xl font-bold text-primary">Next Gathering</h2>
-                    <h3 class="text-lg font-medium">
-                        <span class="font-semibold" id="next-gathering-title">...</span>
-                        <span class="text-text font-extrabold text-2xl">.</span> 
-                        <span class="text-text">Since January 2023</span>
-                    </h3>
-                    <p class="text-text/60">
-                        <span id="next-gathering-location-or-platform">...</span>
-                        <span class="font-extrabold text-2xl text-primary/30">.</span>
-                        <span id="next-gathering-date">...</span>
-                    </p>
-                    <p class="text-text/60 text-sm" id="next-gathering-description">
-                        ...
-                    </p>
-                    <x-button data-action="show-event-registration-popup" data-event-id="next-event-register" id="next-event-register" :variant="ButtonVariant::Primary" :size="ButtonSize::Large" :text="'I\'ll be there'" class="mt-4 px-5" :icon="'<i data-lucide=\'calendar-plus\'></i>'" />
-                </div>
+            <div id="next-gathering-display" style="animation-delay: 0.4s;" class="animate-fade-in-up lazy-load">
+                <x-skeletons.next-gathering />
             </div>
         </section>
 
@@ -99,48 +83,15 @@
                 <!-- Carousel Container -->
                 <div id="events-carousel-container" class="relative overflow-hidden rounded-xl">
                     <div id="events-carousel-track" class="flex transition-transform duration-500 ease-in-out">
-                        <!-- Placeholder cards while loading -->
+                        <!-- Skeleton cards while loading -->
                         <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3">
-                            <div class="bg-white/60 border-2 border-dashed border-primary/20 rounded-lg p-6 h-80 flex flex-col justify-between">
-                                <div>
-                                    <div class="w-16 h-4 bg-primary/20 rounded mb-3 animate-pulse"></div>
-                                    <div class="w-full h-6 bg-text/20 rounded mb-3 animate-pulse"></div>
-                                    <div class="w-3/4 h-4 bg-text/10 rounded mb-4 animate-pulse"></div>
-                                    <div class="w-full h-20 bg-text/10 rounded animate-pulse"></div>
-                                </div>
-                                <div class="flex justify-between items-center mt-4">
-                                    <div class="w-20 h-4 bg-secondary/30 rounded animate-pulse"></div>
-                                    <div class="w-24 h-8 bg-primary/20 rounded animate-pulse"></div>
-                                </div>
-                            </div>
+                            <x-skeletons.card />
                         </div>
                         <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3">
-                            <div class="bg-white/60 border-2 border-dashed border-primary/20 rounded-lg p-6 h-80 flex flex-col justify-between">
-                                <div>
-                                    <div class="w-20 h-4 bg-secondary/20 rounded mb-3 animate-pulse"></div>
-                                    <div class="w-full h-6 bg-text/20 rounded mb-3 animate-pulse"></div>
-                                    <div class="w-2/3 h-4 bg-text/10 rounded mb-4 animate-pulse"></div>
-                                    <div class="w-full h-20 bg-text/10 rounded animate-pulse"></div>
-                                </div>
-                                <div class="flex justify-between items-center mt-4">
-                                    <div class="w-16 h-4 bg-secondary/30 rounded animate-pulse"></div>
-                                    <div class="w-24 h-8 bg-primary/20 rounded animate-pulse"></div>
-                                </div>
-                            </div>
+                            <x-skeletons.card />
                         </div>
                         <div class="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3">
-                            <div class="bg-white/60 border-2 border-dashed border-primary/20 rounded-lg p-6 h-80 flex flex-col justify-between">
-                                <div>
-                                    <div class="w-24 h-4 bg-primary/20 rounded mb-3 animate-pulse"></div>
-                                    <div class="w-full h-6 bg-text/20 rounded mb-3 animate-pulse"></div>
-                                    <div class="w-5/6 h-4 bg-text/10 rounded mb-4 animate-pulse"></div>
-                                    <div class="w-full h-20 bg-text/10 rounded animate-pulse"></div>
-                                </div>
-                                <div class="flex justify-between items-center mt-4">
-                                    <div class="w-24 h-4 bg-secondary/30 rounded animate-pulse"></div>
-                                    <div class="w-24 h-8 bg-primary/20 rounded animate-pulse"></div>
-                                </div>
-                            </div>
+                            <x-skeletons.card />
                         </div>
                     </div>
                 </div>
@@ -170,13 +121,7 @@
                 <div id="upcoming-skill-sharing-sessions" 
                     class="animate-on-scroll grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full auto-rows-fr" data-delay="0.3s">
                     @for ($i = 1; $i <= 6; $i++)
-                        <div class="bg-secondary/10 border-2 border-dashed border-primary/10 rounded-lg p-5 flex flex-col justify-between h-full">
-                            <div>
-                                <h3 class="text-lg font-semibold mb-2">...</h3>
-                                <p class="text-text/60 text-sm">...</p>
-                            </div>
-                            <p class="text-secondary text-xs mt-4">...</p>
-                        </div>
+                        <x-skeletons.skill-session />
                     @endfor
                 </div>
             </div>
@@ -197,23 +142,7 @@
             <div class="flex flex-col items-center justify-center w-full max-w-6xl">
                 <div id="featured-recipes-grid" class="animate-on-scroll grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full" data-delay="0.3s">
                     @for ($i = 0; $i < 3; $i++)
-                        <div class="bg-white/60 border-2 border-dashed border-primary/20 rounded-lg overflow-hidden hover:border-primary/40 transition-all duration-200 group">
-                            <div class="aspect-video bg-secondary/10 flex items-center justify-center">
-                                <div class="w-24 h-16 bg-primary/20 rounded animate-pulse"></div>
-                            </div>
-                            <div class="p-4">
-                                <div class="w-3/4 h-6 bg-text/20 rounded mb-2 animate-pulse"></div>
-                                <div class="w-1/2 h-4 bg-text/10 rounded mb-3 animate-pulse"></div>
-                                <div class="flex justify-between items-center">
-                                    <div class="w-16 h-4 bg-secondary/30 rounded animate-pulse"></div>
-                                    <div class="w-20 h-4 bg-primary/20 rounded animate-pulse"></div>
-                                </div>
-                                <div class="flex gap-2 mt-3">
-                                    <div class="w-12 h-5 bg-primary/10 rounded-full animate-pulse"></div>
-                                    <div class="w-16 h-5 bg-secondary/10 rounded-full animate-pulse"></div>
-                                </div>
-                            </div>
-                        </div>
+                        <x-skeletons.recipe-card />
                     @endfor
                 </div>
                 <div class="animate-on-scroll flex items-center justify-center flex-col gap-4 py-4 mt-8" data-delay="0.4s">
@@ -234,25 +163,7 @@
             <div class="flex flex-col items-center justify-center w-full max-w-[80vw]">
                 <div id="top-blogs-list" class="animate-on-scroll flex flex-col w-full gap-3" data-delay="0.3s">
                     @for ($i = 0; $i < 3; $i++)
-                        <div class="border-l-8 border-dashed border-primary/10 pl-6 pr-4 py-4 bg-white/40 rounded-r-lg">
-                            <div class="flex justify-between items-center w-full">
-                                <div class="flex items-center gap-4 w-full">
-                                    <img
-                                        src="{{ asset('images/default-profile.webp') }}"
-                                        alt="Story {{ $i + 1 }}"
-                                        class="w-16 h-16 rounded-full object-cover opacity-90 cursor-pointer border-2 border-dashed border-primary/20"
-                                    />
-                                    <div class="flex-1">
-                                        <h3 class="text-lg font-semibold text-foreground cursor-pointer hover:underline">...</h3>
-                                        <p class="text-primary/70 max-w-[70%] line-clamp-1">...</p>
-                                        <p class="text-text/60 text-sm">...</p>
-                                    </div>
-                                </div>
-                                <div class="text-right font-medium text-primary">
-                                    ...
-                                </div>
-                            </div>
-                        </div>
+                        <x-skeletons.blog-item />
                     @endfor
                 </div>
                 <div class="animate-on-scroll flex items-center justify-center flex-col gap-4 py-4" data-delay="0.4s">

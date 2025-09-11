@@ -9,22 +9,30 @@ use Illuminate\View\Component;
 class Paginator extends Component
 {
     public int $currentPage;
+
     public int $totalPages;
+
     public int $totalItems;
+
     public bool $hasPrev;
+
     public bool $hasNext;
+
     public string $baseUrl;
+
     public array $preserveParams;
+
     public int $maxButtons;
+
     public string $pageName;
 
     public function __construct(
-        int $currentPage, 
-        int $totalPages, 
-        int $totalItems, 
-        bool $hasPrev, 
+        int $currentPage,
+        int $totalPages,
+        int $totalItems,
+        bool $hasPrev,
         bool $hasNext,
-        string $baseUrl = null,
+        ?string $baseUrl = null,
         array $preserveParams = [],
         int $maxButtons = 3,
         string $pageName = 'page'
@@ -44,18 +52,17 @@ class Paginator extends Component
     {
         $currentParams = request()->query();
         $filteredParams = [];
-        
+
         foreach ($this->preserveParams as $paramName) {
             if (isset($currentParams[$paramName]) && $currentParams[$paramName] !== null && $currentParams[$paramName] !== '') {
                 $filteredParams[$paramName] = $currentParams[$paramName];
             }
         }
-        
+
         $filteredParams[$this->pageName] = $page;
-        
-        return $this->baseUrl . '?' . http_build_query($filteredParams);
+
+        return $this->baseUrl.'?'.http_build_query($filteredParams);
     }
-    
 
     public function render(): View|Closure|string
     {

@@ -51,7 +51,7 @@ class RecipesController extends Controller
             session()->flash('toastMessage', $res->getMessage());
             session()->flash('toastType', 'error');
 
-            return redirect()->route('admin.index');
+            return redirect()->route('admin');
         }
 
         return view('recipes.pending-recipes', [

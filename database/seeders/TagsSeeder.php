@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Tag;
 use App\Enums\TagType;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
 class TagsSeeder extends Seeder
@@ -30,7 +30,7 @@ class TagsSeeder extends Seeder
             ['name' => 'Spanish', 'type' => TagType::Origin],
             ['name' => 'Middle Eastern', 'type' => TagType::Origin],
             ['name' => 'British', 'type' => TagType::Origin],
-            
+
             // Dietary tags
             ['name' => 'Vegetarian', 'type' => TagType::Dietary],
             ['name' => 'Vegan', 'type' => TagType::Dietary],
@@ -41,7 +41,7 @@ class TagsSeeder extends Seeder
             ['name' => 'Keto', 'type' => TagType::Dietary],
             ['name' => 'Paleo', 'type' => TagType::Dietary],
             ['name' => 'High Protein', 'type' => TagType::Dietary],
-            
+
             // Course tags
             ['name' => 'Breakfast', 'type' => TagType::Course],
             ['name' => 'Lunch', 'type' => TagType::Course],
@@ -52,7 +52,7 @@ class TagsSeeder extends Seeder
             ['name' => 'Side Dish', 'type' => TagType::Course],
             ['name' => 'Soup', 'type' => TagType::Course],
             ['name' => 'Salad', 'type' => TagType::Course],
-            
+
             // Cooking Method tags
             ['name' => 'Grilled', 'type' => TagType::CookingMethod],
             ['name' => 'Baked', 'type' => TagType::CookingMethod],
@@ -63,7 +63,7 @@ class TagsSeeder extends Seeder
             ['name' => 'Steamed', 'type' => TagType::CookingMethod],
             ['name' => 'Slow Cooked', 'type' => TagType::CookingMethod],
             ['name' => 'Pan Seared', 'type' => TagType::CookingMethod],
-            
+
             // Occasion tags
             ['name' => 'Holiday', 'type' => TagType::Occasion],
             ['name' => 'Date Night', 'type' => TagType::Occasion],

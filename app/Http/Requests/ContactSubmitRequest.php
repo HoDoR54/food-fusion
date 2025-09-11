@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\ContactFormSubmissionType;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ContactSubmitRequest extends FormRequest
 {
@@ -24,9 +24,9 @@ class ContactSubmitRequest extends FormRequest
     {
         return [
             'subject' => 'required|string|max:255',
-                'message' => 'required|string',
-                'type' => 'required|string|in:' . implode(',', array_column(ContactFormSubmissionType::cases(), 'value')),
-                'is_anonymous' => 'sometimes|boolean',
+            'message' => 'required|string',
+            'type' => 'required|string|in:'.implode(',', array_column(ContactFormSubmissionType::cases(), 'value')),
+            'is_anonymous' => 'sometimes|boolean',
         ];
     }
 

@@ -44,7 +44,6 @@ class Event extends Model
         return $this->belongsTo(User::class, 'organizer_id');
     }
 
-
     public function attendees(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'event_attendees', 'event_id', 'user_id');
@@ -72,7 +71,7 @@ class Event extends Model
 
     public function canUserAttend(User $user): bool
     {
-        return $this->isUpcoming() && !$this->attendees->contains($user);
+        return $this->isUpcoming() && ! $this->attendees->contains($user);
     }
 
     public function canUserLeave(User $user): bool

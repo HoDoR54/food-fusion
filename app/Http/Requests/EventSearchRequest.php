@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Enums\EventType;
 
 class EventSearchRequest extends FormRequest
 {
@@ -27,7 +26,7 @@ class EventSearchRequest extends FormRequest
             'end_time' => 'nullable|date|after_or_equal:start_time',
             'location' => 'nullable|string|max:255',
             'type' => 'nullable|string',
-            'status' => 'nullable|in:scheduled,completed,cancelled,ongoing'
+            'status' => 'nullable|in:scheduled,completed,cancelled,ongoing',
         ];
     }
 }

@@ -49,7 +49,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['role_id']);
         });
-        
+
         Schema::dropIfExists('role_permission');
         Schema::dropIfExists('roles');
         Schema::dropIfExists('permissions');

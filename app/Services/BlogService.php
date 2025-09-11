@@ -2,34 +2,35 @@
 
 namespace App\Services;
 
-use App\Models\Blog;
-use App\Models\User;
-use App\Models\Tag;
 use App\DTO\Responses\BaseResponse;
 use App\DTO\Responses\PaginatedResponse;
-use App\Http\Requests\PaginationRequest;
+use App\Enums\TagType;
 use App\Http\Requests\BlogSearchRequest;
+use App\Http\Requests\PaginationRequest;
 use App\Http\Requests\SortRequest;
 use App\Http\Requests\StoreBlogRequest;
-use App\Enums\TagType;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
+use App\Models\Blog;
+use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class BlogService
 {
-    public function getBlogs(PaginationRequest $pagination, BlogSearchRequest $search, SortRequest $sort): BaseResponse {
+    public function getBlogs(PaginationRequest $pagination, BlogSearchRequest $search, SortRequest $sort): BaseResponse
+    {
         try {
             $query = Blog::query();
-            
-            $query->with(['author', 'tags', 'votes']);      
+
+            $query->with(['author', 'tags', 'votes']);
             $this->attachSearchQuery($query, $search);
             $this->attachSortQuery($query, $sort);
 
             $paginator = $query->paginate(
-                $pagination->input('size', 12), 
-                ['*'], 
-                'page', 
+                $pagination->input('size', 12),
+                ['*'],
+                'page',
                 $pagination->input('page', 1)
             );
 
@@ -38,24 +39,29 @@ class BlogService
 
             return new BaseResponse(true, 'Blogs retrieved successfully', 200, $paginatedRes);
         } catch (\Exception $e) {
-            Log::error('Error retrieving paginated blogs: ' . $e->getMessage());
+            Log::error('Error retrieving paginated blogs: '.$e->getMessage());
+
             return new BaseResponse(false, 'Failed to retrieve blogs', 500);
         }
     }
 
-    public function getBlogById($id): BaseResponse {
+    public function getBlogById($id): BaseResponse
+    {
         try {
             $blog = Blog::findOrFail($id);
+
             return new BaseResponse(true, 'Blog retrieved successfully', 200, $blog);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return new BaseResponse(false, 'Blog not found', 404);
         } catch (\Exception $e) {
-            Log::error('Error retrieving blog: ' . $e->getMessage());
+            Log::error('Error retrieving blog: '.$e->getMessage());
+
             return new BaseResponse(false, 'Failed to retrieve blog', 500);
         }
     }
 
-    public function getBlogWithRelations($id): BaseResponse {
+    public function getBlogWithRelations($id): BaseResponse
+    {
         try {
             $blog = Blog::with([
                 'comments' => function ($query) {
@@ -63,16 +69,17 @@ class BlogService
                 },
                 'comments.user',
                 'tags',
-                'author'
+                'author',
             ])->find($id);
-            
-            if (!$blog) {
+
+            if (! $blog) {
                 return new BaseResponse(false, 'Blog not found', 404);
             }
-            
+
             return new BaseResponse(true, 'Blog retrieved successfully', 200, $blog);
         } catch (\Exception $e) {
-            Log::error('Error retrieving blog with relations: ' . $e->getMessage());
+            Log::error('Error retrieving blog with relations: '.$e->getMessage());
+
             return new BaseResponse(false, 'Failed to retrieve blog', 500);
         }
     }
@@ -83,13 +90,13 @@ class BlogService
             DB::beginTransaction();
 
             $blog = Blog::findOrFail($blogId);
-            Log::info('Blog found: ' . $blog->id);
+            Log::info('Blog found: '.$blog->id);
 
             $comment = $blog->comments()->create([
                 'user_id' => $userId,
                 'content' => $content,
             ]);
-            Log::info('Comment created: ' . $comment->id);
+            Log::info('Comment created: '.$comment->id);
 
             // Load user relationship for front-end display
             $comment->load('user');
@@ -110,29 +117,31 @@ class BlogService
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollback();
-            Log::error('Error creating comment: ' . $e->getMessage());
+            Log::error('Error creating comment: '.$e->getMessage());
+
             return new BaseResponse(false, 'Blog not found', 404);
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Error creating comment: ' . $e->getMessage());
+            Log::error('Error creating comment: '.$e->getMessage());
+
             return new BaseResponse(false, 'Failed to create comment', 500);
         }
     }
 
-
-    public function upvoteBlog($blogId, User $user): BaseResponse {
+    public function upvoteBlog($blogId, User $user): BaseResponse
+    {
         try {
-            Log::info('Upvote service method called for blog ID: ' . $blogId);
-            Log::info('User authenticated: ' . $user->id);
-            
+            Log::info('Upvote service method called for blog ID: '.$blogId);
+            Log::info('User authenticated: '.$user->id);
+
             $blog = Blog::findOrFail($blogId);
-            Log::info('Blog found: ' . $blog->id);
-            
+            Log::info('Blog found: '.$blog->id);
+
             $existingVote = $blog->getUserVote($user->id);
-            Log::info('Existing vote: ' . ($existingVote ? $existingVote->direction : 'none'));
-            
+            Log::info('Existing vote: '.($existingVote ? $existingVote->direction : 'none'));
+
             DB::beginTransaction();
-            
+
             if ($existingVote) {
                 if ($existingVote->isUpvote()) {
                     $existingVote->delete();
@@ -146,49 +155,53 @@ class BlogService
             } else {
                 $newVote = $user->voteOnBlog($blog, 'up');
                 $message = 'Upvoted successfully';
-                Log::info('New upvote created: ' . $newVote->id);
+                Log::info('New upvote created: '.$newVote->id);
             }
 
             $upvotes = $blog->upvotes()->count();
             $downvotes = $blog->downvotes()->count();
             $voteScore = $upvotes - $downvotes;
-            
-            Log::info('Vote counts - Upvotes: ' . $upvotes . ', Downvotes: ' . $downvotes . ', Score: ' . $voteScore);
-            
+
+            Log::info('Vote counts - Upvotes: '.$upvotes.', Downvotes: '.$downvotes.', Score: '.$voteScore);
+
             $responseData = [
                 'upvotes' => $upvotes,
                 'downvotes' => $downvotes,
                 'vote_score' => $voteScore,
-                'user_vote' => $blog->getUserVote($user->id)?->direction
+                'user_vote' => $blog->getUserVote($user->id)?->direction,
             ];
 
             DB::commit();
+
             return new BaseResponse(true, $message, 200, $responseData);
-            
+
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollback();
+
             return new BaseResponse(false, 'Blog not found', 404);
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Upvote error: ' . $e->getMessage());
+            Log::error('Upvote error: '.$e->getMessage());
+
             return new BaseResponse(false, 'An error occurred while voting', 500);
         }
     }
 
-    public function downvoteBlog($blogId, User $user): BaseResponse {
+    public function downvoteBlog($blogId, User $user): BaseResponse
+    {
         try {
-            Log::info('Downvote service method called for blog ID: ' . $blogId);
-            Log::info('User authenticated: ' . $user->id);
+            Log::info('Downvote service method called for blog ID: '.$blogId);
+            Log::info('User authenticated: '.$user->id);
 
             $blog = Blog::findOrFail($blogId);
-            Log::info('Blog found: ' . $blog->id);
-            
+            Log::info('Blog found: '.$blog->id);
+
             // Check if user already voted
             $existingVote = $blog->getUserVote($user->id);
-            Log::info('Existing vote: ' . ($existingVote ? $existingVote->direction : 'none'));
-            
+            Log::info('Existing vote: '.($existingVote ? $existingVote->direction : 'none'));
+
             DB::beginTransaction();
-            
+
             if ($existingVote) {
                 if ($existingVote->isDownvote()) {
                     // User already downvoted, remove the vote
@@ -205,63 +218,69 @@ class BlogService
                 // Create new downvote
                 $newVote = $user->voteOnBlog($blog, 'down');
                 $message = 'Downvoted successfully';
-                Log::info('New downvote created: ' . $newVote->id);
+                Log::info('New downvote created: '.$newVote->id);
             }
 
             // Get fresh counts
             $upvotes = $blog->upvotes()->count();
             $downvotes = $blog->downvotes()->count();
             $voteScore = $upvotes - $downvotes;
-            
-            Log::info('Vote counts - Upvotes: ' . $upvotes . ', Downvotes: ' . $downvotes . ', Score: ' . $voteScore);
-            
+
+            Log::info('Vote counts - Upvotes: '.$upvotes.', Downvotes: '.$downvotes.', Score: '.$voteScore);
+
             $responseData = [
                 'upvotes' => $upvotes,
                 'downvotes' => $downvotes,
                 'vote_score' => $voteScore,
-                'user_vote' => $blog->getUserVote($user->id)?->direction
+                'user_vote' => $blog->getUserVote($user->id)?->direction,
             ];
 
             DB::commit();
+
             return new BaseResponse(true, $message, 200, $responseData);
-            
+
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             DB::rollback();
+
             return new BaseResponse(false, 'Blog not found', 404);
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Downvote error: ' . $e->getMessage());
+            Log::error('Downvote error: '.$e->getMessage());
+
             return new BaseResponse(false, 'An error occurred while voting', 500);
         }
     }
 
-    public function getVoteStatus($blogId, User $user = null): BaseResponse {
+    public function getVoteStatus($blogId, ?User $user = null): BaseResponse
+    {
         try {
             $blog = Blog::findOrFail($blogId);
-            
+
             $upvotes = $blog->upvotes()->count();
             $downvotes = $blog->downvotes()->count();
             $voteScore = $upvotes - $downvotes;
             $userVote = $user ? $blog->getUserVote($user->id)?->direction : null;
-            
+
             $responseData = [
                 'upvotes' => $upvotes,
                 'downvotes' => $downvotes,
                 'vote_score' => $voteScore,
-                'user_vote' => $userVote
+                'user_vote' => $userVote,
             ];
-            
+
             return new BaseResponse(true, 'Vote status retrieved successfully', 200, $responseData);
-            
+
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return new BaseResponse(false, 'Blog not found', 404);
         } catch (\Exception $e) {
-            Log::error('Get vote status error: ' . $e->getMessage());
+            Log::error('Get vote status error: '.$e->getMessage());
+
             return new BaseResponse(false, 'Failed to retrieve vote status', 500);
         }
     }
 
-    public function attachSortQuery(Builder $query, SortRequest $sort): void {
+    public function attachSortQuery(Builder $query, SortRequest $sort): void
+    {
         $allowedSortBy = ['created_at', 'updated_at', 'popularity'];
 
         $sortBy = $sort['sort_by'];
@@ -271,7 +290,7 @@ class BlogService
             switch ($sortBy) {
                 case 'popularity':
                     $query->withCount(['upvotes', 'downvotes'])
-                          ->orderByRaw('(upvotes_count - downvotes_count) ' . $sortDirection);
+                        ->orderByRaw('(upvotes_count - downvotes_count) '.$sortDirection);
                     break;
                 default:
                     $query->orderBy($sortBy, $sortDirection);
@@ -280,7 +299,8 @@ class BlogService
         }
     }
 
-    public function attachSearchQuery (Builder $query, BlogSearchRequest $search): void {
+    public function attachSearchQuery(Builder $query, BlogSearchRequest $search): void
+    {
         // TO-DO
     }
 
@@ -306,9 +326,10 @@ class BlogService
             return new BaseResponse(true, 'Blog post created successfully!', 201, $newBlog);
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Error creating blog: ' . $e->getMessage(), [
-                'request_data' => $request->validated()
+            Log::error('Error creating blog: '.$e->getMessage(), [
+                'request_data' => $request->validated(),
             ]);
+
             return new BaseResponse(false, 'Failed to create blog post. Please try again.', 500);
         }
     }
@@ -334,7 +355,7 @@ class BlogService
     private function attachTags(Blog $blog, array $tags): void
     {
         $tagIds = [];
-        
+
         foreach ($tags as $tagData) {
             if (empty($tagData['name'])) {
                 continue;
@@ -343,7 +364,7 @@ class BlogService
             $tag = Tag::firstOrCreate(
                 [
                     'name' => $tagData['name'],
-                    'type' => $tagData['type'] ?? TagType::BlogTopic->value
+                    'type' => $tagData['type'] ?? TagType::BlogTopic->value,
                 ]
             );
 

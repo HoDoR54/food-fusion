@@ -5,8 +5,11 @@ namespace App\Enums;
 class RecipePostStatus
 {
     const DRAFT = 'draft';
+
     const APPROVED = 'approved';
+
     const REJECTED = 'rejected';
+
     const PENDING = 'pending';
 
     public static function values(): array

@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Enums\MasteryLevel;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
 {
@@ -20,17 +18,17 @@ class RegisterRequest extends FormRequest
             'firstName' => ['required', 'string', 'max:255'],
             'lastName' => ['required', 'string', 'max:255'],
             'username' => [
-                'required', 
-                'string', 
+                'required',
+                'string',
                 'min:3',
-                'max:255', 
+                'max:255',
                 'unique:users,username',
-                'regex:/^[a-zA-Z0-9_]+$/'
+                'regex:/^[a-zA-Z0-9_]+$/',
             ],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'phoneNumber' => ['required', 'string'],
             'password' => ['required', 'string', 'min:12'],
-            'mastery_level' => ['required', 'in:' . implode(',', MasteryLevel::values())],
+            'mastery_level' => ['required', 'in:'.implode(',', MasteryLevel::values())],
         ];
     }
 

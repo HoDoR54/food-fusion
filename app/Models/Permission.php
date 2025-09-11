@@ -37,6 +37,6 @@ class Permission extends Model
 
     public function getFullNameAttribute(): string
     {
-        return $this->action . ':' . $this->resource;
+        return $this->action.':'.$this->resource;
     }
 }

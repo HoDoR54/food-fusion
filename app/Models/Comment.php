@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasUuids;
-    
+
     protected $fillable = ['blog_id', 'user_id', 'content'];
 
     public function blog()

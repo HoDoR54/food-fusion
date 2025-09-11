@@ -19,7 +19,8 @@ class PaginationRequest extends FormRequest
         ];
     }
 
-    public function messages(): array {
+    public function messages(): array
+    {
         return [
             'page.integer' => 'Page must be an integer.',
             'page.min' => 'Page must be at least 1.',

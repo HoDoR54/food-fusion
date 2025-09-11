@@ -18,12 +18,12 @@ class RecipeStepsCast implements CastsAttributes
 
         $decoded = json_decode($value, true);
 
-        if (!is_array($decoded)) {
+        if (! is_array($decoded)) {
             return collect();
         }
 
         return collect($decoded)->map(
-            fn(array $step) => RecipeStep::fromArray($step)
+            fn (array $step) => RecipeStep::fromArray($step)
         );
     }
 
@@ -33,7 +33,7 @@ class RecipeStepsCast implements CastsAttributes
             return null;
         }
 
-        if (!is_iterable($value)) {
+        if (! is_iterable($value)) {
             throw new InvalidArgumentException('Steps must be iterable');
         }
 
@@ -45,10 +45,11 @@ class RecipeStepsCast implements CastsAttributes
             if (is_array($step)) {
                 $required = ['order', 'description', 'step_type', 'estimated_time_taken'];
                 foreach ($required as $field) {
-                    if (!isset($step[$field])) {
+                    if (! isset($step[$field])) {
                         throw new InvalidArgumentException("Missing required field: {$field}");
                     }
                 }
+
                 return RecipeStep::fromArray($step)->toArray();
             }
 

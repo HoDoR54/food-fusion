@@ -47,7 +47,6 @@ class RecipeCard extends Component
         };
     }
 
-
     private function setNonFillableAttributes(Recipe $recipe, array $data): void
     {
         foreach (['id', 'created_at', 'updated_at'] as $attr) {

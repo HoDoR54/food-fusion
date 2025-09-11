@@ -74,7 +74,7 @@
 
                   @if ($isAdmin)
                       <li class="hover:bg-primary/10">
-                          <a href="{{ route('admin.index') }}"
+                          <a href="{{ route('admin') }}"
                             class="flex gap-2 px-4 py-2 items-center justify-center text-sm text-text hover:text-text/90 hover:underline transition">
                             <i data-lucide="shield" class="w-4 h-4"></i>  
                              Dashboard

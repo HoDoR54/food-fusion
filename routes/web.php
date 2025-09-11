@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\GetUserOrPass;
-use App\Http\Middleware\RequireLogin;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\RecipesController;
 use App\Http\Controllers\BlogsController;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\RecipesController;
+use App\Http\Middleware\GetUserOrPass;
+use App\Http\Middleware\RequireLogin;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::pattern('uuid', '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}');
 
@@ -41,7 +41,7 @@ Route::middleware(GetUserOrPass::class)->group(function () {
     Route::view('/terms-and-conditions', 'static.terms')->name('terms');
     Route::view('/volunteer-opportunities', 'static.volunteer')->name('volunteer');
     Route::view('/support', 'static.support')->name('support');
-    
+
     // Culinary and Educational Resources
     Route::prefix('resources')->name('resources.')->group(function () {
         Route::view('/', 'resources.index')->name('index');
@@ -52,7 +52,7 @@ Route::middleware(GetUserOrPass::class)->group(function () {
     // authentication routes
     Route::get('/login', [AuthController::class, 'showLogin'])->name('auth.login.show');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('auth.register.show');
-    
+
     Route::prefix('auth')->name('auth.')->group(function () {
         Route::post('/login', [AuthController::class, 'login'])
             ->middleware(App\Http\Middleware\CheckFailedLoginAttempts::class)
@@ -80,7 +80,6 @@ Route::middleware(GetUserOrPass::class)->group(function () {
         Route::get('/', [EventsController::class, 'index'])->name('index');
         Route::get('/{uuid}', [EventsController::class, 'show'])->name('show');
     });
-
 
     // Contact Routes
     Route::prefix('contact')->name('contact.')->group(function () {
@@ -110,7 +109,7 @@ Route::middleware([GetUserOrPass::class, RequireLogin::class])->group(function (
 
 // admin routes
 Route::middleware([GetUserOrPass::class, RequireLogin::class])->prefix('admin')->name('admin.')->group(function () {
-    Route::view('/', 'admin.index')->name('index');
+    Route::view('/', 'admin')->name('index');
     Route::get('/pending-recipes', [RecipesController::class, 'pendingRecipes'])->name('pending-recipes');
 });
 
@@ -118,11 +117,11 @@ Route::middleware([GetUserOrPass::class, RequireLogin::class])->prefix('admin')-
 // user profile route uses username as a slug in the URL
 Route::get('/{username}', function ($username) {
     $profileUser = User::where('username', $username)->first();
-    
-    if (!$profileUser) {
+
+    if (! $profileUser) {
         abort(404, 'User not found');
     }
-    
+
     return view('users.show', [
         'user' => Auth::user(),
         'profileUser' => $profileUser,

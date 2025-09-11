@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Blog extends Model
 {
     use HasFactory, HasUuids;
-    
+
     protected $fillable = ['title', 'content', 'author_id', 'image_url'];
 
     public function author(): BelongsTo

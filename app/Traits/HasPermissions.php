@@ -9,8 +9,8 @@ trait HasPermissions
     private function authorize(string $action, string $resource): bool
     {
         $user = Auth::user();
-        
-        if (!$user) {
+
+        if (! $user) {
             return false;
         }
 
@@ -19,7 +19,7 @@ trait HasPermissions
 
     public function authorizeOrFail(string $action, string $resource): void
     {
-        if (!$this->authorize($action, $resource)) {
+        if (! $this->authorize($action, $resource)) {
             abort(403, 'You do not have permission to perform this action.');
         }
     }

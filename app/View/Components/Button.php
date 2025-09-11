@@ -2,8 +2,8 @@
 
 namespace App\View\Components;
 
-use App\Enums\ButtonVariant;
 use App\Enums\ButtonSize;
+use App\Enums\ButtonVariant;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -11,11 +11,14 @@ use Illuminate\View\Component;
 class Button extends Component
 {
     public ButtonVariant $variant;
-    public string|null $text;
-    public ButtonSize $size;
-    public string|null $icon;
 
-    public function __construct(string|null $icon = null, ButtonVariant $variant = ButtonVariant::Primary, string|null $text = null, ButtonSize $size = ButtonSize::Medium)
+    public ?string $text;
+
+    public ButtonSize $size;
+
+    public ?string $icon;
+
+    public function __construct(?string $icon = null, ButtonVariant $variant = ButtonVariant::Primary, ?string $text = null, ButtonSize $size = ButtonSize::Medium)
     {
         $this->variant = $variant;
         $this->text = $text;

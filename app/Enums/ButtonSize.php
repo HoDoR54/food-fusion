@@ -25,7 +25,7 @@ enum ButtonSize: string
     public static function labels(): array
     {
         return array_map(
-            fn(self $case) => $case->label(),
+            fn (self $case) => $case->label(),
             self::cases()
         );
     }

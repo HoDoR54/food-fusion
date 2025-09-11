@@ -95,6 +95,7 @@ export class LandingLoader {
             this.renderNextGathering(nextGathering);
         } catch (error) {
             const message = error.response?.data?.message || error.message;
+            this.renderNextGatheringError(message);
             toastError("Error fetching next gathering", message);
             console.error("Error fetching next gathering:", message);
         }
@@ -102,33 +103,71 @@ export class LandingLoader {
 
     renderNextGathering(data) {
         console.log(data);
-        const titleElement = document.getElementById("next-gathering-title");
-        if (titleElement) titleElement.textContent = data.name;
+        const container = document.getElementById("next-gathering-display");
+        if (!container) return;
 
-        const locationOrPlatform = document.getElementById(
-            "next-gathering-location-or-platform"
-        );
-        if (locationOrPlatform) {
-            locationOrPlatform.textContent =
-                data.venue_type === "online" ? data.platform : data.location;
+        // Replace skeleton with actual content
+        container.innerHTML = `
+            <div class="flex flex-col gap-3 p-4 items-center justify-center bg-secondary/10 border-2 border-dashed border-primary/10 rounded-lg min-w-[70vw]">
+                <h2 class="text-2xl font-bold text-primary">Next Gathering</h2>
+                <h3 class="text-lg font-medium">
+                    <span class="font-semibold">${data.name}</span>
+                    <span class="text-text font-extrabold text-2xl">.</span> 
+                    <span class="text-text">Since January 2023</span>
+                </h3>
+                <p class="text-text/60">
+                    <span>${
+                        data.venue_type === "online"
+                            ? data.platform
+                            : data.location
+                    }</span>
+                    <span class="font-extrabold text-2xl text-primary/30">.</span>
+                    <span>${formatDateWithOrdinal(data.start_time)}</span>
+                </p>
+                <p class="text-text/60 text-sm">
+                    ${data.description}
+                </p>
+                <button data-action="show-event-registration-popup" data-event-id="${
+                    data.id
+                }" class="bg-primary text-white border border-primary text-md px-5 py-2 flex items-center justify-center gap-3 hover:brightness-90 rounded transition duration-300 ease-in-out box-border cursor-pointer mt-4">
+                    <i data-lucide="calendar-plus"></i>
+                    <span>I'll be there</span>
+                </button>
+            </div>
+        `;
+
+        // Re-initialize Lucide icons for the new content
+        if (typeof lucide !== "undefined") {
+            lucide.createIcons();
         }
+    }
 
-        const dateElement = document.getElementById("next-gathering-date");
-        if (dateElement && data.start_time) {
-            dateElement.textContent = formatDateWithOrdinal(data.start_time);
-        }
+    renderNextGatheringError(message) {
+        const container = document.getElementById("next-gathering-display");
+        if (!container) return;
 
-        const descriptionElement = document.getElementById(
-            "next-gathering-description"
-        );
-        if (descriptionElement)
-            descriptionElement.textContent = data.description;
+        // Replace skeleton with error content
+        container.innerHTML = `
+            <div class="flex flex-col gap-3 p-4 items-center justify-center">
+                <i data-lucide="calendar-x" class="w-16 h-16 text-primary/30 mb-2"></i>
+                <h2 class="text-2xl font-bold text-text/70">No Upcoming Gathering</h2>
+                <p class="text-text/60 text-center max-w-md">
+                    ${
+                        message === "No upcoming gathering found"
+                            ? "Check back soon for exciting community gatherings!"
+                            : "Unable to load gathering information. Please try again later."
+                    }
+                </p>
+                <button onclick="window.location.reload()" class="bg-secondary/20 text-primary border border-primary border-dashed text-md px-5 py-2 flex items-center justify-center gap-3 hover:brightness-90 rounded transition duration-300 ease-in-out box-border cursor-pointer mt-4">
+                    <i data-lucide="refresh-cw"></i>
+                    <span>Retry</span>
+                </button>
+            </div>
+        `;
 
-        const nextGatheringButton = document.getElementById(
-            "next-event-register"
-        );
-        if (nextGatheringButton) {
-            nextGatheringButton.setAttribute("data-event-id", data.id);
+        // Re-initialize Lucide icons for the new content
+        if (typeof lucide !== "undefined") {
+            lucide.createIcons();
         }
     }
 
@@ -155,6 +194,7 @@ export class LandingLoader {
             this.renderUpcomingSkillSharingSessions(responseObj);
         } catch (error) {
             const message = error.response?.data?.message || error.message;
+            this.renderUpcomingSkillSharingError(message);
             toastError(
                 "Error fetching upcoming skill sharing sessions",
                 message
@@ -209,6 +249,66 @@ export class LandingLoader {
         }
     }
 
+    renderUpcomingSkillSharingError(message) {
+        const container = document.getElementById(
+            "upcoming-skill-sharing-sessions"
+        );
+        if (!container) return;
+
+        container.innerHTML = `
+            <div class="md:col-span-3 col-span-1 flex flex-col items-center justify-center text-center py-12">
+                <i data-lucide="users-x" class="w-16 h-16 text-primary/30 mb-4"></i>
+                <h3 class="text-xl font-semibold text-text/70 mb-2">Unable to Load Sessions</h3>
+                <p class="text-text/50 mb-4">
+                    ${
+                        message === "No upcoming skill sharing sessions found"
+                            ? "No skill sharing sessions scheduled yet. Be the first to host one!"
+                            : "Unable to load skill sharing sessions. Please try again later."
+                    }
+                </p>
+                <button onclick="window.location.reload()" class="bg-secondary/20 text-primary border border-primary border-dashed px-4 py-2 rounded transition-colors">
+                    <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-2"></i>
+                    Retry
+                </button>
+            </div>
+        `;
+
+        // Re-initialize Lucide icons
+        if (typeof lucide !== "undefined") {
+            lucide.createIcons();
+        }
+    }
+
+    renderUpcomingSkillSharingError(message) {
+        const container = document.getElementById(
+            "upcoming-skill-sharing-sessions"
+        );
+        if (!container) return;
+
+        container.innerHTML = `
+            <div class="md:col-span-3 col-span-1 flex flex-col items-center justify-center text-center py-12">
+                <i data-lucide="users-x" class="w-16 h-16 text-primary/30 mb-4"></i>
+                <h3 class="text-xl font-semibold text-text/70 mb-2">Unable to Load Sessions</h3>
+                <p class="text-text/50 mb-4">
+                    ${
+                        message === "No upcoming skill sharing sessions found"
+                            ? "No skill sharing sessions scheduled. Check back soon!"
+                            : "Unable to load sessions. Please try again later."
+                    }
+                </p>
+                <button onclick="window.location.reload()" class="bg-secondary/20 text-primary border border-primary border-dashed px-4 py-2 rounded transition-colors">
+                    <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-2"></i>
+                    Retry
+                </button>
+            </div>
+        `;
+
+        // Re-initialize Lucide icons
+        if (typeof lucide !== "undefined") {
+            lucide.createIcons();
+        }
+    }
+
     async getTopBlogs() {
         console.log("Fetching top blogs...");
         try {
@@ -235,7 +335,9 @@ export class LandingLoader {
 
             this.renderTopBlogs(responseObj.data.items);
         } catch (error) {
-            toastError("Error fetching top blogs", error.message);
+            const message = error.response?.data?.message || error.message;
+            this.renderTopBlogsError(message);
+            toastError("Error fetching top blogs", message);
             console.error("Error fetching top blogs:", error);
         }
     }
@@ -310,6 +412,7 @@ export class LandingLoader {
             this.renderUpcomingEventsCarousel(responseObj.data);
         } catch (error) {
             const message = error.response?.data?.message || error.message;
+            this.renderUpcomingEventsCarouselError(message);
             toastError("Error fetching upcoming events", message);
             console.error("Error fetching upcoming events:", message);
         }
@@ -401,6 +504,34 @@ export class LandingLoader {
         this.eventsCarousel.updateCarouselData(events);
     }
 
+    renderUpcomingEventsCarouselError(message) {
+        const container = document.getElementById("events-carousel-track");
+        if (!container) return;
+
+        container.innerHTML = `
+            <div class="w-full flex flex-col items-center justify-center text-center py-12">
+                <i data-lucide="calendar-x" class="w-16 h-16 text-primary/30 mb-4"></i>
+                <h3 class="text-xl font-semibold text-text/70 mb-2">Unable to Load Events</h3>
+                <p class="text-text/50 mb-4">
+                    ${
+                        message === "No upcoming events found"
+                            ? "No upcoming events scheduled. Check back soon for exciting gatherings!"
+                            : "Unable to load events. Please try again later."
+                    }
+                </p>
+                <button onclick="window.location.reload()" class="bg-secondary/20 text-primary border border-primary border-dashed px-4 py-2 rounded transition-colors">
+                    <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-2"></i>
+                    Retry
+                </button>
+            </div>
+        `;
+
+        // Re-initialize Lucide icons
+        if (typeof lucide !== "undefined") {
+            lucide.createIcons();
+        }
+    }
+
     async getFeaturedRecipes() {
         console.log("Fetching featured recipes...");
         try {
@@ -427,6 +558,7 @@ export class LandingLoader {
             this.renderFeaturedRecipes(responseObj.data);
         } catch (error) {
             const message = error.response?.data?.message || error.message;
+            this.renderFeaturedRecipesError(message);
             toastError("Error fetching featured recipes", message);
             console.error("Error fetching featured recipes:", message);
         }
@@ -528,5 +660,61 @@ export class LandingLoader {
                 </a>
             `;
         });
+    }
+
+    renderTopBlogsError(message) {
+        const container = document.getElementById("top-blogs-list");
+        if (!container) return;
+
+        container.innerHTML = `
+            <div class="flex flex-col items-center justify-center text-center py-12 w-full">
+                <i data-lucide="file-x" class="w-16 h-16 text-primary/30 mb-4"></i>
+                <h3 class="text-xl font-semibold text-text/70 mb-2">Unable to Load Blogs</h3>
+                <p class="text-text/50 mb-4">
+                    ${
+                        message === "No top blogs found"
+                            ? "No blog posts available yet. Be the first to share!"
+                            : "Unable to load blog posts. Please try again later."
+                    }
+                </p>
+                <button onclick="window.location.reload()" class="bg-secondary/20 text-primary border border-primary border-dashed px-4 py-2 rounded transition-colors">
+                    <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-2"></i>
+                    Retry
+                </button>
+            </div>
+        `;
+
+        // Re-initialize Lucide icons
+        if (typeof lucide !== "undefined") {
+            lucide.createIcons();
+        }
+    }
+
+    renderFeaturedRecipesError(message) {
+        const container = document.getElementById("featured-recipes-grid");
+        if (!container) return;
+
+        container.innerHTML = `
+            <div class="md:col-span-3 col-span-1 flex flex-col items-center justify-center text-center py-12">
+                <i data-lucide="chef-hat" class="w-16 h-16 text-primary/30 mb-4"></i>
+                <h3 class="text-xl font-semibold text-text/70 mb-2">Unable to Load Recipes</h3>
+                <p class="text-text/50 mb-4">
+                    ${
+                        message === "No featured recipes found"
+                            ? "No recipes available yet. Be the first to share a delicious recipe!"
+                            : "Unable to load recipes. Please try again later."
+                    }
+                </p>
+                <button onclick="window.location.reload()" class="bg-secondary/20 text-primary border border-primary border-dashed px-4 py-2 rounded transition-colors">
+                    <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-2"></i>
+                    Retry
+                </button>
+            </div>
+        `;
+
+        // Re-initialize Lucide icons
+        if (typeof lucide !== "undefined") {
+            lucide.createIcons();
+        }
     }
 }

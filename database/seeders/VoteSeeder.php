@@ -16,17 +16,19 @@ class VoteSeeder extends Seeder
     {
         // Get the first user to create votes with
         $user = User::first();
-        
-        if (!$user) {
+
+        if (! $user) {
             $this->command->warn('No users found. Please run UserSeeder first.');
+
             return;
         }
 
         // Get blogs to vote on
         $blogs = Blog::take(6)->get();
-        
+
         if ($blogs->isEmpty()) {
             $this->command->warn('No blogs found. Please run BlogSeeder first.');
+
             return;
         }
 
@@ -37,7 +39,7 @@ class VoteSeeder extends Seeder
         $voteData = [
             // First blog gets 8 upvotes, 1 downvote = score of 7
             ['blog' => $blogs[0], 'upvotes' => 8, 'downvotes' => 1],
-            // Second blog gets 5 upvotes, 0 downvotes = score of 5  
+            // Second blog gets 5 upvotes, 0 downvotes = score of 5
             ['blog' => $blogs[1], 'upvotes' => 5, 'downvotes' => 0],
             // Third blog gets 3 upvotes, 1 downvote = score of 2
             ['blog' => $blogs[2], 'upvotes' => 3, 'downvotes' => 1],
@@ -59,7 +61,7 @@ class VoteSeeder extends Seeder
                 Vote::create([
                     'user_id' => $user->id,
                     'blog_id' => $blog->id,
-                    'direction' => 'up'
+                    'direction' => 'up',
                 ]);
             }
 
@@ -68,12 +70,12 @@ class VoteSeeder extends Seeder
                 Vote::create([
                     'user_id' => $user->id,
                     'blog_id' => $blog->id,
-                    'direction' => 'down'
+                    'direction' => 'down',
                 ]);
             }
         }
 
         $this->command->info('Vote seeder completed successfully!');
-        $this->command->info('Created votes for ' . $blogs->count() . ' blogs.');
+        $this->command->info('Created votes for '.$blogs->count().' blogs.');
     }
 }

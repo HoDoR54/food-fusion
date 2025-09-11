@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Recipe;
-use App\Models\User;
-use App\Models\Ingredient;
-use App\Models\Tag;
+use App\DTO\Requests\RecipeStep;
 use App\Enums\DifficultyLevel;
 use App\Enums\RecipeStepType;
-use App\DTO\Requests\RecipeStep;
+use App\Models\Ingredient;
+use App\Models\Recipe;
+use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class RecipesSeeder extends Seeder
@@ -20,9 +20,10 @@ class RecipesSeeder extends Seeder
     {
         // Get various users to create recipes
         $users = User::all();
-        
+
         if ($users->isEmpty()) {
             $this->command->warn('No users found. Please run UserSeeder first.');
+
             return;
         }
 
@@ -435,7 +436,7 @@ class RecipesSeeder extends Seeder
 
         foreach ($recipes as $index => $recipeData) {
             $user = $users->get($recipeData['author_index'] % $users->count());
-            
+
             $recipe = Recipe::firstOrCreate(
                 ['name' => $recipeData['name']],
                 [

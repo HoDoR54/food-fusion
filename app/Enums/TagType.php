@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Enums;
 
@@ -19,7 +19,7 @@ enum TagType: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Origin => 'Origin',
             self::Dietary => 'Dietary',
             self::Course => 'Course',
@@ -35,4 +35,3 @@ enum TagType: string
         return array_column(self::cases(), 'value');
     }
 }
-?>
