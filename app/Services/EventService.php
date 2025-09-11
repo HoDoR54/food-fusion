@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
+use App\DTO\Responses\BaseResponse;
 use App\Http\Requests\EventSearchRequest;
 use App\Http\Requests\PaginationRequest;
 use App\Http\Requests\SortRequest;
-use App\DTO\Responses\BaseResponse;
 use App\Models\Event;
 
 class EventService
@@ -44,10 +44,13 @@ class EventService
         }
     }
 
-    public function getEventById (string $id): BaseResponse
+    public function getEventById(string $id): BaseResponse
     {
         try {
-            $event = Event::findOrFail($id);
+            $event = Event::with(['organizer', 'attendees'])
+                ->withCount('attendees')
+                ->findOrFail($id);
+
             return new BaseResponse(
                 true,
                 'Event fetched successfully',
@@ -65,7 +68,7 @@ class EventService
             $event = Event::findOrFail($eventId);
             $user = auth()->user();
 
-            if (!$user) {
+            if (! $user) {
                 return new BaseResponse(false, 'User not authenticated', 401);
             }
 
@@ -74,15 +77,15 @@ class EventService
             //     if ($event->attendees->contains($user)) {
             //         return new BaseResponse(false, 'You are already registered for this event', 400);
             //     }
-                
+
             //     if ($event->end_time->isPast()) {
             //         return new BaseResponse(false, 'This event has already ended', 400);
             //     }
-                
+
             //     if ($event->status !== \App\Enums\EventStatus::SCHEDULED) {
             //         return new BaseResponse(false, 'This event is not available for registration', 400);
             //     }
-                
+
             //     return new BaseResponse(false, 'Cannot register for this event', 400);
             // }
 
@@ -102,11 +105,11 @@ class EventService
     private function attachSearchQuery($query, EventSearchRequest $search)
     {
         if ($search->filled('title')) {
-            $query->where('title', 'like', '%' . $search->input('title') . '%');
+            $query->where('title', 'like', '%'.$search->input('title').'%');
         }
 
         if ($search->filled('location')) {
-            $query->where('location', 'like', '%' . $search->input('location') . '%');
+            $query->where('location', 'like', '%'.$search->input('location').'%');
         }
 
         if ($search->filled('type')) {
@@ -135,15 +138,14 @@ class EventService
         $sortBy = $sort->input('sort_by', 'start_time');
         $sortOrder = $sort->input('sort_direction', 'desc');
 
-        if (!in_array($sortBy, $allowedSortColumns)) {
+        if (! in_array($sortBy, $allowedSortColumns)) {
             $sortBy = 'start_time';
         }
 
-        if (!in_array($sortOrder, ['asc', 'desc'])) {
+        if (! in_array($sortOrder, ['asc', 'desc'])) {
             $sortOrder = 'desc';
         }
 
         return $query->orderBy($sortBy, $sortOrder);
     }
-
 }

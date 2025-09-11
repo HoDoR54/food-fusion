@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Requests\EventSearchRequest;
 use App\Http\Requests\PaginationRequest;
 use App\Http\Requests\SortRequest;
 use App\Services\EventService;
+use Illuminate\Support\Facades\Log;
 
 class EventsController extends Controller
-{   
+{
     protected EventService $_eventService;
 
-    public function __construct(EventService $eventService) {
+    public function __construct(EventService $eventService)
+    {
         $this->_eventService = $eventService;
     }
 
     // Page view
-    public function index(EventSearchRequest $search, PaginationRequest $pagination, SortRequest $sort) {
+    public function index(EventSearchRequest $search, PaginationRequest $pagination, SortRequest $sort)
+    {
         $serviceRes = $this->_eventService->getEvents($search, $pagination, $sort);
 
-        if (!$serviceRes->isSuccess()) {
+        if (! $serviceRes->isSuccess()) {
             return redirect()->back()->with([
                 'toastMessage' => $serviceRes->getMessage(),
-                'toastType' => 'error'
+                'toastType' => 'error',
             ]);
         }
 
@@ -38,17 +39,18 @@ class EventsController extends Controller
     }
 
     // AJAX response
-    public function getEvents(EventSearchRequest $search, PaginationRequest $pagination, SortRequest $sort) 
+    public function getEvents(EventSearchRequest $search, PaginationRequest $pagination, SortRequest $sort)
     {
         Log::info('getEvents hit');
         $serviceRes = $this->_eventService->getEvents($search, $pagination, $sort);
 
-        if (!$serviceRes->isSuccess()) {
-            Log::info('getEvents failed: ' . $serviceRes->getMessage());
+        if (! $serviceRes->isSuccess()) {
+            Log::info('getEvents failed: '.$serviceRes->getMessage());
+
             return response()->json([
                 'message' => $serviceRes->getMessage(),
                 'data' => null,
-                'pagination' => null
+                'pagination' => null,
             ], $serviceRes->getStatusCode());
         }
 
@@ -59,48 +61,60 @@ class EventsController extends Controller
         return response()->json([
             'message' => $serviceRes->getMessage(),
             'data' => $resData['data'] ?? [],
-            'pagination' => $resData['pagination'] ?? []
+            'pagination' => $resData['pagination'] ?? [],
         ]);
     }
 
-    public function show($id) {
-        $event = $this->_eventService->getEventById($id);
+    public function show($id)
+    {
+        $serviceRes = $this->_eventService->getEventById($id);
+
+        if (! $serviceRes->isSuccess()) {
+            return redirect()->back()->with([
+                'toastMessage' => $serviceRes->getMessage(),
+                'toastType' => 'error',
+            ]);
+        }
+
+        $event = $serviceRes->getData();
+
         return view('events.show', ['event' => $event]);
     }
 
-    public function getById($id) {
+    public function getById($id)
+    {
         $serviceRes = $this->_eventService->getEventById($id);
 
-        if (!$serviceRes->isSuccess()) {
+        if (! $serviceRes->isSuccess()) {
             return response()->json([
                 'message' => $serviceRes->getMessage(),
-                'data' => null
+                'data' => null,
             ], $serviceRes->getStatusCode());
         }
 
         return response()->json([
             'message' => $serviceRes->getMessage(),
-            'data' => $serviceRes->getData()
+            'data' => $serviceRes->getData(),
         ]);
     }
 
-    public function register($id) {
+    public function register($id)
+    {
         Log::info('register hit');
         $serviceRes = $this->_eventService->registerUserToEvent($id);
 
-        if (!$serviceRes->isSuccess()) {
-            Log::info('register failed: ' . $serviceRes->getMessage());
+        if (! $serviceRes->isSuccess()) {
+            Log::info('register failed: '.$serviceRes->getMessage());
+
             return response()->json([
                 'message' => $serviceRes->getMessage(),
-                'data' => null
+                'data' => null,
             ], $serviceRes->getStatusCode());
         }
 
-        
-
         return response()->json([
             'message' => $serviceRes->getMessage(),
-            'data' => $serviceRes->getData()
+            'data' => $serviceRes->getData(),
         ]);
     }
 }

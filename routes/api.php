@@ -6,7 +6,6 @@ use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\RecipesController;
 use App\Http\Middleware\GetUserOrPass;
 use App\Http\Middleware\RequireLogin;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 // For AJAX and API requests
@@ -21,6 +20,11 @@ Route::middleware(GetUserOrPass::class)->group(function () {
     // Blogs (public API routes)
     Route::prefix('blogs')->name('blogs.')->group(function () {
         Route::get('/all', [BlogsController::class, 'getAll'])->name('all');
+    });
+
+    // Recipes (public API routes)
+    Route::prefix('recipes')->name('recipes.')->group(function () {
+        Route::get('/all', [RecipesController::class, 'getRecipes'])->name('all');
     });
 
     // Contact
