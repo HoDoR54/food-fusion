@@ -156,6 +156,6 @@
 
     <div class="flex flex-col md:flex-row justify-between items-center px-6 py-3 bg-secondary/15 text-sm text-primary">
         <p>&copy; {{ date('Y') }} FoodFusion. Copyright? We don't do that here.</p>
-        <p>Designed and developed by <a href="{{ config('social-links.developer.github') }}" target="_blank" class="hover:underline">Hpone Tauk Nyi.</a></p>
+        <p>Designed and developed by <a href="{{ config('social-links.developer.website') }}" target="_blank" class="hover:underline">Hpone Tauk Nyi.</a></p>
     </div>
 </footer>

@@ -6,9 +6,9 @@ use App\DTO\Responses\BaseResponse;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\FailedLoginAttempt;
-use App\Models\User;
-use App\Models\Role;
 use App\Models\RefreshToken;
+use App\Models\Role;
+use App\Models\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Support\Facades\Log;
@@ -25,13 +25,15 @@ class AuthService
             ->orWhere('username', $identifier)
             ->first();
 
-        if (!$user) {
+        if (! $user) {
             $this->addFailedLoginAttempt($metadata['ip_address'], $metadata['decay_minutes']);
+
             return [new BaseResponse(false, 'User not found', 404), null];
         }
 
-        if (!password_verify($password, $user->password)) {
+        if (! password_verify($password, $user->password)) {
             $this->addFailedLoginAttempt($metadata['ip_address'], $metadata['decay_minutes']);
+
             return [new BaseResponse(false, 'Incorrect Password', 401), null];
         }
         $tokens = $this->generateTokens($user);
@@ -41,7 +43,8 @@ class AuthService
         return [$res, $tokens];
     }
 
-    public function register(RegisterRequest $request): array {
+    public function register(RegisterRequest $request): array
+    {
         $userData = [
             'first_name' => $request->input('firstName'),
             'last_name' => $request->input('lastName'),
@@ -54,7 +57,7 @@ class AuthService
         ];
         $newUser = User::create($userData);
 
-        if (!$newUser) {
+        if (! $newUser) {
             return [new BaseResponse(false, 'Registration failed', 500), null];
         }
 
@@ -63,13 +66,14 @@ class AuthService
         return [new BaseResponse(true, 'Registration successful', 201, $newUser), $tokens];
     }
 
-    public function refresh(string $refreshToken): BaseResponse {
+    public function refresh(string $refreshToken): BaseResponse
+    {
         if ($this->isTokenExpired($refreshToken)) {
             return new BaseResponse(false, 'Refresh token expired', 401);
         }
 
         $user = $this->getUserFromToken($refreshToken);
-        if (!$user) {
+        if (! $user) {
             return new BaseResponse(false, 'User not found', 404);
         }
 
@@ -86,9 +90,11 @@ class AuthService
             $secret = env('JWT_SECRET');
             $alg = env('JWT_ALGORITHM', 'HS256');
             $payload = JWT::decode($token, new Key($secret, $alg));
+
             return User::find($payload->sub);
         } catch (\Exception $e) {
             Log::error('Failed to get user from token', ['error' => $e->getMessage()]);
+
             return null;
         }
     }
@@ -99,9 +105,11 @@ class AuthService
             $secret = env('JWT_SECRET');
             $alg = env('JWT_ALGORITHM', 'HS256');
             $payload = JWT::decode($token, new Key($secret, $alg));
+
             return $payload->exp < time();
         } catch (\Exception $e) {
             Log::error('Failed to decode token for expiry check', ['error' => $e->getMessage()]);
+
             return true;
         }
     }
@@ -125,7 +133,7 @@ class AuthService
             'sub' => $user->id,
             'email' => $user->email,
             'iat' => time(),
-            'exp' => time() + (60 * 15)
+            'exp' => time() + (60 * 15),
         ];
 
         return JWT::encode($payload, $secret, env('JWT_ALGORITHM', 'HS256'));
@@ -152,16 +160,19 @@ class AuthService
         return $token;
     }
 
-
     // Failed Login Attempt Methods
     public function addFailedLoginAttempt(string $ipAddress, int $decayMinutes): void
     {
+        Log::info('Adding failed login attempt for IP: '.$ipAddress);
+        Log::info('Decay minutes: '.$decayMinutes);
         $mostRecentAttempt = $this->findRecentFailedLoginAttempt($ipAddress, $decayMinutes);
         if ($mostRecentAttempt) {
-            $mostRecentAttempt->increment('attempt_count');
-            $mostRecentAttempt->last_attempted_at->touch();
+            Log::info('Found recent failed login attempt for IP: '.$ipAddress);
+            $mostRecentAttempt->increment('attempts_count');
+            $mostRecentAttempt->update(['last_attempted_at' => now()]);
         } else {
-             FailedLoginAttempt::create([
+            Log::info('No recent failed login attempts found for IP: '.$ipAddress.'. Creating new record.');
+            FailedLoginAttempt::create([
                 'ip_address' => $ipAddress,
                 'last_attempted_at' => now(),
                 'attempts_count' => 1,

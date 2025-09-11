@@ -1,11 +1,12 @@
 @php
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Log;
     use App\Enums\ButtonSize;
     use App\Enums\ButtonVariant;
 
     $currentUser = Auth::user();
     $displayUser = $profileUser ?? $currentUser;
-    if ($displayUser->name === $currentUser->name) {
+    if ($currentUser && $displayUser && $displayUser->name === $currentUser->name) {
         $isOwnProfile = true;
     } else {
         $isOwnProfile = false;
@@ -13,12 +14,12 @@
 
     $breadcrumbItems = [
         ['label' => 'Home', 'url' => '/'],
-        ['label' => ($isOwnProfile ? 'Profile' : $displayUser->name . "'s Profile"), 'url' => '/profile'],
+        ['label' => ($isOwnProfile ? 'Profile' : ($displayUser?->name ?? 'User') . "'s Profile"), 'url' => '/profile'],
     ];
 @endphp
 
 @extends('layout.index')
-@section('title', 'Food Fusion - ' . ($displayUser->name ?? 'Profile'))
+@section('title', 'Food Fusion - ' . ($displayUser?->name ?? 'Profile'))
 
 @section('content')
 <section class="flex flex-col w-full pb-10 p-5">
@@ -27,7 +28,7 @@
             {{-- TO-DO: Image Upload and Edit Profile --}}
             <div class="flex items-center justify-center">
                 <div class="relative border-dashed mt-10">
-                    <img src="{{ $displayUser->profilePicUrl ?? asset('images/default-profile.webp') }}" 
+                    <img src="{{ $displayUser?->profilePicUrl ?? asset('images/default-profile.webp') }}" 
                          alt="Profile Picture" 
                          class="h-32 w-32 object-cover rounded-full border-4 border-dashed border-primary/30">
                     @if ($isOwnProfile)
@@ -39,14 +40,14 @@
             </div>
             <div class="mt-5 flex flex-col text-center items-center">
                 <h2 class="text-primary text-2xl font-semibold relative">
-                    {{ $displayUser->name }}
+                    {{ $displayUser?->name ?? 'Unknown User' }}
                 </h2>
                 {{-- TO-DO: Followers and Following Count --}}
                 <p class="text-text/80 text-sm mt-1">
                     0 Followers &bull; 0 Following
                 </p>
                 <p class="text-text/70 text-sm mt-1">
-                    Joined on {{ $displayUser->created_at->format('F j, Y') }}
+                    Joined on {{ $displayUser?->created_at?->format('F j, Y') ?? 'Unknown' }}
                 </p>
             </div>
             <div class="mt-5 w-full flex flex-col gap-3">
