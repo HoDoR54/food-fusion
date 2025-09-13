@@ -9,6 +9,7 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/ts/main.ts",
                 "resources/js/app.js",
+                "resources/js/interactivity/mobile-menu.js",
             ],
             refresh: true,
         }),

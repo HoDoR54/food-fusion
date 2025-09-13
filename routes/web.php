@@ -27,7 +27,7 @@ Route::middleware(GetUserOrPass::class)->group(function () {
         })->name('set');
         Route::get('/{key}/get', function ($key) {
             Log::info('get route hit');
-
+            Log::info('session get:', ['key' => $key, 'value' => session($key)]);
             return response()->json([
                 'value' => session($key),
             ]);

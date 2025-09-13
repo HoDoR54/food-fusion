@@ -108,14 +108,14 @@ export class LandingLoader {
 
         // Replace skeleton with actual content
         container.innerHTML = `
-            <div class="flex flex-col gap-3 p-4 items-center justify-center bg-secondary/10 border-2 border-dashed border-primary/10 rounded-lg min-w-[70vw]">
+            <div class="flex flex-col gap-3 py-4 px-6 items-center justify-center bg-secondary/10 border-2 border-dashed border-primary/10 rounded-lg min-w-[70vw]">
                 <h2 class="text-2xl font-bold text-primary">Next Gathering</h2>
-                <h3 class="text-lg font-medium">
-                    <span class="font-semibold">${data.name}</span>
-                    <span class="text-text font-extrabold text-2xl">.</span> 
-                    <span class="text-text">Since January 2023</span>
+                <h3 class="text-lg font-medium text-center">
+                    <span class="font-semibold text-center">${data.name}</span>
+                    <span class="text-text font-extrabold text-center text-2xl">.</span> 
+                    <span class="text-text text-center">Since January 2023</span>
                 </h3>
-                <p class="text-text/60">
+                <p class="text-text/60 text-center">
                     <span>${
                         data.venue_type === "online"
                             ? data.platform

@@ -5,24 +5,33 @@ import { setCookie, getCookie } from "../../utils/general";
 
 class CookiesConsentHandler {
     constructor() {
+        console.log("Initializing CookiesConsentHandler");
         this.cookiesBanner = document.getElementById("cookie-consent-banner");
+        console.log("Cookie banner element:", this.cookiesBanner);
         this.initEventListeners();
         this.checkCookiesStatus();
     }
 
     initEventListeners() {
+        console.log("Setting up event listeners for cookie consent buttons");
         const acceptBtn = document.getElementById("accept-cookies-btn");
         if (acceptBtn) {
+            console.log("Accept button found, adding click listener");
             acceptBtn.addEventListener("click", async () => {
                 await this.acceptCookies();
             });
+        } else {
+            console.log("Accept button not found");
         }
 
         const closeBtn = document.getElementById("close-cookie-banner-btn");
         if (closeBtn) {
+            console.log("Close button found, adding click listener");
             closeBtn.addEventListener("click", () => {
                 this.closeBanner();
             });
+        } else {
+            console.log("Close button not found");
         }
     }
 
@@ -61,8 +70,11 @@ class CookiesConsentHandler {
 
     closeBanner() {
         if (this.cookiesBanner) {
+            console.log("Hiding cookie banner");
             this.cookiesBanner.classList.remove("block");
             this.cookiesBanner.classList.add("hidden");
+        } else {
+            console.log("Cookie banner element not found");
         }
     }
 }
