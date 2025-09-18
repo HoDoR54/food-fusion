@@ -28,6 +28,7 @@ Route::middleware(GetUserOrPass::class)->group(function () {
         Route::get('/{key}/get', function ($key) {
             Log::info('get route hit');
             Log::info('session get:', ['key' => $key, 'value' => session($key)]);
+
             return response()->json([
                 'value' => session($key),
             ]);
@@ -98,6 +99,16 @@ Route::middleware([GetUserOrPass::class, RequireLogin::class])->group(function (
     Route::prefix('recipes')->name('recipes.')->group(function () {
         Route::view('/new-recipe', 'recipes.create')->name('create.show');
         Route::post('/new-recipe', [RecipesController::class, 'store'])->name('store');
+
+        // Recipe management routes with permission protection
+        Route::middleware('permission:update,recipes')->group(function () {
+            Route::put('/{id}/approve', [RecipesController::class, 'approve'])->name('approve');
+            Route::put('/{id}/reject', [RecipesController::class, 'reject'])->name('reject');
+        });
+
+        Route::middleware('permission:delete,recipes')->group(function () {
+            Route::delete('/{id}', [RecipesController::class, 'destroy'])->name('destroy');
+        });
     });
 
     // Blogs
@@ -108,7 +119,7 @@ Route::middleware([GetUserOrPass::class, RequireLogin::class])->group(function (
 });
 
 // admin routes
-Route::middleware([GetUserOrPass::class, RequireLogin::class])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware([GetUserOrPass::class, RequireLogin::class, 'role:Admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::view('/', 'admin')->name('index');
     Route::get('/pending-recipes', [RecipesController::class, 'pendingRecipes'])->name('pending-recipes');
 });

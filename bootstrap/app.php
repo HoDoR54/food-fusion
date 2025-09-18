@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\CustomEncryptCookies;
+use App\Http\Middleware\RequirePermission;
+use App\Http\Middleware\RequireRole;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Application;
@@ -17,6 +19,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(replace: [
             EncryptCookies::class => CustomEncryptCookies::class,
             \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class => VerifyCsrfToken::class,
+        ]);
+
+        $middleware->alias([
+            'role' => RequireRole::class,
+            'permission' => RequirePermission::class,
         ]);
     })
     ->withExceptions()->create();
