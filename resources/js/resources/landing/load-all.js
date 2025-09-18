@@ -538,7 +538,7 @@ export class LandingLoader {
             const response = await axios.get("/api/recipes/all", {
                 params: {
                     page: 1,
-                    size: 3,
+                    size: 4,
                     sort_by: "created_at",
                     sort_direction: "desc",
                 },

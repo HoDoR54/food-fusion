@@ -41,9 +41,15 @@ class BlogsController extends Controller
         $blogs = $data->getItems();
         $pagination = $data->getPagination();
 
+        // Get categories and topics for filters
+        $categories = $this->_blogService->getBlogCategories();
+        $topics = $this->_blogService->getBlogTopics();
+
         return view('blogs.index', [
             'blogs' => $blogs,
             'pagination' => $pagination,
+            'categories' => $categories,
+            'topics' => $topics,
             'title' => 'Community Cookbook',
         ]);
     }

@@ -3,10 +3,10 @@
     use App\Enums\ButtonVariant;
 @endphp
 
-<div class="w-full flex flex-wrap items-center justify-between gap-3">
+<div class="w-full flex flex-col gap-3">
 
     {{-- Difficulty Level --}}
-    <div class="relative w-full sm:w-auto flex-1">
+    <div class="relative w-full">
         <select
             id="difficulty_level"
             name="difficulty_level"
@@ -27,7 +27,7 @@
     </div>
 
     {{-- Dietary Preference --}}
-    <div class="relative w-full sm:w-auto flex-1">
+    <div class="relative w-full">
         <select
             id="dietary_preference"
             name="dietary_preference"
@@ -48,7 +48,7 @@
     </div>
 
     {{-- Cuisine Type --}}
-    <div class="relative w-full sm:w-auto flex-1">
+    <div class="relative w-full">
         <select
             id="cuisine_type"
             name="cuisine_type"
@@ -69,7 +69,7 @@
     </div>
 
     {{-- Course --}}
-    <div class="relative w-full sm:w-auto flex-1">
+    <div class="relative w-full">
         <select
             id="course"
             name="course"
@@ -90,7 +90,7 @@
     </div>
 
     {{-- Sort By --}}
-    <div class="relative w-full sm:w-auto flex-1">
+    <div class="relative w-full">
         <select
             id="sort_by"
             name="sort_by"
@@ -112,11 +112,15 @@
         </div>
     </div>
 
-    <div class="sm:w-auto">
-        <x-button :variant="ButtonVariant::Secondary" 
-            :size="ButtonSize::Small" 
-            :icon="'<i data-lucide=\'x\'></i>'"
+    {{-- Clear Filters Button --}}
+    <div class="w-full pt-2 border-t border-primary/20">
+        <x-button 
+            :variant="ButtonVariant::Secondary" 
+            :size="ButtonSize::Medium" 
+            class="w-full"
+            icon='<i class="fa-solid fa-filter-circle-xmark"></i>'
+            text="Clear All Filters"
             id="clear-filters"
-        ></x-button>
+        />
     </div>
 </div>

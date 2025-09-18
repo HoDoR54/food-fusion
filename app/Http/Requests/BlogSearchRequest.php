@@ -22,7 +22,24 @@ class BlogSearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // TO-DO
+            'search_term' => ['nullable', 'string', 'max:255'],
+            'category' => ['nullable', 'string'],
+            'topic' => ['nullable', 'string'],
+        ];
+    }
+
+    /**
+     * Get custom error messages for validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'search_term.string' => 'Search term must be a string.',
+            'search_term.max' => 'Search term cannot exceed 255 characters.',
+            'category.string' => 'Category must be a string.',
+            'topic.string' => 'Topic must be a string.',
         ];
     }
 }

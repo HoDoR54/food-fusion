@@ -301,7 +301,32 @@ class BlogService
 
     public function attachSearchQuery(Builder $query, BlogSearchRequest $search): void
     {
-        // TO-DO
+        // Search by term in title or content
+        if ($search->filled('search_term')) {
+            $searchTerm = $search->input('search_term');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('content', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+
+        // Filter by category
+        if ($search->filled('category')) {
+            $category = $search->input('category');
+            $query->whereHas('tags', function ($q) use ($category) {
+                $q->where('name', $category)
+                    ->where('type', TagType::BlogCategory->value);
+            });
+        }
+
+        // Filter by topic
+        if ($search->filled('topic')) {
+            $topic = $search->input('topic');
+            $query->whereHas('tags', function ($q) use ($topic) {
+                $q->where('name', $topic)
+                    ->where('type', TagType::BlogTopic->value);
+            });
+        }
     }
 
     public function storeBlog(StoreBlogRequest $request, ?string $userId = null, ?string $imageUrl = null): BaseResponse

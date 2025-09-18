@@ -68,7 +68,7 @@
             </div>
 
             <a href="{{ config('social-links.discord.server') }}" target="_blank" class="animate-on-scroll mt-8 sm:mt-12" data-delay="0.7s">
-                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Join Our Discord'" :icon="'<i class=\"fa-brands fa-discord\"></i>'"/>
+                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Join Our Discord'" :icon="'<i class=\'fa-brands fa-discord\'></i>'"/>
             </a>
         </section>
 
@@ -108,7 +108,7 @@
 
             <div class="animate-on-scroll flex flex-col items-center justify-center gap-3 sm:gap-4 mt-6 sm:mt-8" data-delay="0.4s">
                 <p class="text-text/60 text-sm sm:text-base text-center px-2 sm:px-0">Want to organize an event?</p>
-                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Create Your Event'" :icon="'<i data-lucide=\"calendar-plus\"></i>'"/>
+                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Create Your Event'" :icon="'<i data-lucide=\'calendar-plus\'></i>'"/>
             </div>
         </section>        
         
@@ -128,27 +128,27 @@
 
             <div class="animate-on-scroll flex flex-col items-center justify-center gap-3 sm:gap-4 py-3 sm:py-4" data-delay="0.4s">
                 <p class="text-text/60 text-sm sm:text-base text-center px-2 sm:px-0">Want to share something you know?</p>
-                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Host Your Own Session'" :icon="'<i data-lucide=\"users-round\"></i>'"/>
+                <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Host Your Own Session'" :icon="'<i data-lucide=\'users-round\'></i>'"/>
             </div>
             
         </section> 
 
-        <section id="featured-recipes" class="lazy-load flex flex-col items-center justify-center min-h-screen bg-secondary/5 px-4 sm:px-6 py-8 sm:py-12">
+        <section id="featured-recipes" class="lazy-load flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 py-8 sm:py-12">
             <h2 class="animate-on-scroll text-2xl sm:text-3xl font-semibold text-center mb-4 sm:mb-6" data-delay="0.1s">Featured Recipes</h2>
             <p class="animate-on-scroll text-text/60 text-sm sm:text-lg text-center max-w-xs sm:max-w-2xl mb-8 sm:mb-12 px-2 sm:px-0" data-delay="0.2s">
                 Discover delicious recipes from our community chefs
             </p>
             
             <div class="flex flex-col items-center justify-center w-full max-w-6xl">
-                <div id="featured-recipes-grid" class="animate-on-scroll grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full" data-delay="0.3s">
-                    @for ($i = 0; $i < 3; $i++)
+                <div id="featured-recipes-grid" class="animate-on-scroll grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full" data-delay="0.3s">
+                    @for ($i = 0; $i < 4; $i++)
                         <x-skeletons.recipe-card />
                     @endfor
                 </div>
                 <div class="animate-on-scroll flex items-center justify-center flex-col gap-3 sm:gap-4 py-3 sm:py-4 mt-6 sm:mt-8" data-delay="0.4s">
                     <p class="text-text/60 text-sm sm:text-base text-center px-2 sm:px-0">Got a delicious recipe to share?</p>
                     <a href="{{ route('recipes.index') }}">
-                        <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'See All'" :icon="'<i data-lucide=\"chef-hat\"></i>'"/>
+                        <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'See All'" :icon="'<i data-lucide=\'chef-hat\'></i>'"/>
                     </a>
                 </div>
             </div>
@@ -169,7 +169,7 @@
                 <div class="animate-on-scroll flex items-center justify-center flex-col gap-3 sm:gap-4 py-3 sm:py-4" data-delay="0.4s">
                     <p class="text-text/60 text-sm sm:text-base text-center px-2 sm:px-0">Cooking something? Let us know!</p>
                     <a href="{{ route('blogs.create') }}">
-                        <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Share What You Are Making'" :icon="'<i data-lucide=\"camera\"></i>'"/>
+                        <x-button :variant="ButtonVariant::Secondary" :size="ButtonSize::Large" :text="'Share What You Are Making'" :icon="'<i data-lucide=\'camera\'></i>'"/>
                     </a>
                 </div>
             </div>

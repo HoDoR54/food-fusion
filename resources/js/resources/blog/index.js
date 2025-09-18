@@ -1,5 +1,6 @@
 import { BlogCommentManager } from "./blog-comment-manager";
 import { BlogVotingManager } from "./blog-voting-manager";
+import { BlogSearchManager } from "./blog-search-manager";
 
 export class BlogManager {
     constructor() {
@@ -12,6 +13,18 @@ export class BlogManager {
         if (this.path.includes("/blogs")) {
             new BlogVotingManager();
             new BlogCommentManager();
+
+            // Initialize search manager on blog index page
+            if (this.path === "/blogs") {
+                new BlogSearchManager(
+                    ["category", "topic"], // select filters
+                    "sort_by",
+                    "clear-filters",
+                    "search-input",
+                    "search-button",
+                    [] // no input filters
+                );
+            }
         }
     }
 
