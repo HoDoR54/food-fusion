@@ -1,0 +1,31 @@
+name: food-fusion
+
+services:
+    mysql:
+        image: mysql:8.0
+        container_name: food-fusion-mysql
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+        ports:
+            - "3306:3306"
+        volumes:
+            - db_data:/var/lib/mysql
+
+    phpMyAdmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: food-fusion-phpmyadmin
+        restart: unless-stopped
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+            PMA_USER: root
+            PMA_PASSWORD: ${DB_PASSWORD}
+        ports:
+            - "8080:80"
+        depends_on:
+            - mysql
+volumes:
+    db_data:
+        driver: local
