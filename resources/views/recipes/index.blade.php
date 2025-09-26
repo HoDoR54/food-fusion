@@ -24,7 +24,7 @@
 
 @section('content')
 <section class="flex items-center justify-center pb-16">
-    <section class="flex flex-col min-w-[50vw] lg:max-w-[80vw] xl:max-w-[70vw] gap-5 px-5">
+    <section class="flex flex-col gap-5 px-5">
         <section class="w-full mb-6" data-delay="0.1s">
             <div class="max-w-2xl mx-auto mb-6">
                 <div class="relative">
@@ -44,7 +44,7 @@
                 </div>
             </div>
         </section>
-        <section class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <section class="w-full grid md:px-16 grid-cols-1 sm:grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
         <div class="flex flex-col gap-3" data-delay="0.2s">
             <div class="w-full rounded-2xl bg-primary/20 text-text p-4 flex flex-col gap-4">
                 <!-- Add New Recipe Button -->
@@ -78,7 +78,7 @@
         </div>
         <div class="md:col-span-2 lg:col-span-3 flex flex-col pl-3 gap-3">
             @if (count($items) > 0)
-                    <ul class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         @foreach ($items as $index => $item)
                             <li class="animate-on-scroll" data-delay="{{ getDelayTime($index) }}s">
                                 <x-recipe-card :recipe="$item" />
@@ -101,11 +101,11 @@
                         />
                     </div>
             @else
-                <div class="md:cols-span-2 lg:col-span-3 flex flex-col items-center justify-center pl-3 gap-3 min-h-[80vh]">
+                <div class="md:cols-span-2 lg:col-span-3 flex flex-col items-center justify-center pl-3 gap-3">
                     <div class="text-8xl text-primary/30 mb-6 animate-pulse">
                         <i class="fa-solid fa-utensils"></i>
                     </div>
-                    <div class="max-w-md text-center">
+                    <div class="text-center">
                         <h2 class="text-2xl font-bold text-text/80 mb-3">No recipes found</h2>
                         <p class="text-text/60 text-base mb-6 leading-relaxed">
                             We couldn't find any recipes matching your search. Try adjusting your filters or search terms to discover delicious new dishes.

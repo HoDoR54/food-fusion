@@ -24,7 +24,7 @@ class BlogSeeder extends Seeder
             return;
         }
 
-        $image_url = 'https://res.cloudinary.com/dybgsw0ej/image/upload/v1756995981/WIN_20250111_11_11_15_Pro_baiv7j.jpg';
+        $image_url = 'https://res.cloudinary.com/dybgsw0ej/image/upload/v1758900828/3_kl4nw4.jpg';
 
         $blogs = [
             [
