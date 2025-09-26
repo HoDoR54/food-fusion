@@ -13,7 +13,7 @@
 
 @section('content')
 <section class="flex items-center justify-center pb-16">
-    <section class="flex flex-col min-w-[50vw] lg:max-w-[80vw] xl:max-w-[70vw] gap-5 px-5">
+    <section class="flex flex-col gap-5 px-5">
         <section class="w-full mb-6" data-delay="0.1s">
             <div class="max-w-2xl mx-auto mb-6">
                 <div class="relative">
@@ -34,8 +34,8 @@
             </div>
         </section>
         
-        <section class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        <div class="md:col-span-2 lg:col-span-3 flex flex-col pr-3 gap-3">
+        <section class="md:px-16 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div class="md:col-span-2 lg:col-span-3 flex flex-col pr-3 gap-3 order-2 md:order-1">
             @if (count($blogs) > 0)
                 <div class="flex flex-col gap-5 mb-12">
                     @foreach ($blogs as $index => $blog)
@@ -86,7 +86,7 @@
                 </div>
             @endif
         </div>
-        <div class="flex flex-col gap-3" data-delay="0.2s">
+        <div class="flex flex-col gap-3 order-1 md:order-2" data-delay="0.2s">
             <div class="w-full rounded-2xl bg-primary/20 text-text p-4 flex flex-col gap-4">
                 <!-- Add New Blog Button -->
                 @auth
