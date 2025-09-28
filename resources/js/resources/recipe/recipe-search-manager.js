@@ -2,11 +2,15 @@ export class RecipeSearchManager {
     constructor(
         filters,
         sortFilter = "sort_by",
-        clearButtonId = "clear-filters"
+        clearButtonId = "clear-filters",
+        searchInputId = "search-input",
+        searchButtonId = "search-button"
     ) {
         this.filters = filters;
         this.sortFilter = sortFilter;
         this.clearButtonId = clearButtonId;
+        this.searchInputId = searchInputId;
+        this.searchButtonId = searchButtonId;
 
         this.init();
     }
@@ -25,6 +29,9 @@ export class RecipeSearchManager {
         if (clearButton) {
             clearButton.addEventListener("click", () => this.clearFilters());
         }
+
+        // Handle search functionality
+        this.handleSearch();
 
         // Restore state on page load
         document.addEventListener("DOMContentLoaded", () =>
@@ -61,6 +68,42 @@ export class RecipeSearchManager {
             window.location.href = `${
                 window.location.pathname
             }?${params.toString()}`;
+        });
+    }
+
+    handleSearch() {
+        const searchInput = document.getElementById(this.searchInputId);
+        const searchButton = document.getElementById(this.searchButtonId);
+
+        if (!searchInput || !searchButton) return;
+
+        const performSearch = () => {
+            const searchTerm = searchInput.value.trim();
+            const params = new URLSearchParams(window.location.search);
+
+            if (searchTerm) {
+                params.set("search_term", searchTerm);
+            } else {
+                params.delete("search_term");
+            }
+
+            // Always reset page back to 1
+            params.set("page", "1");
+
+            window.location.href = `${
+                window.location.pathname
+            }?${params.toString()}`;
+        };
+
+        // Handle search button click
+        searchButton.addEventListener("click", performSearch);
+
+        // Handle Enter key in search input
+        searchInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                performSearch();
+            }
         });
     }
 
