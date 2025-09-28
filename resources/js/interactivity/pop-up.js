@@ -115,7 +115,7 @@ class PopUpManager {
         form.action = "/auth/login";
         form.method = "POST";
         form.className =
-            "flex flex-col md:min-w-[450px] max-h-[90vh] items-center justify-center gap-4 p-6 bg-white rounded-xl border-2 border-primary border-dashed";
+            "flex flex-col w-[95vw] max-w-md sm:max-w-lg md:max-w-xl max-h-[90vh] items-center justify-center gap-4 p-4 sm:p-6 bg-white rounded-xl border-2 border-primary border-dashed mx-4";
 
         const csrfToken =
             document
@@ -136,7 +136,7 @@ class PopUpManager {
         headerSection.className = "flex flex-col items-center justify-center";
         headerSection.innerHTML = `
             <img src="/logo/logo-light.png" alt="Food Fusion Logo" class="w-16 h-16">
-            <h2 class="text-primary font-bold text-3xl">Welcome Back</h2>
+            <h2 class="text-primary font-bold text-2xl sm:text-3xl">Welcome Back</h2>
             <p class="text-text/60 text-base my-3">Sign in to your FoodFusion account</p>
         `;
         form.appendChild(headerSection);
@@ -192,7 +192,7 @@ class PopUpManager {
         form.method = "POST";
         form.action = "/auth/register";
         form.className =
-            "flex flex-col md:min-w-[450px] max-h-[85vh] gap-4 p-6 items-center justify-start bg-white rounded-xl border-2 border-primary border-dashed overflow-y-auto";
+            "flex flex-col w-[95vw] max-w-md sm:max-w-lg md:max-w-xl max-h-[85vh] gap-4 p-4 sm:p-6 items-center justify-start bg-white rounded-xl border-2 border-primary border-dashed overflow-y-auto mx-4";
 
         const csrfToken =
             document
@@ -328,7 +328,7 @@ class PopUpManager {
     showRecipeAttemptPopUp(recipeId, recipeName) {
         const container = document.createElement("div");
         container.className =
-            "border-2 border-dashed border-primary/20 bg-white rounded-2xl max-w-lg mx-auto min-w-[450px] shadow-lg";
+            "border-2 border-dashed border-primary/20 bg-white rounded-2xl w-[95vw] max-w-md sm:max-w-lg md:max-w-2xl shadow-lg mx-4";
 
         const header = document.createElement("div");
         header.className =
@@ -494,7 +494,7 @@ class PopUpManager {
 
             const container = document.createElement("div");
             container.className =
-                "flex flex-col md:min-w-[520px] items-center justify-center gap-5 p-6 bg-white rounded-2xl border-2 border-dashed border-primary/20 shadow-lg";
+                "flex flex-col w-[95vw] max-w-md sm:max-w-lg md:max-w-2xl items-center justify-center gap-5 p-4 sm:p-6 bg-white rounded-2xl border-2 border-dashed border-primary/20 shadow-lg mx-4";
 
             const header = document.createElement("div");
             header.className = "w-full flex items-center justify-between mb-2";
@@ -526,7 +526,7 @@ class PopUpManager {
                 <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-3">
                     <i data-lucide="calendar-plus" class="w-8 h-8 text-primary"></i>
                 </div>
-                <h2 class="text-primary font-bold text-2xl text-center">${event.name}</h2>
+                <h2 class="text-primary font-bold text-xl sm:text-2xl text-center">${event.name}</h2>
                 <p class="text-text/60 text-sm text-center">Join this amazing event</p>
             `;
             container.appendChild(eventInfoSection);
@@ -613,7 +613,7 @@ class PopUpManager {
 
             const errorContainer = document.createElement("div");
             errorContainer.className =
-                "flex flex-col md:min-w-[420px] items-center justify-center gap-5 p-6 bg-white rounded-2xl border-2 border-dashed border-red-200 shadow-lg";
+                "flex flex-col w-[95vw] max-w-md sm:max-w-lg items-center justify-center gap-5 p-4 sm:p-6 bg-white rounded-2xl border-2 border-dashed border-red-200 shadow-lg mx-4";
 
             const errorHeader = document.createElement("div");
             errorHeader.className = "w-full flex items-center justify-end mb-2";
