@@ -13,35 +13,132 @@ class AutoPopupManager {
         this.init();
     }
 
+    async checkAuthentication() {
+        try {
+            // Check if user data is available in the page (from blade template)
+            // Your app uses window.currentUser in some views
+            if (window.currentUser && window.currentUser.id) {
+                console.log(
+                    "Found authenticated user in window.currentUser:",
+                    window.currentUser.id
+                );
+                return true;
+            }
+
+            // Also check window.userData for consistency
+            if (window.userData && window.userData.id) {
+                console.log(
+                    "Found authenticated user in window.userData:",
+                    window.userData.id
+                );
+                return true;
+            }
+
+            // Check DOM elements that indicate authentication
+            // Look for elements that only exist when user is authenticated
+            const userSpecificElements =
+                document.querySelector("[data-user-id]") ||
+                document.querySelector(".user-avatar") ||
+                document.querySelector(".logout-btn") ||
+                document.querySelector('a[href*="logout"]');
+
+            if (userSpecificElements) {
+                console.log("Found DOM elements indicating authenticated user");
+                return true;
+            }
+
+            // Check if Laravel's CSRF token exists (indicates potential authentication)
+            const csrfToken = document.querySelector('meta[name="csrf-token"]');
+            if (!csrfToken) {
+                console.log("No CSRF token found, likely not authenticated");
+                return false;
+            }
+
+            // Fallback: Try to check session for user
+            try {
+                const userSessionRes = await axios.get("/sessions/user/get", {
+                    headers: getHeaders(),
+                    credentials: "include",
+                });
+
+                const isAuth = !!userSessionRes.data?.value?.id;
+                console.log(
+                    "Session check result:",
+                    isAuth,
+                    userSessionRes.data
+                );
+                return isAuth;
+            } catch (sessionError) {
+                console.log(
+                    "Session user check failed, assuming not authenticated"
+                );
+                return false;
+            }
+        } catch (error) {
+            console.log("Authentication check failed:", error.message);
+            return false;
+        }
+    }
+
     async init() {
+        console.log("AutoPopupManager initializing...");
+
         if (await this.shouldShowPopup()) {
-            console.log("should show,", await this.shouldShowPopup());
+            console.log("Popup will be shown in 1 second");
             setTimeout(() => {
                 this.showWelcomePopup();
             }, 1000);
+        } else {
+            console.log("Popup will not be shown");
         }
     }
 
     async shouldShowPopup() {
         try {
-            const hasConsentRes = await axios.get(
+            // Check if user is authenticated first
+            const isAuthenticated = await this.checkAuthentication();
+            console.log("User is authenticated:", isAuthenticated);
+
+            if (isAuthenticated === true) {
+                console.log("User is authenticated, not showing popup");
+                return false;
+            }
+
+            if (isAuthenticated === null || isAuthenticated === undefined) {
+                console.log(
+                    "Authentication status unclear, continuing with popup logic"
+                );
+            }
+
+            // Check localStorage for persistent consent (preferred method)
+            const localStorageConsent = localStorage.getItem(
+                "popup_consent_dismissed"
+            );
+            if (localStorageConsent === "true") {
+                console.log("Popup consent dismissed in localStorage");
+                return false;
+            }
+
+            // Fallback: Check session-based consent
+            const sessionConsentRes = await axios.get(
                 "/sessions/isPopUpConsent/get",
                 {
                     headers: getHeaders(),
                     credentials: "include",
                 }
             );
-            console.log("hasConsentRes:", hasConsentRes.data);
-            // If isPopUpConsent is true, it means user consents to see popup
-            // If null/undefined (first visit) or true, show popup
-            // If false, don't show popup (user checked "don't show again")
-            const shouldShow = hasConsentRes.data.value !== false;
-            console.log("should show popup:", shouldShow);
 
-            return shouldShow;
+            if (sessionConsentRes.data.value === false) {
+                console.log("Popup consent dismissed in session");
+                return false;
+            }
+
+            console.log("Should show popup: true");
+            return true;
         } catch (error) {
             console.error("Error checking popup consent:", error);
-            return true;
+            // On error, default to not showing popup to avoid spam
+            return false;
         }
     }
 
@@ -129,17 +226,65 @@ class AutoPopupManager {
 
     async handleDoNotShowAgain(checked) {
         try {
-            console.log(`Setting popup consent to: ${!checked}`);
-            await setSession("isPopUpConsent", !checked);
-            console.log(`Popup consent set to: ${!checked}`);
-            const sessionSet = await axios.get("/sessions/isPopUpConsent/get", {
-                headers: getHeaders(),
-                credentials: "include",
-            });
-            console.log("session set: ", sessionSet.data.value);
+            if (checked) {
+                console.log("User opted to not show popup again");
+
+                // Primary storage: localStorage (persists indefinitely)
+                localStorage.setItem("popup_consent_dismissed", "true");
+
+                // Secondary storage: session (for current session)
+                await setSession("isPopUpConsent", false);
+
+                console.log("Popup consent saved to localStorage and session");
+            } else {
+                console.log("User wants to see popup again");
+
+                // Remove from localStorage
+                localStorage.removeItem("popup_consent_dismissed");
+
+                // Reset session
+                await setSession("isPopUpConsent", true);
+            }
         } catch (error) {
             console.error("Error setting popup consent:", error);
+
+            // Fallback to localStorage only if session fails
+            if (checked) {
+                localStorage.setItem("popup_consent_dismissed", "true");
+            } else {
+                localStorage.removeItem("popup_consent_dismissed");
+            }
         }
+    }
+
+    // Utility method to clear all popup consent data (useful for testing)
+    static clearAllConsentData() {
+        localStorage.removeItem("popup_consent_dismissed");
+        // Also clear session data if possible
+        setSession("isPopUpConsent", null).catch(console.error);
+        console.log("All popup consent data cleared");
+    }
+
+    // Debug method to test authentication detection
+    static async testAuthDetection() {
+        const manager = new AutoPopupManager();
+        const isAuth = await manager.checkAuthentication();
+        console.log("=== Authentication Detection Test ===");
+        console.log("window.currentUser:", window.currentUser);
+        console.log("window.userData:", window.userData);
+        console.log(
+            "CSRF Token exists:",
+            !!document.querySelector('meta[name="csrf-token"]')
+        );
+        console.log(
+            "User-specific DOM elements found:",
+            !!document.querySelector(
+                '[data-user-id], .user-avatar, .logout-btn, a[href*="logout"]'
+            )
+        );
+        console.log("Final authentication result:", isAuth);
+        console.log("=====================================");
+        return isAuth;
     }
 }
 
@@ -147,11 +292,28 @@ document.addEventListener("DOMContentLoaded", () => {
     new AutoPopupManager();
 });
 
+// Global functions for external usage
 window.handleDoNotShowAgain = async function (checked) {
     try {
-        await setSession("isPopUpConsent", !checked);
-        console.log(`Popup consent set to: ${!checked}`);
+        if (checked) {
+            localStorage.setItem("popup_consent_dismissed", "true");
+            await setSession("isPopUpConsent", false);
+            console.log("Popup consent dismissed");
+        } else {
+            localStorage.removeItem("popup_consent_dismissed");
+            await setSession("isPopUpConsent", true);
+            console.log("Popup consent reset");
+        }
     } catch (error) {
         console.error("Error setting popup consent:", error);
+        // Fallback to localStorage only
+        if (checked) {
+            localStorage.setItem("popup_consent_dismissed", "true");
+        } else {
+            localStorage.removeItem("popup_consent_dismissed");
+        }
     }
 };
+
+// Expose utility method globally for debugging
+window.AutoPopupManager = AutoPopupManager;
