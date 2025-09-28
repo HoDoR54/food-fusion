@@ -36,7 +36,7 @@
   <div class="hidden lg:grid lg:grid-cols-5 w-full">
     <nav class="flex gap-5 justify-start w-full items-center col-span-2">
       @foreach ($pages as $name => $page)
-          <a href="{{ route($page['route']) }}" class="flex items-center gap-1 text-sm text-center text-white hover:text-secondary transition duration-300 ease-in-out hover:underline whitespace-nowrap">
+          <a href="{{ route($page['route']) }}" class="flex lg:flex-col items-center gap-1 text-xs text-center text-white hover:text-secondary transition duration-300 ease-in-out hover:underline whitespace-nowrap">
               <i data-lucide="{{ $page['icon'] }}" class="w-4 h-4"></i>
               {{ $name }}
           </a>

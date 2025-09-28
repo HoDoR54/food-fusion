@@ -12,8 +12,8 @@
 @section('title', $title)
 
 @section('content')
-    <section class="flex w-full gap-5 p-5 pb-12">
-        <div class="flex flex-col w-[40%] animate-fade-in-left">
+    <section class="flex flex-col md:flex-row w-full gap-5 p-5 pb-12">
+        <div class="flex flex-col md:w-[40%] animate-fade-in-left">
             <div class="blog-form-card rounded-lg p-6 bg-primary/5">
                 <div class="mb-6">
                     <h1 class="text-lg font-bold text-primary flex items-center gap-2 mb-4">
@@ -27,7 +27,7 @@
                         Share your culinary journey, cooking experiences, and food stories with our community. Here's what makes a great blog post:
                     </p>
 
-                    <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="p-4 border border-dashed border-secondary/40 rounded-lg bg-secondary/10 animate-fade-in-up" style="animation-delay: 0.1s;">
                             <div class="flex items-start gap-3">
                                 <div class="w-6 h-6 bg-secondary text-white rounded-full flex items-center justify-center flex-shrink-0 text-xs font-semibold">
@@ -80,7 +80,7 @@
             </div>
         </div>
 
-        <div class="w-[60%] px-5 animate-fade-in-right" id="blog-form-section" style="animation-delay: 0.2s;">
+        <div class="md:w-[60%] md:px-5 animate-fade-in-right" id="blog-form-section" style="animation-delay: 0.2s;">
             @include('blogs.blog-form')
         </div>
     </section>

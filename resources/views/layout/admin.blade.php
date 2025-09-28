@@ -22,7 +22,7 @@
 
     {{-- pop-up --}}
     <div id="pop-up-container" 
-         class="fixed hidden top-0 left-0 right-0 bottom-0 z-50 items-center justify-center">
+         class="fixed hidden top-0 left-0 right-0 bottom-0 z-50 items-center justify-center p-4">
         <div class="pointer-events-auto">
         </div>
     </div>
