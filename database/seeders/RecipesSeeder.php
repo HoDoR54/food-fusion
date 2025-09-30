@@ -37,6 +37,7 @@ class RecipesSeeder extends Seeder
                 'difficulty' => DifficultyLevel::Medium,
                 'servings' => 4,
                 'image_url' => $defaultImageUrl,
+                'status' => 'approved',
                 'steps' => [
                     new RecipeStep(1, 'Cook pasta according to package instructions until al dente.', RecipeStepType::COOKING, 10),
                     new RecipeStep(2, 'Season chicken breast with salt, pepper, and paprika.', RecipeStepType::PREPARATION, 5),
@@ -67,6 +68,7 @@ class RecipesSeeder extends Seeder
                 'description' => 'A healthy and colorful stir fry packed with vegetables and served over rice.',
                 'difficulty' => DifficultyLevel::Easy,
                 'servings' => 4,
+                'status' => 'approved',
                 'image_url' => $defaultImageUrl,
                 'steps' => [
                     new RecipeStep(1, 'Cook rice according to package instructions.', RecipeStepType::COOKING, 15),
@@ -99,6 +101,7 @@ class RecipesSeeder extends Seeder
                 'description' => 'Tender salmon fillets with a sweet honey glaze, served with asparagus and rice.',
                 'difficulty' => DifficultyLevel::Medium,
                 'servings' => 4,
+                'status' => 'approved',
                 'image_url' => $defaultImageUrl,
                 'steps' => [
                     new RecipeStep(1, 'Preheat oven to 400°F (200°C).', RecipeStepType::PREPARATION, 2),
@@ -129,6 +132,7 @@ class RecipesSeeder extends Seeder
                 'description' => 'Crispy tacos filled with seasoned beef, fresh veggies, and cheese.',
                 'difficulty' => DifficultyLevel::Easy,
                 'servings' => 4,
+                'status' => 'approved',
                 'image_url' => $defaultImageUrl,
                 'steps' => [
                     new RecipeStep(1, 'Cook beef with taco seasoning in a skillet.', RecipeStepType::COOKING, 10),
@@ -152,6 +156,7 @@ class RecipesSeeder extends Seeder
                 'description' => 'Classic Italian pizza with tomato, mozzarella, and fresh basil.',
                 'difficulty' => DifficultyLevel::Medium,
                 'servings' => 2,
+                'status' => 'approved',
                 'image_url' => $defaultImageUrl,
                 'steps' => [
                     new RecipeStep(1, 'Preheat oven to 475°F (245°C).', RecipeStepType::PREPARATION, 5),
@@ -175,6 +180,7 @@ class RecipesSeeder extends Seeder
                 'description' => 'Soft and chewy cookies with melted chocolate chips.',
                 'difficulty' => DifficultyLevel::Easy,
                 'servings' => 12,
+                'status' => 'approved',
                 'image_url' => $defaultImageUrl,
                 'steps' => [
                     new RecipeStep(1, 'Preheat oven to 350°F (175°C).', RecipeStepType::PREPARATION, 5),
@@ -202,6 +208,7 @@ class RecipesSeeder extends Seeder
                 'description' => 'Refreshing salad with tomatoes, cucumbers, olives, and feta cheese.',
                 'difficulty' => DifficultyLevel::Easy,
                 'servings' => 2,
+                'status' => 'approved',
                 'image_url' => $defaultImageUrl,
                 'steps' => [
                     new RecipeStep(1, 'Chop vegetables and place in a bowl.', RecipeStepType::PREPARATION, 5),
@@ -227,6 +234,7 @@ class RecipesSeeder extends Seeder
                 'description' => 'Creamy pasta with eggs, cheese, pancetta, and black pepper.',
                 'difficulty' => DifficultyLevel::Medium,
                 'servings' => 4,
+                'status' => 'approved',
                 'image_url' => $defaultImageUrl,
                 'steps' => [
                     new RecipeStep(1, 'Cook spaghetti until al dente.', RecipeStepType::COOKING, 10),
@@ -251,6 +259,7 @@ class RecipesSeeder extends Seeder
                 'description' => 'Spicy and flavorful chicken curry served with steamed rice.',
                 'difficulty' => DifficultyLevel::Medium,
                 'servings' => 4,
+                'status' => 'approved',
                 'image_url' => $defaultImageUrl,
                 'steps' => [
                     new RecipeStep(1, 'Heat oil and sauté onions, garlic, and ginger.', RecipeStepType::COOKING, 5),
@@ -278,6 +287,7 @@ class RecipesSeeder extends Seeder
                 'description' => 'Hearty Italian vegetable soup with beans and pasta.',
                 'difficulty' => DifficultyLevel::Medium,
                 'servings' => 4,
+                'status' => 'approved',
                 'image_url' => $defaultImageUrl,
                 'steps' => [
                     new RecipeStep(1, 'Heat olive oil and sauté onions, carrots, and celery.', RecipeStepType::COOKING, 5),
