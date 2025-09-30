@@ -24,11 +24,11 @@ class UserSeeder extends Seeder
         User::firstOrCreate(
             ['email' => 'admin@foodfusion.com'],
             [
-                'first_name' => 'Hpone Tauk',
-                'last_name' => 'Nyi',
+                'first_name' => 'Admin',
+                'last_name' => 'User',
                 'username' => 'FoodFusionAdmin',
-                'email' => 'hponetaukyou@gmail.com',
-                'phone' => '+959890079614',
+                'email' => 'admin@foodfusion.com',
+                'phone' => '+1234567890',
                 'mastery_level' => MasteryLevel::BEGINNER,
                 'password' => Hash::make(env('ADMIN_PASSWORD')),
                 'role_id' => $adminRole->id,
